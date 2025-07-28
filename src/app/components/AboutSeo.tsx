@@ -48,7 +48,7 @@ const AboutSeo: React.FC = () => {
             ref={headerAnimation.ref}
             className={`w-fit px-3 bg-[#067a572c] rounded-full ${headerAnimation.animationClass}`}
           >
-            <p className="text-[#067a57] font-medium mb-4">About SEOAfrica</p>
+            <p className="text-xs md:text-base text-[#067a57] font-medium mb-4">About SEOAfrica</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -56,7 +56,7 @@ const AboutSeo: React.FC = () => {
               ref={titleAnimation.ref}
               className={titleAnimation.animationClass}
             >
-              <h2 className="text-4xl lg:text-5xl text-gray-900 leading-tight font-bold">
+              <h2 className="text-3xl md:text-5xl text-gray-900 leading-tight font-bold">
                 Established to create the next generation of champions!
               </h2>
             </div>
@@ -64,7 +64,7 @@ const AboutSeo: React.FC = () => {
               ref={descriptionAnimation.ref}
               className={`space-y-6 ${descriptionAnimation.animationClass}`}
             >
-              <p className="text-lg text-gray-900 leading-relaxed">
+              <p className="text-base md:text-xl text-gray-900 leading-relaxed">
                 SEO Africa is a non-profit leadership organization with over a
                 decade of experience in talent development across Africa. Our
                 core values prioritize community upliftment and genuine
@@ -73,7 +73,7 @@ const AboutSeo: React.FC = () => {
 
               <hr />
 
-              <p className="text-base text-gray-600 leading-relaxed">
+              <p className="text-base md:text-xl text-gray-600 leading-relaxed">
                 SEO Africa select, train, mentor and provide corporate access to
                 university students with the highest potential, and in the
                 process develop a network of future leaders across Africa.

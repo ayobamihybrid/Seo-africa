@@ -38,18 +38,18 @@ const Hero: React.FC = () => {
 
   return (
     <div
-    className="relative min-h-screen bg-cover bg-center bg-no-repeat font-system"
-    style={{
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat font-system"
+      style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.6)), url('/Hero_image1.png')`,
       }}
     >
       <nav className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-4 lg:px-12">
-        <div className="flex items-center">
+        <div className="w-12 h-12 md:w-20 md:h-20 relative">
           <Image
-            src={"/seo_logo.png"}
-            alt={"SEO Africa Logo"}
-            width={100}
-            height={100}
+            src="/seo_logo.png"
+            alt="SEO Africa Logo"
+            fill
+            className="object-contain"
           />
         </div>
 
@@ -123,28 +123,29 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
         <div className="max-w-4xl w-full">
-          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
+          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
             Developing future
             <br />
             leaders across Africa
           </h1>
 
-          <p className="text-white/90 text-base sm:text-lg lg:text-xl max-w-2xl mb-8 lg:mb-12 leading-relaxed">
+          <p className="text-white/60 text-base sm:text-lg lg:text-xl max-w-2xl mb-8 lg:mb-12 leading-relaxed">
             SEO Africa is a non-profit leadership organization with over a
             decade of experience in talent development across Africa.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium transition-colors w-full sm:w-auto">
+          <div className="flex items-center space-x-6">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white md:px-8 px-3 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors w-fit sm:w-auto">
               Join our talent network
             </button>
 
             <div className="flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300 group">
-              <span className="text-base sm:text-lg underline">
+              <span className="text-xs sm:text-base underline">
                 All Programmes
               </span>
+
               <svg
-                className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
+                className="hidden md:block md:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -160,7 +161,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="absolute right-4 sm:right-6 lg:right-12 bottom-8 sm:bottom-12 lg:bottom-20 w-[20rem]">
+        <div className="absolute md:right-12 bottom-4 sm:bottom-12 lg:bottom-20 w-[21rem] sm:w-[22rem] md:w-[20rem]">
           <div className="mb-4 bg-gray-400 backdrop-blur-sm rounded-sm p-5">
             <div className="flex items-center gap-2">
               <div className="w-2 h-12 bg-[#DF6CDF]"></div>
@@ -174,7 +175,7 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className="flex justify-center md:justify-end space-x-2">
             {sliderItems.map((_, index) => (
               <div
                 key={index}

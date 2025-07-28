@@ -84,7 +84,7 @@ const Donate: React.FC<DonateProps> = ({
           <div className="lg:max-w-2xl">
             <h2
               ref={titleAnimation.ref}
-              className={`text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight ${titleAnimation.animationClass}`}
+              className={`text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight ${titleAnimation.animationClass}`}
               style={{ transitionDelay: "200ms" }}
             >
               {title}
@@ -92,7 +92,7 @@ const Donate: React.FC<DonateProps> = ({
 
             <p
               ref={descriptionAnimation.ref}
-              className={`text-white text-lg leading-relaxed max-w-xl opacity-90 ${descriptionAnimation.animationClass}`}
+              className={`text-white text-base leading-relaxed max-w-xl opacity-90 ${descriptionAnimation.animationClass}`}
               style={{ transitionDelay: "400ms" }}
             >
               {description}
@@ -104,7 +104,7 @@ const Donate: React.FC<DonateProps> = ({
             className={`flex-shrink-0 ${buttonAnimation.animationClass}`}
             style={{ transitionDelay: "600ms" }}
           >
-            <button className="bg-white text-gray-800 px-6 py-2 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <button className="bg-white text-gray-800 px-5 md:px-6 py-2 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               <span>{buttonText}</span>
               <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
             </button>

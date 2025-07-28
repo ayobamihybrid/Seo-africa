@@ -201,7 +201,6 @@ const Partners: React.FC<PartnersProps> = ({
   subtitle = "Our Partners",
   className = "",
 }) => {
-  // Animation hooks for header section
   const subtitleAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
@@ -227,7 +226,7 @@ const Partners: React.FC<PartnersProps> = ({
           </p>
           <h2
             ref={titleAnimation.ref}
-            className={`max-w-xl mx-auto text-4xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
+            className={`max-w-xl mx-auto text-3xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
             style={{ transitionDelay: "200ms" }}
           >
             {title}
@@ -236,7 +235,7 @@ const Partners: React.FC<PartnersProps> = ({
 
         <div
           ref={gridAnimation.ref}
-          className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 md:gap-12 ${gridAnimation.animationClass}`}
+          className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-9 md:gap-12 ${gridAnimation.animationClass}`}
           style={{ transitionDelay: "400ms" }}
         >
           {partners.map((partner, index) => (
@@ -254,7 +253,6 @@ interface PartnerLogoProps {
 }
 
 const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner, index }) => {
-  // Individual animation for each logo with staggered timing
   const logoAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.1,
@@ -282,11 +280,11 @@ const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner, index }) => {
       ref={logoAnimation.ref}
       className={`transition-all duration-300 hover:-translate-y-1 ${logoAnimation.animationClass}`}
       style={{
-        transitionDelay: `${600 + index * 50}ms`, // Staggered delay starting at 600ms
+        transitionDelay: `${600 + index * 50}ms`, 
       }}
     >
       <LogoWrapper>
-        <div className="flex items-center justify-center h-16 w-full group">
+        <div className="flex items-center justify-center h-6 md:h-16 w-full group">
           <div className="relative w-full h-full opacity-70 group-hover:opacity-100 transition-opacity duration-300">
             <Image
               src={partner.logo}

@@ -121,7 +121,14 @@ const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <Image src={'/seo_logo.png'} alt="seo logo" width={100} height={80}/>
+              <div className="w-16 h-16 md:w-25 md:h-20 relative">
+                <Image
+                  src="/seo_logo.png"
+                  alt="seo logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
 
             <p className="text-gray-400 text-sm leading-relaxed mb-8">

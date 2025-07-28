@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { Diamond } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
 interface JoinTalentNetworkProps {
@@ -73,25 +72,26 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
               ref={logoAnimation.ref}
               className={`mb-8 ${logoAnimation.animationClass}`}
             >
-              <Image
-                src={"/diamond.svg"}
-                alt="diamond logo"
-                width={10}
-                height={10}
-                className="w-14 h-14"
-              />
+              <div className="w-10 h-10 md:w-14 md:h-14 relative">
+                <Image
+                  src="/diamond.svg"
+                  alt="diamond logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
 
             <div className="mb-8">
               <h2
                 ref={titleAnimation.ref}
-                className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 ${titleAnimation.animationClass}`}
+                className={`text-2xl md:text-5xl font-bold leading-tight mb-6 ${titleAnimation.animationClass}`}
                 style={{ transitionDelay: "200ms" }}
               >
-                Find opportunities in SEO Africa. Join our talent network.{" "}
+                {title}{" "}
                 <span
                   ref={avatarsAnimation.ref}
-                  className={`inline-flex items-center gap-0 -ml-2 ${avatarsAnimation.animationClass}`}
+                  className={`inline-flex items-center gap-0 mt-1 md:mt-0 -ml-2 ${avatarsAnimation.animationClass}`}
                   style={{ transitionDelay: "400ms" }}
                 >
                   <span className="flex -space-x-2">
@@ -100,24 +100,24 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
                       alt="Team member"
                       width={32}
                       height={32}
-                      className="inline-block w-8 h-8 rounded-full border-2 border-white object-cover"
+                      className="inline-block w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover"
                     />
                     <Image
                       src="/joinnetwork2.png"
                       alt="Team member"
                       width={32}
                       height={32}
-                      className="inline-block w-8 h-8 rounded-full border-2 border-white object-cover"
+                      className="inline-block w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover"
                     />
                     <Image
                       src="/joinnetwork3.png"
                       alt="Team member"
                       width={32}
                       height={32}
-                      className="inline-block w-8 h-8 rounded-full border-2 border-white object-cover"
+                      className="inline-block w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover"
                     />
                   </span>
-                  <span className="bg-gradient-to-r from-orange-400 to-pink-500 text-white font-medium px-4 py-2 rounded-full text-sm whitespace-nowrap">
+                  <span className="bg-gradient-to-r from-orange-400 to-pink-500 text-white font-medium px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm whitespace-nowrap">
                     {memberCount}
                   </span>
                 </span>
@@ -127,7 +127,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
             <button
               ref={buttonAnimation.ref}
               onClick={handleJoinClick}
-              className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group ${buttonAnimation.animationClass}`}
+              className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-base md:text-lg text-white font-semibold px-3 py-2 md:px-7 md:py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group ${buttonAnimation.animationClass}`}
               style={{ transitionDelay: "600ms" }}
             >
               {ctaText}
@@ -140,7 +140,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
             style={{ transitionDelay: "300ms" }}
           >
             <div className="border-t border-b border-white/20 py-8">
-              <p className="text-lg md:text-xl leading-relaxed text-gray-200">
+              <p className="text-base md:text-xl leading-relaxed text-gray-200">
                 {description}
               </p>
             </div>
@@ -149,16 +149,17 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
 
         <div
           ref={imageAnimation.ref}
-          className={`w-full mt-16 ${imageAnimation.animationClass}`}
+          className={`w-full mt-8 md:mt-16 ${imageAnimation.animationClass}`}
           style={{ transitionDelay: "800ms" }}
         >
-          <Image
-            src={"/JoinTalentNetwork.png"}
-            alt=""
-            width={500}
-            height={500}
-            className="w-full h-[50rem]"
-          />
+          <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[32rem] xl:h-[40rem]">
+            <Image
+              src="/JoinTalentNetwork.png"
+              alt="Join Talent Network"
+              fill
+              className="object-cover rounded-lg"
+            />
+          </div>
         </div>
       </div>
     </section>

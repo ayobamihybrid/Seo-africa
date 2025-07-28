@@ -121,13 +121,13 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
           <div>
             <p
               ref={subtitleAnimation.ref}
-              className={`w-fit px-3 py-1 rounded-full bg-[#3051f31c] text-[#3051f3] font-medium text-sm uppercase tracking-wide mb-4 ${subtitleAnimation.animationClass}`}
+              className={`w-fit px-3 py-1 rounded-full bg-[#3051f31c] text-[#3051f3] font-medium text-xs md:text-sm uppercase tracking-wide mb-4 ${subtitleAnimation.animationClass}`}
             >
               {subtitle}
             </p>
             <h2
               ref={titleAnimation.ref}
-              className={`text-4xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
+              className={`text-3xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
               style={{ transitionDelay: "200ms" }}
             >
               {title}
@@ -136,7 +136,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
 
           <div
             ref={controlsAnimation.ref}
-            className={`flex items-center gap-3 ${controlsAnimation.animationClass}`}
+            className={`hidden md:flex items-center gap-3 ${controlsAnimation.animationClass}`}
             style={{ transitionDelay: "400ms" }}
           >
             <button
@@ -178,7 +178,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
 
         <div
           ref={dotsAnimation.ref}
-          className={`flex justify-center mt-8 gap-2 ${dotsAnimation.animationClass}`}
+          className={`flex justify-center mt-2 md:mt-8 gap-2 ${dotsAnimation.animationClass}`}
           style={{ transitionDelay: "800ms" }}
         >
           {testimonials.map((_, index) => (
@@ -204,7 +204,6 @@ interface TestimonialCardProps {
 }
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
-  // Individual animations for card components
   const imageAnimation = useScrollAnimation({
     animationType: "fade-left",
     threshold: 0.2,
@@ -236,7 +235,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
           className={`md:w-1/2 w-full p-8 md:p-12 flex flex-col justify-center bg-white ${contentAnimation.animationClass}`}
           style={{ transitionDelay: "400ms" }}
         >
-          <blockquote className="text-lg md:text-xl leading-relaxed text-gray-700 mb-8 relative">
+          <blockquote className="text-base md:text-xl leading-relaxed text-gray-700 mb-8 relative">
             <span className="relative z-10">{testimonial.quote}</span>
           </blockquote>
 
