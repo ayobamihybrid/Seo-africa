@@ -64,7 +64,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
   };
 
   return (
-    <section className={`relative overflow-hidden ${className}`}>
+    <section className={`bg-gray-900 relative overflow-hidden ${className}`}>
       <div className="relative z-20 max-w-7xl mx-auto px-4 py-16 md:py-24">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="text-white">
