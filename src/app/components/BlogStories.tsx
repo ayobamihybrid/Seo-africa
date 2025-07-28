@@ -194,7 +194,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
             {post.excerpt}
           </p>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-500">
             <span>{post.date}</span>
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
