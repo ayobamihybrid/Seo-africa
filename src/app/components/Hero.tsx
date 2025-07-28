@@ -1,0 +1,195 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { ChevronDown, Heart, Menu } from "lucide-react";
+import Image from "next/image";
+
+interface SliderItem {
+  name: string;
+  title: string;
+}
+
+const Hero: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const sliderItems: SliderItem[] = [
+    {
+      name: "David Serlorm Atsu",
+      title: "From SEO Africa to Goldman Sachs",
+    },
+    {
+      name: "Kwame Asante",
+      title: "From SEO Africa to Google Africa",
+    },
+    {
+      name: "Fatima Al-Rashid",
+      title: "From SEO Africa to World Bank",
+    },
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderItems.length);
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [sliderItems.length]);
+
+  return (
+    <div
+    className="relative min-h-screen bg-cover bg-center bg-no-repeat font-system"
+    style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.6)), url('/Hero_image1.png')`,
+      }}
+    >
+      <nav className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-4 lg:px-12">
+        <div className="flex items-center">
+          <Image
+            src={"/seo_logo.png"}
+            alt={"SEO Africa Logo"}
+            width={100}
+            height={100}
+          />
+        </div>
+
+        <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-white">
+          <div className="flex items-center space-x-1 cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm xl:text-base">About us</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+          <div className="flex items-center space-x-1 cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm xl:text-base">Our Programmes</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+          <div className="flex items-center space-x-1 cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm xl:text-base">Resources</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+          <div className="flex items-center space-x-1 cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm xl:text-base">Get involved</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+          <div className="cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm xl:text-base">Contact us</span>
+          </div>
+        </div>
+
+        <div className="hidden sm:flex items-center space-x-3 lg:space-x-4">
+          <div className="flex items-center space-x-1 text-white cursor-pointer hover:text-gray-300 transition-colors">
+            <span className="text-sm">EN</span>
+            <ChevronDown className="w-3 h-3" />
+          </div>
+          <button className="flex items-center space-x-2 bg-transparent border border-white text-white px-4 lg:px-6 py-2 rounded-full hover:bg-white hover:text-black transition-colors text-sm">
+            <span>Donate</span>
+            <Heart className="w-3 h-3 lg:w-4 lg:h-4" />
+          </button>
+          <button className="bg-white text-black px-4 lg:px-6 py-2 rounded-full hover:bg-gray-100 transition-colors text-sm">
+            Join us
+          </button>
+        </div>
+
+        <button
+          className="sm:hidden text-white p-2"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </nav>
+
+      {/* For Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden absolute top-20 left-0 right-0 bg-black/95 backdrop-blur-sm z-20 px-4 py-6">
+          <div className="flex flex-col space-y-4 text-white">
+            <span className="py-2">About us</span>
+            <span className="py-2">Our Programmes</span>
+            <span className="py-2">Resources</span>
+            <span className="py-2">Get involved</span>
+            <span className="py-2">Contact us</span>
+            <div className="flex items-center justify-between pt-4 border-t border-white/20">
+              <span>EN</span>
+              <div className="flex space-x-3">
+                <button className="bg-transparent border border-white text-white px-4 py-2 rounded-full text-sm">
+                  Donate
+                </button>
+                <button className="bg-white text-black px-4 py-2 rounded-full text-sm">
+                  Join us
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="relative z-10 flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
+        <div className="max-w-4xl w-full">
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
+            Developing future
+            <br />
+            leaders across Africa
+          </h1>
+
+          <p className="text-white/90 text-base sm:text-lg lg:text-xl max-w-2xl mb-8 lg:mb-12 leading-relaxed">
+            SEO Africa is a non-profit leadership organization with over a
+            decade of experience in talent development across Africa.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium transition-colors w-full sm:w-auto">
+              Join our talent network
+            </button>
+
+            <div className="flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300 group">
+              <span className="text-base sm:text-lg underline">
+                All Programmes
+              </span>
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute right-4 sm:right-6 lg:right-12 bottom-8 sm:bottom-12 lg:bottom-20 w-[20rem]">
+          <div className="mb-4 bg-gray-400 backdrop-blur-sm rounded-sm p-5">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-12 bg-[#DF6CDF]"></div>
+
+              <div className="text-gray-800">
+                <p className="text-sm sm:text-base text-gray-700">
+                  {sliderItems[currentSlide].name}:{" "}
+                  {sliderItems[currentSlide].title}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-2">
+            {sliderItems.map((_, index) => (
+              <div
+                key={index}
+                className={`h-1 transition-all duration-300 ${
+                  index === currentSlide
+                    ? "bg-white w-7 h-2"
+                    : "bg-gray-400 w-7 h-2"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Hero;
