@@ -61,7 +61,7 @@ const defaultSections: FooterSection[] = [
       { label: "Our story", href: "/about/story" },
       { label: "Our impact", href: "/about/impact" },
       { label: "Our partners", href: "/about/partners" },
-      { label: "Meet the team", href: "/about/team" },
+      { label: "Meet the team", href: "/our-team" },
       { label: "Careers", href: "/about/careers" },
       { label: "Contact us", href: "/contact" },
     ],

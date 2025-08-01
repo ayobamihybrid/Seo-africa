@@ -36,10 +36,6 @@ const AboutSeo: React.FC = () => {
     threshold: 0.3,
   });
 
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <section className="bg-gray-50 py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +44,9 @@ const AboutSeo: React.FC = () => {
             ref={headerAnimation.ref}
             className={`w-fit px-3 bg-[#067a572c] rounded-full ${headerAnimation.animationClass}`}
           >
-            <p className="text-xs md:text-base text-[#067a57] font-medium mb-4">About SEOAfrica</p>
+            <p className="text-xs md:text-base text-[#067a57] font-medium mb-4">
+              About SEOAfrica
+            </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -88,46 +86,17 @@ const AboutSeo: React.FC = () => {
             className={`relative rounded-2xl overflow-hidden shadow-2xl ${videoAnimation.animationClass}`}
           >
             <div className="relative aspect-video bg-gray-900">
-              <img
-                src="/video_placeholder.png"
-                alt="SEO Africa Leadership Video"
-                className="w-full h-full object-cover"
-              />
-
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button
-                  onClick={handlePlayPause}
-                  className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors group"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-8 h-8 sm:w-10 sm:h-10 text-white ml-0" />
-                  ) : (
-                    <Play className="w-8 h-8 sm:w-10 sm:h-10 text-white ml-1" />
-                  )}
-                </button>
-              </div>
-
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                <div className="text-white">
-                  <span className="inline-block bg-gray-800/60 text-xs px-2 py-1 rounded mb-3">
-                    Welcome
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-medium mb-2">
-                    Bridging the leadership gap - What it means to us at
-                    SEOAfrica
-                  </h3>
-                </div>
-
-                <div className="mt-4">
-                  <div className="flex items-center justify-between text-white text-sm mb-1">
-                    <span>0:00</span>
-                    <span>8:24</span>
-                  </div>
-                  <div className="w-full bg-white/20 h-1 rounded-full">
-                    <div className="bg-white h-1 rounded-full w-0 transition-all duration-300"></div>
-                  </div>
-                </div>
-              </div>
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/5pTOXqoqvi0?si=vArLLYKNmnPck_Bx"
+                title="SEO Africa Leadership Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="absolute inset-0"
+              ></iframe>
             </div>
           </div>
         </div>

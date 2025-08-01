@@ -60,7 +60,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
           >
             <div className="absolute inset-0 z-0">
               <Image
-                src="/get-involved-bg.png"
+                src="/donate_image2.png"
                 alt="SEO Africa event background"
                 fill
                 className="object-cover opacity-30"
@@ -115,7 +115,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                 className={donateButtonAnimation.animationClass}
                 style={{ transitionDelay: "600ms" }}
               >
-                <button className="bg-white text-slate-800 px-6 py-2 rounded-sm font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group">
+                <button className="bg-white text-slate-800 px-6 py-2 rounded-sm font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group cursor-pointer">
                   <span>Donate now</span>
                   <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
                 </button>
@@ -153,7 +153,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                     your mark in your industry.
                   </p>
 
-                  <button className="bg-transparent bg-opacity-20 text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20">
+                  <button className="bg-transparent bg-opacity-20 text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                     Select a programme
                   </button>
                 </div>
@@ -164,7 +164,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
               ref={partnerCardAnimation.ref}
               className={`bg-gradient-to-br from-green-700 to-green-800 rounded-3xl p-8 md:p-10 text-white min-h-[370px] flex flex-col justify-between relative overflow-hidden bg-cover bg-center bg-no-repeat ${partnerCardAnimation.animationClass}`}
               style={{
-                backgroundImage: "url('/getinvolved22.png')",
+                backgroundImage: "url('/donate_image.png')",
                 transitionDelay: "400ms",
               }}
             >
@@ -193,7 +193,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                   globally competitive future.
                 </p>
 
-                <button className="bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20">
+                <button className="bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                   Partner with us
                 </button>
               </div>

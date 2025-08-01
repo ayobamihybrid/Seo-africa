@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -15,6 +15,11 @@ interface PartnersProps {
   partners?: Partner[];
   title?: string;
   subtitle?: string;
+  description?: string;
+  showButton?: boolean;
+  buttonText?: string;
+  buttonLink?: string;
+  variant?: "default" | "ourTeam" | "custom";
   className?: string;
 }
 
@@ -195,17 +200,82 @@ const defaultPartners: Partner[] = [
   },
 ];
 
+// Define variant configuration type
+interface VariantConfig {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  showButton?: boolean;
+  buttonText?: string;
+  buttonLink?: string;
+  background: string;
+}
+
+// Define variant configurations
+const variantConfigs: Record<string, VariantConfig> = {
+  default: {
+    title: "Trusted by 20+ world leading organizations.",
+    subtitle: "Our Partners",
+    showButton: false,
+    background: "bg-gray-50",
+  },
+  ourTeam: {
+    title: "We've partnered with the best organizations and brands.",
+    subtitle: "",
+    description:
+      "We've been lucky to stand on the shoulders of giants. We're recognized and backed by SEO communities and world leading organizations and partners worldwide, including SEO London, SEO Shanghai, SEO USA, Ho-Chih Mihn (SEO Vietnam) amongst others.",
+    showButton: true,
+    buttonText: "Become a partner",
+    buttonLink: "#",
+    background: "bg-white",
+  },
+  custom: {
+    title: "",
+    subtitle: "",
+    showButton: false,
+    background: "bg-gray-50",
+  },
+};
+
 const Partners: React.FC<PartnersProps> = ({
   partners = defaultPartners,
-  title = "Trusted by 20+ world leading organizations.",
-  subtitle = "Our Partners",
+  title,
+  subtitle,
+  description,
+  showButton,
+  buttonText,
+  buttonLink,
+  variant = "default",
   className = "",
 }) => {
+  // Get configuration based on variant
+  const config = variantConfigs[variant];
+
+  // Use props if provided, otherwise fall back to variant config
+  const finalTitle = title !== undefined ? title : config.title;
+  const finalSubtitle = subtitle !== undefined ? subtitle : config.subtitle;
+  const finalDescription =
+    description !== undefined ? description : config.description;
+  const finalShowButton =
+    showButton !== undefined ? showButton : config.showButton;
+  const finalButtonText =
+    buttonText !== undefined ? buttonText : config.buttonText;
+  const finalButtonLink =
+    buttonLink !== undefined ? buttonLink : config.buttonLink;
+
   const subtitleAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
   });
   const titleAnimation = useScrollAnimation({
+    animationType: "fade-up",
+    threshold: 0.3,
+  });
+  const descriptionAnimation = useScrollAnimation({
+    animationType: "fade-up",
+    threshold: 0.3,
+  });
+  const buttonAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
   });
@@ -215,28 +285,123 @@ const Partners: React.FC<PartnersProps> = ({
   });
 
   return (
-    <section className={`py-16 px-4 bg-gray-50 ${className}`}>
+    <section className={`py-16 px-4 ${config.background} ${className}`}>
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <p
-            ref={subtitleAnimation.ref}
-            className={`p-2 text-blue-600 font-medium text-sm uppercase tracking-wide mb-4 ${subtitleAnimation.animationClass}`}
-          >
-            {subtitle}
-          </p>
-          <h2
-            ref={titleAnimation.ref}
-            className={`max-w-xl mx-auto text-3xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            {title}
-          </h2>
+        <div
+          className={`${
+            variant === "ourTeam" ? "text-left" : "text-center"
+          } mb-12`}
+        >
+          {finalSubtitle && (
+            <p
+              ref={subtitleAnimation.ref}
+              className={`p-2 text-blue-600 font-medium text-sm uppercase tracking-wide mb-4 ${subtitleAnimation.animationClass}`}
+            >
+              {finalSubtitle}
+            </p>
+          )}
+
+          {finalTitle && (
+            <h2
+              ref={titleAnimation.ref}
+              className={`${
+                variant === "ourTeam" ? "max-w-4xl" : "max-w-xl mx-auto"
+              } text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-6 ${
+                titleAnimation.animationClass
+              }`}
+              style={{ transitionDelay: "200ms" }}
+            >
+              {finalTitle}
+            </h2>
+          )}
+
+          {finalDescription && (
+            <div
+              ref={descriptionAnimation.ref}
+              className={`${
+                variant === "ourTeam" ? "max-w-4xl" : "max-w-3xl mx-auto"
+              } text-gray-700 text-lg leading-relaxed mb-8 ${
+                descriptionAnimation.animationClass
+              }`}
+              style={{ transitionDelay: "300ms" }}
+            >
+              <p>
+                {variant === "ourTeam" ? (
+                  <>
+                    We've been lucky to stand on the shoulders of giants. We're
+                    recognized and backed by SEO communities and world leading
+                    organizations and partners worldwide, including{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      SEO London
+                    </a>
+                    ,{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      SEO Shanghai
+                    </a>
+                    ,{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      SEO USA
+                    </a>
+                    ,{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      Ho-Chih Mihn (SEO Vietnam)
+                    </a>{" "}
+                    amongst others.
+                  </>
+                ) : (
+                  finalDescription
+                )}
+              </p>
+            </div>
+          )}
+
+          {finalShowButton && finalButtonText && (
+            <div
+              ref={buttonAnimation.ref}
+              className={`${
+                variant === "ourTeam" ? "text-left" : "text-center"
+              } mb-12 ${buttonAnimation.animationClass}`}
+              style={{ transitionDelay: "400ms" }}
+            >
+              <a
+                href={finalButtonLink}
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              >
+                {finalButtonText}
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  />
+                </svg>
+              </a>
+            </div>
+          )}
         </div>
 
         <div
           ref={gridAnimation.ref}
           className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-9 md:gap-12 ${gridAnimation.animationClass}`}
-          style={{ transitionDelay: "400ms" }}
+          style={{ transitionDelay: "500ms" }}
         >
           {partners.map((partner, index) => (
             <PartnerLogo key={partner.id} partner={partner} index={index} />
@@ -280,7 +445,7 @@ const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner, index }) => {
       ref={logoAnimation.ref}
       className={`transition-all duration-300 hover:-translate-y-1 ${logoAnimation.animationClass}`}
       style={{
-        transitionDelay: `${600 + index * 50}ms`, 
+        transitionDelay: `${600 + index * 50}ms`,
       }}
     >
       <LogoWrapper>
