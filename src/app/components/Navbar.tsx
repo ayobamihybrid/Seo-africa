@@ -71,7 +71,10 @@ const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden absolute top-20 left-0 right-0 bg-black/95 backdrop-blur-sm z-20 px-4 py-6">
           <div className="flex flex-col space-y-4 text-white">
-            <span className="py-2">About us</span>
+            <Link href="/about-us" className="py-2">
+             About us
+            </Link>
+
             <span className="py-2">Our Programmes</span>
             <span className="py-2">Resources</span>
             <span className="py-2">Get involved</span>
