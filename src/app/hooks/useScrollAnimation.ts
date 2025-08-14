@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 interface ScrollAnimationOptions {
@@ -29,7 +31,7 @@ export const useScrollAnimation = ({
         }
       },
       {
-        root: null, 
+        root: null,
         rootMargin,
         threshold,
       }

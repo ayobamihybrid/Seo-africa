@@ -1,16 +1,15 @@
+"use client";
+
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
-
-
 const FindOpportunities = () => {
-
-    const finalCtaAnimation = useScrollAnimation({
-        animationType: "zoom-in",
-        threshold: 0.2,
-      });
+  const finalCtaAnimation = useScrollAnimation({
+    animationType: "zoom-in",
+    threshold: 0.2,
+  });
   return (
     <div
       ref={finalCtaAnimation.ref}

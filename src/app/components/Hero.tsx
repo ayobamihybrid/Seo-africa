@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
     >
       <Navbar />
 
-      <div className="relative z-10 flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto relative z-10 flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
         <div className="max-w-4xl w-full">
           <h1 className="text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
             Developing future
