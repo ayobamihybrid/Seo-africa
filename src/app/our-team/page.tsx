@@ -7,7 +7,8 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 import Partners from "../components/Partners";
 import { bottomRowImages, teamMembers, topRowImages } from "../utils";
-import { useScrollAnimation } from "../hooks/useScrollAnimation"; 
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import FindOpportunities from "../components/FindOpportunities";
 
 type Props = {};
 
@@ -391,36 +392,11 @@ const OurTeam = (props: Props) => {
                   Learn more
                 </button>
               </div>
-
-              <div className="bg-blue-600 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                  <svg
-                    className="w-full h-full"
-                    viewBox="0 0 400 300"
-                    fill="none"
-                  >
-                    <defs>
-                      <pattern
-                        id="grid"
-                        width="40"
-                        height="40"
-                        patternUnits="userSpaceOnUse"
-                      >
-                        <path
-                          d="M 40 0 L 0 0 0 40"
-                          fill="none"
-                          stroke="white"
-                          strokeWidth="1"
-                        />
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                  </svg>
-                </div>
-              </div>
             </div>
           </div>
         </div>
+
+        <FindOpportunities />
       </div>
 
       <Donate />

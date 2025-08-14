@@ -11,26 +11,26 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-  <div>
-    <Hero />
+    <div>
+      <Hero />
 
-    <AboutSeo/>
+      <AboutSeo />
 
-    <ProofOfCommitment/>
+      <ProofOfCommitment />
 
-    <PartnersShowcase/>
+      <PartnersShowcase />
 
-    <JoinTalentNetwork/>
+      <JoinTalentNetwork />
 
-    <Testimonials/>
+      <Testimonials />
 
-    <GetInvolved/>
+      <GetInvolved />
 
-    <BlogStories/>
+      <BlogStories />
 
-    <Donate />
+      <Donate />
 
-    <Footer />
-  </div>
+      <Footer />
+    </div>
   );
 }

@@ -21,6 +21,7 @@ interface PartnersProps {
   buttonLink?: string;
   variant?: "default" | "ourTeam" | "custom";
   className?: string;
+  getInvolved?: boolean; // New prop to control conditional title
 }
 
 const defaultPartners: Partner[] = [
@@ -200,7 +201,6 @@ const defaultPartners: Partner[] = [
   },
 ];
 
-// Define variant configuration type
 interface VariantConfig {
   title?: string;
   subtitle?: string;
@@ -211,7 +211,6 @@ interface VariantConfig {
   background: string;
 }
 
-// Define variant configurations
 const variantConfigs: Record<string, VariantConfig> = {
   default: {
     title: "Trusted by 20+ world leading organizations.",
@@ -247,12 +246,18 @@ const Partners: React.FC<PartnersProps> = ({
   buttonLink,
   variant = "default",
   className = "",
+  getInvolved = false,
 }) => {
-  // Get configuration based on variant
   const config = variantConfigs[variant];
 
-  // Use props if provided, otherwise fall back to variant config
-  const finalTitle = title !== undefined ? title : config.title;
+  const getConditionalTitle = () => {
+    if (title !== undefined) return title;
+    if (getInvolved)
+      return "We've partnered with the best organizations and brands. Be a part of an elite movement.";
+    return config.title;
+  };
+
+  const finalTitle = getConditionalTitle();
   const finalSubtitle = subtitle !== undefined ? subtitle : config.subtitle;
   const finalDescription =
     description !== undefined ? description : config.description;
@@ -305,8 +310,16 @@ const Partners: React.FC<PartnersProps> = ({
             <h2
               ref={titleAnimation.ref}
               className={`${
-                variant === "ourTeam" ? "max-w-4xl" : "max-w-xl mx-auto"
-              } text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-6 ${
+                variant === "ourTeam"
+                  ? "max-w-4xl"
+                  : getInvolved
+                  ? "max-w-5xl mx-auto"
+                  : "max-w-xl mx-auto"
+              } ${
+                getInvolved
+                  ? "text-xl md:text-2xl"
+                  : "text-3xl md:text-5xl font-bold"
+              } text-gray-900 leading-tight mb-6 ${
                 titleAnimation.animationClass
               }`}
               style={{ transitionDelay: "200ms" }}

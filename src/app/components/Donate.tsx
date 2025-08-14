@@ -3,6 +3,7 @@
 import React from "react";
 import { Heart } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import Link from "next/link";
 
 interface DonateProps {
   className?: string;
@@ -104,10 +105,12 @@ const Donate: React.FC<DonateProps> = ({
             className={`flex-shrink-0 ${buttonAnimation.animationClass}`}
             style={{ transitionDelay: "600ms" }}
           >
-            <button className="bg-white text-gray-800 px-5 md:px-6 py-2 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <Link href="/donate" className="bg-white text-gray-800 px-5 md:px-6 py-2 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               <span>{buttonText}</span>
               <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
-            </button>
+            </Link>
+
+          
           </div>
         </div>
       </div>

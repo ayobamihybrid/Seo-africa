@@ -2,82 +2,42 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { statsCards } from "../utils";
 
-const ProofOfCommitment: React.FC = () => {
+interface ProofOfCommitmentProps {
+  impact?: boolean;
+  showHeader?: boolean;
+  headerText?: string;
+  backgroundColor?: string;
+}
+
+const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
+  impact = false,
+  showHeader = true,
+  headerText = "Proof of commitment in numbers",
+  backgroundColor,
+}) => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
-  const statsCards = [
-    {
-      id: "students",
-      defaultImage: "/defaul2.png",
-      hoverImage: "/default-hover2.png",
-      alt: "39,000+ Students upskilled",
-      gridArea: "students",
-    },
-    {
-      id: "center-team",
-      defaultImage: "/default1.png",
-      hoverImage: "/default-hover1.png",
-      alt: "Professional team image",
-      gridArea: "center-team",
-    },
-    {
-      id: "countries",
-      defaultImage: "/default5.png",
-      hoverImage: "/default-hover5.png",
-      alt: "17+ African countries inspired",
-      gridArea: "countries",
-    },
-    {
-      id: "retention",
-      defaultImage: "/default6.png",
-      hoverImage: "/default-hover6.png",
-      alt: "85% Average retention of trainees",
-      gridArea: "retention",
-    },
-    {
-      id: "partners",
-      defaultImage: "/default3.png",
-      hoverImage: "/default-hover3.png",
-      alt: "30+ Corporate access partners",
-      gridArea: "partners",
-    },
-    {
-      id: "alumni",
-      defaultImage: "/default4.png",
-      hoverImage: "/default-hover4.png",
-      alt: "11,000+ Robust Alumni network",
-      gridArea: "alumni",
-    },
-    {
-      id: "projects",
-      defaultImage: "/default8.png",
-      hoverImage: "/default-hover8.png",
-      alt: "12+ Projects completed through SEO Cares",
-      gridArea: "projects",
-    },
-    {
-      id: "completion",
-      defaultImage: "/default7.png",
-      hoverImage: "/default-hover7.png",
-      alt: "92% Programme Completion Rate",
-      gridArea: "completion",
-    },
-  ];
+  const bgColor = backgroundColor || (impact ? "bg-white" : "bg-gray-50");
+
+  const displayHeader = impact ? false : showHeader;
 
   return (
-    <section className="bg-gray-50 py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 lg:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-            Proof of commitment in numbers
-          </h2>
-        </div>
+    <section className={`${bgColor} py-16 lg:py-24`}>
+      <div className={`max-w-7xl mx-auto ${!impact && "px-4 sm:px-6 lg:px-8"}`}>
+        {displayHeader && (
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              {headerText}
+            </h2>
+          </div>
+        )}
 
         <div
-          className="hidden lg:grid gap-4"
+          className="hidden xl:grid gap-4"
           style={{
-            gridTemplateColumns: "340px 370px 340px",
+            gridTemplateColumns: "380px 400px 380px",
             gridTemplateRows: "auto auto auto auto",
             justifyContent: "center",
           }}
@@ -302,7 +262,7 @@ const ProofOfCommitment: React.FC = () => {
         </div>
 
         <div
-          className="hidden md:grid lg:hidden gap-4"
+          className="hidden md:grid xl:hidden gap-4"
           style={{
             gridTemplateColumns: "1fr 1fr",
             gridTemplateRows: "220px 180px 220px 180px 200px",

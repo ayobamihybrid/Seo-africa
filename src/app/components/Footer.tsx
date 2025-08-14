@@ -46,7 +46,7 @@ const defaultSections: FooterSection[] = [
     links: [
       {
         label: "Graduate Trainee Programme",
-        href: "/programmes/graduate-trainee",
+        href: "/our-programmes",
       },
       { label: "Global Pathways", href: "/programmes/global-pathways" },
       { label: "SEO Africa On-campus", href: "/programmes/on-campus" },
@@ -59,7 +59,7 @@ const defaultSections: FooterSection[] = [
     title: "About us",
     links: [
       { label: "Our story", href: "/about/story" },
-      { label: "Our impact", href: "/about/impact" },
+      { label: "Our impact", href: "/impact" },
       { label: "Our partners", href: "/about/partners" },
       { label: "Meet the team", href: "/our-team" },
       { label: "Careers", href: "/about/careers" },
