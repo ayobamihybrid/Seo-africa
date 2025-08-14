@@ -38,12 +38,12 @@ const Hero: React.FC = () => {
     <div
       className="relative min-h-screen bg-cover bg-center bg-no-repeat font-system"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.6)), url('/Hero_image1.png')`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.6)), url('/blog_image2.png')`,
       }}
     >
       <Navbar />
 
-      <div className="max-w-7xl mx-auto relative z-10 flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto relative flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
         <div className="max-w-4xl w-full">
           <h1 className="text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
             Developing future
