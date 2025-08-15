@@ -308,37 +308,65 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        {/* Mobile Grid Layout */}
-        <div className="grid md:hidden grid-cols-1 gap-4">
-          {statsCards.map((card) => (
-            <div
-              key={card.id}
-              className="cursor-pointer"
-              onMouseEnter={() => setHoveredCard(card.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              <div className="relative w-full h-64 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-                <Image
-                  src={card.defaultImage}
-                  alt={card.alt}
-                  fill
-                  className={`object-cover transition-opacity duration-500 ease-in-out ${
-                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
-                  }`}
-                  sizes="100vw"
-                />
-                <Image
-                  src={card.hoverImage}
-                  alt={`${card.alt} - hover state`}
-                  fill
-                  className={`object-cover transition-opacity duration-500 ease-in-out ${
-                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
-                  }`}
-                  sizes="100vw"
-                />
+        <div className="grid md:hidden grid-cols-1 gap-6">
+          {statsCards.map((card) => {
+            const getCardHeight = (cardId: string) => {
+              switch (cardId) {
+                case "center-team":
+                  return "h-96";
+                case "retention":
+                case "alumni":
+                  return "h-96";
+                case "students":
+                case "countries":
+                  return "h-96";
+                case "partners":
+                  return "h-96";
+                case "projects":
+                case "completion":
+                  return "h-56";
+                default:
+                  return "h-64";
+              }
+            };
+
+            return (
+              <div
+                key={card.id}
+                className="cursor-pointer"
+                onMouseEnter={() => setHoveredCard(card.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                <div
+                  className={`relative w-full ${getCardHeight(
+                    card.id
+                  )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+                >
+                  <Image
+                    src={card.defaultImage}
+                    alt={card.alt}
+                    fill
+                    className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
+                      hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                    }`}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={
+                      card.id === "students" || card.id === "center-team"
+                    }
+                  />
+                  <Image
+                    src={card.hoverImage}
+                    alt={`${card.alt} - hover state`}
+                    fill
+                    className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
+                      hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                    }`}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
