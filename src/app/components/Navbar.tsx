@@ -5,6 +5,7 @@ import {
   ChevronDown,
   Heart,
   Menu,
+  X,
   MessageSquare,
   BookOpen,
   Zap,
@@ -198,7 +199,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </h4>
 
                         <Link
-                          href="#"
+                          href="/blog"
                           className="inline-flex items-center text-gray-900 hover:text-blue-600 text-sm font-bold tracking-wider border-b-2 border-gray-900 hover:border-blue-600 transition-colors pb-1"
                           onClick={() => setActiveDropdown(null)}
                         >
@@ -317,7 +318,9 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                         onClick={() => setActiveDropdown(null)}
                       >
-                        Join our talent network
+                        <Link href="/career-opportunities">
+                          Join our talent network
+                        </Link>
                       </button>
                     </div>
                   </div>
@@ -359,7 +362,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </p>
                         <div className="space-y-3">
                           <Link
-                            href="/faqs"
+                            href="/faq"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -372,20 +375,23 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             About us
                           </Link>
+
                           <Link
-                            href="/team-partners"
+                            href="/our-team"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our team & partners
                           </Link>
+
                           <Link
-                            href="/impact-coverage"
+                            href="/impact"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our impacts/Coverage
                           </Link>
+
                           <Link
                             href="/blog"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
@@ -409,33 +415,37 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </p>
                         <div className="space-y-3">
                           <Link
-                            href="/alumni-testimonials"
+                            href="#"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Alumni testimonials
                           </Link>
+
                           <Link
-                            href="/seocares-projects"
+                            href="/seo-cares"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEOCares projects
                           </Link>
+
                           <Link
-                            href="/events-updates"
+                            href="/media-and-events"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Events & updates
                           </Link>
+
                           <Link
-                            href="/guides-tips"
+                            href="#"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEO Africa guides & tips
                           </Link>
+
                           <Link
                             href="/career-opportunities"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
@@ -465,13 +475,15 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             Become a partner
                           </Link>
+
                           <Link
-                            href="/join-talent-network"
+                            href="/career-opportunities"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Join our talent network
                           </Link>
+
                           <div className="flex items-center space-x-2">
                             <Link
                               href="/our-programmes"
@@ -486,6 +498,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                               </span>
                             </div>
                           </div>
+
                           <Link
                             href="/donate"
                             className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
@@ -528,7 +541,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                             Why should I join SEO Africa?
                           </h4>
                           <Link
-                            href="#"
+                            href="/blog"
                             className="text-gray-900 hover:text-blue-600 text-sm font-bold underline"
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -560,7 +573,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                             SEO Africa Application tips
                           </h4>
                           <Link
-                            href="#"
+                            href="/blog"
                             className="text-gray-900 hover:text-blue-600 text-sm font-bold underline"
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -610,7 +623,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                       <div className="space-y-3">
                         <Link
-                          href="/become-partner"
+                          href="#"
                           className="block text-gray-900 hover:text-blue-600 transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
@@ -618,20 +631,22 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </Link>
                         <div className="flex items-center space-x-2">
                           <Link
-                            href="/volunteer"
+                            href="#"
                             className="text-gray-900 hover:text-blue-600 transition-colors"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Volunteer with us
                           </Link>
+
                           <div className="flex items-center space-x-2">
                             <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white text-xs px-2 py-1 rounded-full font-medium">
                               New
                             </span>
                           </div>
                         </div>
+
                         <Link
-                          href="/join-talent-network"
+                          href="/career-opportunities"
                           className="block text-gray-900 hover:text-blue-600 transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
@@ -649,7 +664,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         className="bg-white text-gray-900 px-4 py-2 hover:bg-gray-100 transition-colors font-bold flex items-center space-x-2 mt-4"
                         onClick={() => setActiveDropdown(null)}
                       >
-                        <span>Donate now</span>
+                        <Link href={"/donate"}>Donate now</Link>
                         <ExternalLink className="w-4 h-4" />
                       </button>
                     </div>
@@ -667,7 +682,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
           </Link>
         </div>
 
-        <div className="hidden sm:flex items-center space-x-3 lg:space-x-4">
+        <div className="hidden xl:flex items-center space-x-3 lg:space-x-4">
           <div
             className={`flex items-center space-x-1 ${textColor} cursor-pointer ${hoverColor} transition-colors`}
           >
@@ -686,34 +701,202 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
         </div>
 
         <button
-          className={`sm:hidden ${mobileMenuButtonColor} p-2`}
+          className={`xl:hidden ${mobileMenuButtonColor} p-2`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          <Menu className="w-6 h-6" />
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </nav>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="sm:hidden absolute top-20 left-0 right-0 bg-black/95 backdrop-blur-sm z-20 px-4 py-6">
-          <div className="flex flex-col space-y-4 text-white">
-            <Link href="/about-us" className="py-2">
-              About us
-            </Link>
+        <div className="xl:hidden absolute top-20 md:top-28 left-0 right-0 bg-black/70 backdrop-blur-sm z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <div className="block md:hidden">
+              <div className="flex flex-col space-y-6 text-white">
+                <Link
+                  href="/about-us"
+                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About us
+                </Link>
 
-            <span className="py-2">Our Programmes</span>
-            <span className="py-2">Resources</span>
-            <span className="py-2">Get involved</span>
-            <span className="py-2">Contact us</span>
-            <div className="flex items-center justify-between pt-4 border-t border-white/20">
-              <span>EN</span>
-              <div className="flex space-x-3">
-                <button className="bg-transparent border border-white text-white px-4 py-2 rounded-full text-sm">
-                  Donate
-                </button>
-                <button className="bg-white text-black px-4 py-2 rounded-full text-sm">
-                  Join us
-                </button>
+                <Link
+                  href="/our-programmes"
+                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Our Programmes
+                </Link>
+
+                <Link
+                  href="/blog"
+                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Resources
+                </Link>
+
+                <Link
+                  href="/become-partner"
+                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Get involved
+                </Link>
+
+                <Link
+                  href="/contact-us"
+                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact us
+                </Link>
+
+                <div className="flex flex-col space-y-4 pt-6 border-t border-white/20">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300 text-sm">Language</span>
+                    <span className="text-white font-medium">EN</span>
+                  </div>
+
+                  <div className="flex flex-col space-y-3">
+                    <Link
+                      href="/donate"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <button className="w-full bg-transparent border border-white text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors text-sm font-medium">
+                        Donate
+                      </button>
+                    </Link>
+
+                    <Link
+                      href="/career-opportunities"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <button className="w-full bg-white text-black px-6 py-3 rounded-full hover:bg-gray-100 transition-colors text-sm font-medium">
+                        Join us
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden md:block">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-6">
+                        Navigation
+                      </h3>
+                      <div className="space-y-4">
+                        <Link
+                          href="/about-us"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          About us
+                        </Link>
+                        <Link
+                          href="/our-programmes"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Our Programmes
+                        </Link>
+                        <Link
+                          href="/blog"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Resources
+                        </Link>
+                        <Link
+                          href="/contact-us"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Contact us
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-6">
+                        Quick Links
+                      </h3>
+                      <div className="space-y-4">
+                        <Link
+                          href="/career-opportunities"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Career opportunities
+                        </Link>
+                        <Link
+                          href="#"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Become a partner
+                        </Link>
+                        <Link
+                          href="/faq"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          FAQs
+                        </Link>
+                        <Link
+                          href="/impact"
+                          className="block text-gray-300 hover:text-white transition-colors py-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Our impact
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-6 text-white">
+                  <h3 className="text-xl font-bold mb-3">Get Started</h3>
+                  <p className="text-blue-100 text-sm mb-6">
+                    Join thousands of students and professionals building their
+                    careers with SEO Africa.
+                  </p>
+
+                  <div className="flex flex-col gap-4">
+                    <Link
+                      href="/career-opportunities"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium text-sm">
+                        Join our talent network
+                      </button>
+                    </Link>
+
+                    <Link
+                      href="/donate"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <button className="w-full bg-transparent border border-white text-white px-4 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium text-sm">
+                        Donate to SEO Africa
+                      </button>
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center space-x-1 mt-6 pt-4 border-t border-blue-500">
+                    <span className="text-blue-100 text-sm">Language:</span>
+                    <span className="text-white font-medium text-sm">EN</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

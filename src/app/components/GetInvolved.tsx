@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Heart, Rocket, Users } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import Link from "next/link";
 
 interface GetInvolvedProps {
   className?: string;
@@ -116,7 +117,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                 style={{ transitionDelay: "600ms" }}
               >
                 <button className="bg-white text-slate-800 px-6 py-2 rounded-sm font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group cursor-pointer">
-                  <span>Donate now</span>
+                  <Link href={"/donate"}>Donate now</Link>
                   <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
                 </button>
               </div>
@@ -154,7 +155,9 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                   </p>
 
                   <button className="bg-transparent bg-opacity-20 text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
-                    Select a programme
+                    <Link href={"/career-opportunities"}>
+                      Select a programme
+                    </Link>
                   </button>
                 </div>
               </div>

@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
 
           <div className="flex items-center space-x-6">
             <button className="bg-blue-600 hover:bg-blue-700 text-white md:px-8 px-3 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors w-fit sm:w-auto">
-              Join our talent network
+              <Link href="/career-opportunities"> Join our talent network</Link>
             </button>
 
             <div className="flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300 group">

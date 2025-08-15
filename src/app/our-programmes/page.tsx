@@ -85,50 +85,6 @@ const OurProgrammes: React.FC = () => {
     animationType: "zoom-in",
     threshold: 0.2,
   });
-  const historyBadgeAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.3,
-  });
-  const historyImageAnimation = useScrollAnimation({
-    animationType: "zoom-in",
-    threshold: 0.2,
-  });
-  const missionVisionAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
-  const valuesHeaderAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.3,
-  });
-  const valuesGridAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
-  const ceoSectionAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
-  const galleryHeaderAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.3,
-  });
-  const galleryCarouselAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
-  const mediaHeaderAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.3,
-  });
-  const mediaGridAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
-  const insightsAnimation = useScrollAnimation({
-    animationType: "fade-up",
-    threshold: 0.2,
-  });
 
   const slides = [
     {
@@ -215,7 +171,7 @@ const OurProgrammes: React.FC = () => {
       </section>
 
       <section className="bg-white pb-16 lg:pb-24 relative">
-        <div className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-6 lg:px-12 -translate-y-1/2">
+        <div className="absolute top-0 left-0 right-0 px-4 sm:px-6 lg:px-12 -translate-y-1/2">
           <div className="max-w-7xl mx-auto">
             <div
               ref={heroImageAnimation.ref}

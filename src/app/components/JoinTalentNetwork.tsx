@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import Link from "next/link";
 
 interface JoinTalentNetworkProps {
   title?: string;
@@ -130,7 +131,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
               className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-base md:text-lg text-white font-semibold px-3 py-2 md:px-7 md:py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group ${buttonAnimation.animationClass}`}
               style={{ transitionDelay: "600ms" }}
             >
-              {ctaText}
+              <Link href="/career-opportunities">{ctaText}</Link>
             </button>
           </div>
 
