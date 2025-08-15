@@ -42,3 +42,12 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}

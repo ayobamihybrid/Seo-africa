@@ -38,7 +38,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           className="hidden xl:grid gap-4"
           style={{
             gridTemplateColumns: "380px 400px 380px",
-            gridTemplateRows: "auto auto auto auto",
+            gridTemplateRows: "auto auto auto",
             justifyContent: "center",
           }}
         >
@@ -205,9 +205,11 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               />
             </div>
           </div>
+        </div>
 
+        <div className="hidden xl:grid grid-cols-2 gap-4 max-w-[1180px] mx-auto mt-4">
           <div
-            className="cursor-pointer "
+            className="cursor-pointer"
             onMouseEnter={() => setHoveredCard("projects")}
             onMouseLeave={() => setHoveredCard(null)}
           >
@@ -219,7 +221,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 className={`object-cover transition-opacity duration-500 ease-in-out ${
                   hoveredCard === "projects" ? "opacity-0" : "opacity-100"
                 }`}
-                sizes="33vw"
+                sizes="50vw"
               />
               <Image
                 src="/default-hover7.png"
@@ -228,13 +230,13 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 className={`object-cover transition-opacity duration-500 ease-in-out ${
                   hoveredCard === "projects" ? "opacity-100" : "opacity-0"
                 }`}
-                sizes="33vw"
+                sizes="50vw"
               />
             </div>
           </div>
 
           <div
-            className="cursor-pointer col-span-2"
+            className="cursor-pointer"
             onMouseEnter={() => setHoveredCard("completion")}
             onMouseLeave={() => setHoveredCard(null)}
           >
@@ -246,7 +248,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 className={`object-cover transition-opacity duration-500 ease-in-out ${
                   hoveredCard === "completion" ? "opacity-0" : "opacity-100"
                 }`}
-                sizes="60vw"
+                sizes="50vw"
               />
               <Image
                 src="/default-hover8.png"
@@ -255,7 +257,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 className={`object-cover transition-opacity duration-500 ease-in-out ${
                   hoveredCard === "completion" ? "opacity-100" : "opacity-0"
                 }`}
-                sizes="60vw"
+                sizes="50vw"
               />
             </div>
           </div>

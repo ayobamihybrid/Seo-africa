@@ -60,7 +60,7 @@ const FindOpportunities = () => {
 
             <div className="relative z-20">
               <h2 className="text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-6">
-                Find opportunities in SEO Africa. Join our talent network.
+                Find opportunities in SEO Africa. Join our talent networkkkk.
               </h2>
 
               <p className="text-white/90 text-lg mb-8">

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Play, Pause } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
 const AboutSeo: React.FC = () => {

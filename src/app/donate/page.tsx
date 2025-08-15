@@ -116,7 +116,7 @@ const Donate = (props: Props) => {
     <div className="bg-[#131B3E]">
       <Navbar />
 
-      <section className="relative h-screen bg-gray-900 overflow-hidden">
+      <section className="relative h-[91vh] bg-gray-900 overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/seocares_bg.png"
@@ -128,9 +128,9 @@ const Donate = (props: Props) => {
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
 
-        <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 flex items-center justify-center h-full px-6 lg:px-8">
           <div className="bg-[#131B3E] p-2 text-center">
-            <h1 className="text-2xl md:text-5xl lg:text-7xl font-serif text-white leading-tight">
+            <h1 className="text-[1.6rem] md:text-5xl lg:text-7xl font-serif text-white leading-tight">
               <span className="text-orange-500 italic font-serif">Donate</span>
               <span className="text-white"> to Africa's Next</span>
               <br />

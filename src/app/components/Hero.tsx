@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 import Navbar from "./Navbar";
+import Image from "next/image";
+import Link from "next/link";
 
 interface SliderItem {
   name: string;
@@ -62,23 +65,16 @@ const Hero: React.FC = () => {
             </button>
 
             <div className="flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300 group">
-              <span className="text-xs sm:text-base underline">
-                All Programmes
-              </span>
-
-              <svg
-                className="hidden md:block md:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <Link
+                href="/our-programmes"
+                className="text-xs sm:text-base underline"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
+                All Programmes
+              </Link>
+
+              <div className="relative h-4 w-4">
+                <Image src={"/arrowUp.svg"} alt="" fill />
+              </div>
             </div>
           </div>
         </div>
