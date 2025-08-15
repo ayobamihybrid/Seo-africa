@@ -54,7 +54,7 @@ const FAQSection = ({ faqPage = false }: FAQSectionProps) => {
           <p className="text-gray-600 text-lg">
             Everything you need to know about SEO Africa.{" "}
             <a
-              href="#"
+              href="/faq"
               className="text-blue-600 hover:text-blue-700 underline font-medium"
             >
               More FAQs here

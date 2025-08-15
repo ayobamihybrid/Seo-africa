@@ -96,9 +96,9 @@ const CareerOpportunities = (props: Props) => {
                 <p>See open roles</p>
               </button>
 
-              <Link href={""} className="underline">
+              {/* <Link href={""} className="text-white underline">
                 Join our talent network
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ import Donate from "../components/Donate";
 import Footer from "../components/Footer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import FindOpportunities from "../components/FindOpportunities";
+import Link from "next/link";
 
 const useTextReveal = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -441,10 +442,13 @@ const AboutUs: React.FC = () => {
                 </p>
 
                 <div>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2">
+                  <Link
+                    href={"/career-opportunities"}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2"
+                  >
                     Join our talent network
                     <ArrowRight className="w-5 h-5" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -636,33 +640,6 @@ const AboutUs: React.FC = () => {
                       </button>
                     </div>
                   ))}
-
-                  <div className="bg-blue-600 relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10">
-                      <svg
-                        className="w-full h-full"
-                        viewBox="0 0 400 300"
-                        fill="none"
-                      >
-                        <defs>
-                          <pattern
-                            id="grid"
-                            width="40"
-                            height="40"
-                            patternUnits="userSpaceOnUse"
-                          >
-                            <path
-                              d="M 40 0 L 0 0 0 40"
-                              fill="none"
-                              stroke="white"
-                              strokeWidth="1"
-                            />
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

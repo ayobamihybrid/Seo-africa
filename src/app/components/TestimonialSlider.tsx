@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { testimonials } from "../utils";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 const TestimonialsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -33,22 +35,10 @@ const TestimonialsSlider = () => {
           </h2>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <button className="bg-white text-[#5E68FF] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
+            <Link href={'/career-opportunities'} className="bg-white text-[#5E68FF] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
               Join our talent network
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </button>
+              <ArrowUpRight/>
+            </Link>
 
             <button className="text-white hover:text-white/80 transition-colors inline-flex items-center gap-2 underline">
               <svg

@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import Link from "next/link";
 
 const FindOpportunities = () => {
   const finalCtaAnimation = useScrollAnimation({
@@ -60,7 +61,7 @@ const FindOpportunities = () => {
 
             <div className="relative z-20">
               <h2 className="text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-6">
-                Find opportunities in SEO Africa. Join our talent networkkkk.
+                Find opportunities in SEO Africa. Join our talent network.
               </h2>
 
               <p className="text-white/90 text-lg mb-8">
@@ -68,10 +69,10 @@ const FindOpportunities = () => {
                 our talent network.
               </p>
 
-              <button className="bg-white text-black hover:bg-gray-50 px-5 md:px-8 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2">
+              <Link href={'/career-opportunities'} className="bg-white text-black hover:bg-gray-50 px-5 md:px-8 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2">
                 Join our talent network
                 <ArrowUpRight className="w-5 h-5" />
-              </button>
+              </Link>
             </div>
           </div>
 

@@ -57,6 +57,7 @@ const AboutSeo: React.FC = () => {
                 Established to create the next generation of champions!
               </h2>
             </div>
+
             <div
               ref={descriptionAnimation.ref}
               className={`space-y-6 ${descriptionAnimation.animationClass}`}
@@ -68,7 +69,7 @@ const AboutSeo: React.FC = () => {
                 leadership, extending beyond personal success.
               </p>
 
-              <hr />
+              <div className="w-full h-0.5 bg-gray-200" />
 
               <p className="text-base md:text-xl text-gray-600 leading-relaxed">
                 SEO Africa select, train, mentor and provide corporate access to

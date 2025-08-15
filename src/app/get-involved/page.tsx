@@ -7,6 +7,8 @@ import Donate from "../components/Donate";
 import Footer from "../components/Footer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import Partners from "../components/Partners";
+import Link from "next/link";
+import { Heart } from "lucide-react";
 
 const useTextReveal = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -100,21 +102,29 @@ const GetInvolved: React.FC = () => {
       title: "Access top emerging talents",
       description:
         "Connect directly with Africa's most promising students and graduates, carefully trained and career-ready.",
+      image: "/blog_image2.png",
+      alt: "SEO Africa talented graduates in professional setting",
     },
     {
       title: "Connect with our successful alumni.",
       description:
         "Engage and connect with thousands of our successful alumni who are now leading important roles across the world.",
+      image: "/seo_gallery1.png",
+      alt: "SEO Africa alumni networking event",
     },
     {
       title: "Strengthen your brand's impact",
       description:
         "Position your company as a champion of African development and social impact, appealing to values-driven employees and customers alike.",
+      image: "/donate_image2.png",
+      alt: "SEO Africa brand partnership showcase",
     },
     {
       title: "Deliver Measurable, Lasting Change",
       description:
         "Demonstrate your commitment to sustainable development with partnerships that deliver quantifiable results for communities and economies.",
+      image: "/our_programmes.png",
+      alt: "SEO Africa impact measurement and community development",
     },
   ];
 
@@ -311,7 +321,7 @@ const GetInvolved: React.FC = () => {
             </h2>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-[#4F46E5] hover:bg-[#4338CA] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2">
+              <button className="bg-[#3051F3] hover:bg-[#3051f3eb] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2">
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -329,7 +339,7 @@ const GetInvolved: React.FC = () => {
               </button>
 
               <button className="border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-medium transition-colors duration-200">
-                Contact us
+                <Link href={"/contact-us"}>Contact us</Link>
               </button>
             </div>
           </div>
@@ -342,7 +352,7 @@ const GetInvolved: React.FC = () => {
                   onClick={() => setActiveTab(index)}
                   className={`cursor-pointer transition-all duration-300 p-4 ${
                     activeTab === index
-                      ? "border-l-4 border-[#4F46E5] bg-white"
+                      ? "border-l-4 border-[#3051F3] bg-white"
                       : "border-l-4 border-transparent hover:border-gray-300 hover:bg-white/50"
                   }`}
                 >
@@ -350,7 +360,7 @@ const GetInvolved: React.FC = () => {
                     <h3
                       className={`text-xl font-semibold transition-colors duration-300 ${
                         activeTab === index
-                          ? "text-[#4F46E5]"
+                          ? "text-[#3051F3]"
                           : "text-[#1F2937]"
                       }`}
                     >
@@ -367,10 +377,10 @@ const GetInvolved: React.FC = () => {
             <div className="lg:sticky lg:top-8">
               <div className="relative h-[500px] lg:h-[600px] bg-gray-300 rounded-lg overflow-hidden">
                 <Image
-                  src="/blog_image2.png"
-                  alt="SEO Africa partnerships"
+                  src={benefits[activeTab].image}
+                  alt={benefits[activeTab].alt}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-all duration-500 ease-in-out"
                 />
               </div>
             </div>
@@ -428,7 +438,7 @@ const GetInvolved: React.FC = () => {
                   To express your interest, please send your CV to{" "}
                   <a
                     href="mailto:info@seo-africa.org"
-                    className="text-[#4F46E5] hover:text-[#4338CA] font-medium transition-colors duration-200"
+                    className="text-[#3051F3] hover:text-[#4338CA] font-medium transition-colors duration-200"
                   >
                     info@seo-africa.org
                   </a>
@@ -591,22 +601,13 @@ const GetInvolved: React.FC = () => {
             Ideas, Ambition, and the Leadership Africa Needs.
           </h2>
 
-          <button className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] hover:from-[#d1821f] hover:to-[#e54d9b] text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 flex items-center gap-2 mb-12 lg:mb-16">
+          <Link
+            href={"/donate"}
+            className="w-fit bg-gradient-to-r from-[#E8913A] to-[#ED60A4] hover:from-[#d1821f] hover:to-[#e54d9b] text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 flex items-center gap-2 mb-12 lg:mb-16"
+          >
             Make a donation
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-          </button>
+            <Heart className="w-5 h-5" />
+          </Link>
 
           <p className="text-white/90 text-lg leading-relaxed mb-12 lg:mb-16 max-w-3xl"></p>
 
@@ -662,9 +663,9 @@ const GetInvolved: React.FC = () => {
               Find opportunities in SEO Africa. Join our talent network
             </h2>
 
-            <button className="bg-[#3051F3] hover:bg-[#3051f3e7] text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200">
+            <Link href={'/career-opportunities'} className="bg-[#3051F3] hover:bg-[#3051f3e7] text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200">
               Join our talent network
-            </button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-16 lg:mb-20">
@@ -731,20 +732,17 @@ const GetInvolved: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-[#131B3E] py-16 lg:py-24 relative overflow-hidden">
+      <section className="bg-[#131B3E] py-48 lg:py-72 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
           <div className="text-center">
-            <h2 className="text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4">
+            <h2 className="max-w-4xl mx-auto text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4">
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent font-medium italic">
                 13+ years
               </span>{" "}
               <span className="text-white italic">
                 of outstanding leadership
-              </span>
-              <br />
-              <span className="text-white italic">
-                and active support.
               </span>{" "}
+              <span className="text-white italic">and active support.</span>{" "}
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent font-medium italic">
                 Thank you!
               </span>
@@ -752,29 +750,15 @@ const GetInvolved: React.FC = () => {
           </div>
         </div>
 
-        <div className="absolute inset-0 opacity-20">
-          <div className="grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 h-full">
-            {Array.from({ length: 96 }).map((_, index) => (
-              <div
-                key={index}
-                className="relative bg-gradient-to-br from-gray-600 to-gray-800 border border-gray-700/30"
-                style={{
-                  backgroundImage:
-                    index % 3 === 0
-                      ? "url('/seo_gallery1.png')"
-                      : index % 3 === 1
-                      ? "url('/donate_image2.png')"
-                      : "url('/blog_image2.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  filter: "grayscale(100%) contrast(1.2)",
-                }}
-              >
-                <div className="absolute inset-0 bg-[#131B3E]/60"></div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: "url('seocares_bg.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#131B3E]/80 via-[#131B3E]/40 to-[#131B3E]/80"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#131B3E]/90 via-transparent to-[#131B3E]/90"></div>

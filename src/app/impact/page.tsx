@@ -74,7 +74,7 @@ const Impact = (props: Props) => {
       </section>
 
       <section className="bg-white pb-16 lg:pb-24 relative">
-        <div className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-6 lg:px-12 -translate-y-1/2">
+        <div className="absolute top-0 left-0 right-0 px-4 sm:px-6 lg:px-12 -translate-y-1/2">
           <div className="max-w-7xl mx-auto">
             <div
               ref={heroImageAnimation.ref}
@@ -441,7 +441,7 @@ const Impact = (props: Props) => {
             </div>
           </div>
 
-          <hr className="my-8 sm:my-16" />
+          <div className="w-full h-0.5 bg-gray-200 my-8 sm:my-16" />
 
           <div className="mt-8 sm:mt-20 text-center">
             <div className="text-gray-500 text-xs sm:text-sm leading-relaxed">

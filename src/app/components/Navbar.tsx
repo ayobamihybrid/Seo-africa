@@ -623,12 +623,13 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                       <div className="space-y-3">
                         <Link
-                          href="#"
+                          href="/get-involved"
                           className="block text-gray-900 hover:text-blue-600 transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           Become a partner
                         </Link>
+
                         <div className="flex items-center space-x-2">
                           <Link
                             href="#"
@@ -743,7 +744,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                 </Link>
 
                 <Link
-                  href="/become-partner"
+                  href="#"
                   className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
