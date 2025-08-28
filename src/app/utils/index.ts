@@ -13,7 +13,7 @@ interface TeamMember {
 
 export const teamMembers: TeamMember[] = [
   {
-    name: "Blessing Omoregle",
+    name: "Blessing Omoregie",
     title: "Chief Executive Officer, SEO Africa",
     education: "SEO London Alumni, 2005",
     image: "/team1.png",

@@ -5,12 +5,45 @@ import Image from "next/image";
 import React from "react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import Link from "next/link";
+import { getStrapiImageUrl } from "../lib/strapi";
 
-const FindOpportunities = () => {
+interface TalentData {
+  title: string;
+  cta_text: string;
+  cover_image?: {
+    url: string;
+    alternativeText: string | null;
+  };
+}
+
+interface FindOpportunitiesProps {
+  talentData?: TalentData;
+  description?: string;
+}
+
+const FindOpportunities: React.FC<FindOpportunitiesProps> = ({
+  talentData,
+  description = "Join over 32,000 students and graduates in our community. Join our talent network.",
+}) => {
   const finalCtaAnimation = useScrollAnimation({
     animationType: "zoom-in",
     threshold: 0.2,
   });
+
+  const defaultTitle =
+    "Find opportunities in SEO Africa. Join our talent network.";
+  const defaultCtaText = "Join our talent network";
+  const defaultImage = "/content.png";
+
+  const title = talentData?.title || defaultTitle;
+  const ctaText = talentData?.cta_text || defaultCtaText;
+  const imageUrl = talentData?.cover_image
+    ? getStrapiImageUrl(talentData.cover_image) || defaultImage
+    : defaultImage;
+  const imageAlt =
+    talentData?.cover_image?.alternativeText ||
+    "Professional African business people collaborating with tablet";
+
   return (
     <div
       ref={finalCtaAnimation.ref}
@@ -61,16 +94,16 @@ const FindOpportunities = () => {
 
             <div className="relative z-20">
               <h2 className="text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-6">
-                Find opportunities in SEO Africa. Join our talent network.
+                {title}
               </h2>
 
-              <p className="text-white/90 text-lg mb-8">
-                Join over 32,000 students and graduates in our community. Join
-                our talent network.
-              </p>
+              <p className="text-white/90 text-lg mb-8">{description}</p>
 
-              <Link href={'/career-opportunities'} className="bg-white text-black hover:bg-gray-50 px-5 md:px-8 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2">
-                Join our talent network
+              <Link
+                href="/career-opportunities"
+                className="bg-white text-black hover:bg-gray-50 px-5 md:px-8 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2"
+              >
+                {ctaText}
                 <ArrowUpRight className="w-5 h-5" />
               </Link>
             </div>
@@ -78,8 +111,8 @@ const FindOpportunities = () => {
 
           <div className="relative overflow-hidden aspect-[4/3] lg:aspect-auto order-1 lg:order-2">
             <Image
-              src="/content.png"
-              alt="Professional African business people collaborating with tablet"
+              src={imageUrl}
+              alt={imageAlt}
               fill
               className="object-cover object-center"
               placeholder="blur"

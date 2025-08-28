@@ -3,7 +3,25 @@
 import React, { useState } from "react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
-const AboutSeo: React.FC = () => {
+interface InfoCard {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface AboutSeoProps {
+  aboutData: {
+    pill_text: string;
+    heading: string;
+    description: string;
+    further_description: string;
+    video_link: string | null;
+    video: any | null;
+    info_cards: InfoCard[];
+  };
+}
+
+const AboutSeo: React.FC<AboutSeoProps> = ({ aboutData }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const headerAnimation = useScrollAnimation({
@@ -44,7 +62,7 @@ const AboutSeo: React.FC = () => {
             className={`w-fit px-3 bg-[#067a572c] rounded-full ${headerAnimation.animationClass}`}
           >
             <p className="text-xs md:text-base text-[#067a57] font-medium mb-4">
-              About SEOAfrica
+              {aboutData.pill_text}
             </p>
           </div>
 
@@ -54,7 +72,7 @@ const AboutSeo: React.FC = () => {
               className={titleAnimation.animationClass}
             >
               <h2 className="text-3xl md:text-5xl text-gray-900 leading-tight font-bold">
-                Established to create the next generation of champions!
+                {aboutData.heading}
               </h2>
             </div>
 
@@ -63,18 +81,13 @@ const AboutSeo: React.FC = () => {
               className={`space-y-6 ${descriptionAnimation.animationClass}`}
             >
               <p className="text-base md:text-xl text-gray-900 leading-relaxed">
-                SEO Africa is a non-profit leadership organization with over a
-                decade of experience in talent development across Africa. Our
-                core values prioritize community upliftment and genuine
-                leadership, extending beyond personal success.
+                {aboutData.description}
               </p>
 
               <div className="w-full h-0.5 bg-gray-200" />
 
               <p className="text-base md:text-xl text-gray-600 leading-relaxed">
-                SEO Africa select, train, mentor and provide corporate access to
-                university students with the highest potential, and in the
-                process develop a network of future leaders across Africa.
+                {aboutData.further_description}
               </p>
             </div>
           </div>
@@ -102,59 +115,35 @@ const AboutSeo: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-3">
-          <div
-            ref={card1Animation.ref}
-            className={`space-y-6 border border-gray-200 p-6 lg:p-8 ${card1Animation.animationClass}`}
-            style={{ transitionDelay: "0ms" }}
-          >
-            <div>
-              <span className="text-gray-400 text-sm font-mono">/001</span>
-              <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-4">
-                Sharpen skills and boost confidence
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                SEO Africa empowers students by enhancing their skills and
-                boosting their confidence through updated, hands-on trainings,
-                programmes and workshops.
-              </p>
-            </div>
-          </div>
+          {aboutData.info_cards.map((card, index) => {
+            const cardAnimations = [
+              card1Animation,
+              card2Animation,
+              card3Animation,
+            ];
+            const currentAnimation = cardAnimations[index] || card1Animation;
 
-          <div
-            ref={card2Animation.ref}
-            className={`space-y-6 border border-gray-200 p-6 lg:p-8 ${card2Animation.animationClass}`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            <div>
-              <span className="text-gray-400 text-sm font-mono">/002</span>
-              <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-4">
-                Cultivate Leadership Skills.
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Joining SEO Africa helps students cultivate vital leadership
-                skills that are crucial for navigating the challenges of
-                tomorrow's workforce in their chosen fields.
-              </p>
-            </div>
-          </div>
-
-          <div
-            ref={card3Animation.ref}
-            className={`space-y-6 border border-gray-200 p-6 lg:p-8 ${card3Animation.animationClass}`}
-            style={{ transitionDelay: "400ms" }}
-          >
-            <div>
-              <span className="text-gray-400 text-sm font-mono">/003</span>
-              <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-4">
-                Grow Meaningful Networks
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                We provide a platform for students to grow and expand their
-                professional network, connecting them with like-minded
-                individuals and industry leaders.
-              </p>
-            </div>
-          </div>
+            return (
+              <div
+                key={card.id}
+                ref={currentAnimation.ref}
+                className={`space-y-6 border border-gray-200 p-6 lg:p-8 ${currentAnimation.animationClass}`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                <div>
+                  <span className="text-gray-400 text-sm font-mono">
+                    /{String(index + 1).padStart(3, "0")}
+                  </span>
+                  <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-4">
+                    {card.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {card.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

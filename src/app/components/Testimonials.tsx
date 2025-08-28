@@ -4,8 +4,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import { getStrapiImageUrl } from "../lib/strapi";
 
-interface Testimonial {
+interface StrapiTestimonial {
+  id: number;
+  documentId: string;
+  body: string;
+  name: string;
+  position: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  avatar: any | null;
+}
+
+interface LocalTestimonial {
   id: string;
   name: string;
   title: string;
@@ -15,56 +28,52 @@ interface Testimonial {
   year?: string;
 }
 
-interface TestimonialsProps {
-  testimonials?: Testimonial[];
-  autoScrollInterval?: number;
-  className?: string;
-  title?: string;
-  subtitle?: string;
+interface TestimonialsSection {
+  id: number;
+  pill_text: string;
+  title: string;
 }
 
-const defaultTestimonials: Testimonial[] = [
-  {
-    id: "1",
-    name: "Josef Andreeson",
-    title: "CEO, Brex inc.",
-    company: "SEOAfrica Alumni 2013",
-    quote:
-      "My experience with SEO Africa has been life-changing. It's more than just a networking community; it's a beacon of hope that I turn to every day. The recent initiatives are inspiring and significantly boost my confidence in navigating my career path.",
-    avatar: "/testimonial_image1.png",
-    year: "2013",
-  },
-  {
-    id: "2",
-    name: "Grace Okonkwo",
-    title: "Senior Product Manager",
-    company: "SEOAfrica Alumni 2015",
-    quote:
-      "The mentorship and connections I've gained through SEO Africa have been invaluable. The community continues to support my professional growth even years after graduation.",
-    avatar: "/testimonial_image2.png",
-    year: "2015",
-  },
-  {
-    id: "3",
-    name: "Michael Adebayo",
-    title: "Startup Founder",
-    company: "SEOAfrica Alumni 2018",
-    quote:
-      "SEO Africa didn't just provide education, it provided a platform for transformation. The network has opened doors I never knew existed.",
-    avatar: "/testimonial_image1.png",
-    year: "2018",
-  },
-];
+interface TestimonialsProps {
+  testimonialsData: TestimonialsSection;
+  strapiTestimonials?: StrapiTestimonial[];
+  localTestimonials?: LocalTestimonial[];
+  autoScrollInterval?: number;
+  className?: string;
+}
+
+
 
 const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
-  testimonials = defaultTestimonials,
+  testimonialsData,
+  strapiTestimonials,
   autoScrollInterval = 3000,
   className = "",
-  title = "What the community is saying about us.",
-  subtitle = "TESTIMONIALS",
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+
+  const normalizedTestimonials =
+    strapiTestimonials && strapiTestimonials.length > 0
+      ? strapiTestimonials.map((testimonial, index) => {
+          // Split position into title and company if it contains " - "
+          const positionParts = testimonial.position.split(" - ");
+          const title = positionParts[0] || testimonial.position;
+          const company = positionParts[1] || "";
+
+          return {
+            id: `strapi-${testimonial.id}`,
+            name: testimonial.name,
+            title: title,
+            company: company,
+            quote: testimonial.body,
+            avatar: testimonial.avatar
+              ? getStrapiImageUrl(testimonial.avatar)
+              : `/testimonial_image${(index % 2) + 1}.png`, 
+            year: company.match(/\d{4}/)?.[0], 
+          };
+        })
+      : [];
 
   const subtitleAnimation = useScrollAnimation({
     animationType: "fade-up",
@@ -89,15 +98,15 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+      prevIndex === normalizedTestimonials.length - 1 ? 0 : prevIndex + 1
     );
-  }, [testimonials.length]);
+  }, [normalizedTestimonials.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+      prevIndex === 0 ? normalizedTestimonials.length - 1 : prevIndex - 1
     );
-  }, [testimonials.length]);
+  }, [normalizedTestimonials.length]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -110,7 +119,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
     }
   }, [nextSlide, autoScrollInterval, isHovered]);
 
-  if (testimonials.length === 0) {
+  if (normalizedTestimonials.length === 0) {
     return null;
   }
 
@@ -123,14 +132,14 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
               ref={subtitleAnimation.ref}
               className={`w-fit px-3 py-1 rounded-full bg-[#3051f31c] text-[#3051f3] font-medium text-xs md:text-sm uppercase tracking-wide mb-4 ${subtitleAnimation.animationClass}`}
             >
-              {subtitle}
+              {testimonialsData.pill_text}
             </p>
             <h2
               ref={titleAnimation.ref}
               className={`text-3xl md:text-5xl font-bold text-gray-900 leading-tight ${titleAnimation.animationClass}`}
               style={{ transitionDelay: "200ms" }}
             >
-              {title}
+              {testimonialsData.title}
             </h2>
           </div>
 
@@ -168,7 +177,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
               transform: `translateX(-${currentIndex * 100}%)`,
             }}
           >
-            {testimonials.map((testimonial, index) => (
+            {normalizedTestimonials.map((testimonial, index) => (
               <div key={testimonial.id} className="w-full flex-shrink-0">
                 <TestimonialCard testimonial={testimonial} />
               </div>
@@ -181,7 +190,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
           className={`flex justify-center mt-2 md:mt-8 gap-2 ${dotsAnimation.animationClass}`}
           style={{ transitionDelay: "800ms" }}
         >
-          {testimonials.map((_, index) => (
+          {normalizedTestimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
@@ -200,7 +209,15 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
 };
 
 interface TestimonialCardProps {
-  testimonial: Testimonial;
+  testimonial: {
+    id: string;
+    name: string;
+    title: string;
+    company: string;
+    quote: string;
+    avatar: string;
+    year?: string;
+  };
 }
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
@@ -255,4 +272,4 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
 };
 
 export default TestimonialsCarousel;
-export type { Testimonial, TestimonialsProps };
+export type { StrapiTestimonial, LocalTestimonial, TestimonialsProps };

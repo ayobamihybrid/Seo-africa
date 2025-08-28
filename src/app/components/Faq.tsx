@@ -1,73 +1,152 @@
+"use client";
+
+import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
+import { FAQItem } from "../types/strapi";
+import useScrollAnimation from "../hooks/useScrollAnimation";
 
 interface FAQSectionProps {
   faqPage?: boolean;
+  faqItems?: FAQItem[];
+  title?: string;
+  description?: string;
+  maxItems?: number;
+  className?: string;
 }
 
-const FAQSection = ({ faqPage = false }: FAQSectionProps) => {
+const FAQSection = ({
+  faqPage = false,
+  faqItems,
+  title,
+  description,
+  maxItems,
+  className = "",
+}: FAQSectionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
+  const sectionAnimation = useScrollAnimation({
+    animationType: "fade-up",
+    threshold: 0.2,
+  });
+
+  const defaultFaqs = [
     {
-      question: "Is there a free trial available?",
+      id: 1,
+      documentId: "default-1",
+      question: "What is SEO Africa?",
       answer:
-        "Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.",
+        "SEO Africa is a non-profit organization that develops young African leaders through intensive programming and mentorship opportunities.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
     {
-      question: "Can I change my plan later?",
+      id: 2,
+      documentId: "default-2",
+      question: "How can I apply for programs?",
       answer:
-        "Absolutely! You can upgrade or downgrade your plan at any time. Changes to your plan will be reflected in your next billing cycle, and we'll prorate any differences.",
+        "Applications are typically opened on our website during specific periods. Follow our social media channels and newsletter for updates on application deadlines.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
     {
-      question: "What is your cancellation policy?",
+      id: 3,
+      documentId: "default-3",
+      question: "What programs do you offer?",
       answer:
-        "You can cancel your subscription at any time. Your account will remain active until the end of your current billing period. No cancellation fees or long-term contracts required.",
+        "We offer various leadership development programs including entrepreneurship bootcamps, corporate readiness training, and mentorship opportunities.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
     {
-      question: "Can other info be added to an invoice?",
+      id: 4,
+      documentId: "default-4",
+      question: "Who is eligible to apply?",
       answer:
-        "Yes, you can add custom information to your invoices including company details, tax information, purchase order numbers, and any other relevant billing information through your account settings.",
+        "Our programs are primarily designed for young African professionals and students who demonstrate leadership potential and commitment to community development.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
     {
-      question: "How does billing work?",
+      id: 5,
+      documentId: "default-5",
+      question: "Is there a cost to participate?",
       answer:
-        "We offer monthly and annual billing options. You'll be charged automatically based on your selected plan. Annual plans come with a discount, and you can view all billing history in your account dashboard.",
+        "Most of our programs are offered at no cost to participants, thanks to our generous partners and donors who believe in investing in African youth.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
     {
-      question: "How do I change my account email?",
+      id: 6,
+      documentId: "default-6",
+      question: "How long are the programs?",
       answer:
-        "You can update your account email in your profile settings. For security purposes, you'll need to verify the new email address before the change takes effect. Contact support if you need assistance.",
+        "Program duration varies depending on the specific offering, ranging from intensive weekend workshops to year-long mentorship programs.",
+      createdAt: "",
+      updatedAt: "",
+      publishedAt: "",
     },
   ];
+
+  const displayFaqs = faqItems && faqItems.length > 0 ? faqItems : defaultFaqs;
+  const finalFaqs = maxItems ? displayFaqs.slice(0, maxItems) : displayFaqs;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const stripHtml = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+
+  const createMarkup = (html: string) => {
+    return { __html: html };
+  };
+
+  const defaultTitle = "Frequently asked questions";
+  const defaultDescription = "Everything you need to know about SEO Africa.";
+
   return (
-    <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    <div
+      className={`max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8 ${className}`}
+    >
       {!faqPage && (
-        <div className="text-center mb-12">
+        <div
+          ref={sectionAnimation.ref}
+          className={`text-center mb-12 ${sectionAnimation.animationClass}`}
+        >
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
-            Frequently asked questions
+            {title || defaultTitle}
           </h2>
           <p className="text-gray-600 text-lg">
-            Everything you need to know about SEO Africa.{" "}
-            <a
-              href="/faq"
-              className="text-blue-600 hover:text-blue-700 underline font-medium"
-            >
-              More FAQs here
-            </a>
+            {description || defaultDescription}{" "}
+            {!faqPage && (
+              <a
+                href="/faq"
+                className="text-blue-600 hover:text-blue-700 underline font-medium"
+              >
+                More FAQs here
+              </a>
+            )}
           </p>
         </div>
       )}
 
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
+      <div
+        className={`space-y-4 ${
+          faqPage ? sectionAnimation.animationClass : ""
+        }`}
+        ref={faqPage ? sectionAnimation.ref : undefined}
+      >
+        {finalFaqs.map((faq, index) => (
           <div
-            key={index}
-            className="border border-gray-200 rounded-lg overflow-hidden"
+            key={faq.id}
+            className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <button
               onClick={() => toggleFAQ(index)}
@@ -79,33 +158,9 @@ const FAQSection = ({ faqPage = false }: FAQSectionProps) => {
 
               <div className="flex-shrink-0">
                 {openIndex === index ? (
-                  <svg
-                    className="w-6 h-6 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20 12H4"
-                    />
-                  </svg>
+                  <Minus className="w-6 h-6 text-gray-500" />
                 ) : (
-                  <svg
-                    className="w-6 h-6 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
+                  <Plus className="w-6 h-6 text-gray-500" />
                 )}
               </div>
             </button>
@@ -118,7 +173,14 @@ const FAQSection = ({ faqPage = false }: FAQSectionProps) => {
               }`}
             >
               <div className="px-6 pb-5 pt-2">
-                <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                {faq.answer.includes("<") ? (
+                  <div
+                    className="text-gray-600 leading-relaxed prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={createMarkup(faq.answer)}
+                  />
+                ) : (
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                )}
               </div>
             </div>
           </div>

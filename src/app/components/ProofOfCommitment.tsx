@@ -2,26 +2,130 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { statsCards } from "../utils";
+
+interface StatCard {
+  id: number;
+  stat: string;
+  titile: string; // Note: this matches the typo in the Strapi data
+  description: string;
+}
+
+interface StatisticsSection {
+  id: number;
+  title: string;
+  top_cards: StatCard[];
+  middle_cards: StatCard[];
+  bottom_cards: StatCard[];
+}
 
 interface ProofOfCommitmentProps {
+  statisticsData: StatisticsSection;
   impact?: boolean;
   showHeader?: boolean;
-  headerText?: string;
   backgroundColor?: string;
 }
 
 const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
+  statisticsData,
   impact = false,
   showHeader = true,
-  headerText = "Proof of commitment in numbers",
   backgroundColor,
 }) => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const bgColor = backgroundColor || (impact ? "bg-white" : "bg-gray-50");
-
   const displayHeader = impact ? false : showHeader;
+  const finalHeaderText = statisticsData.title;
+
+  const cardMapping = [
+    {
+      id: "students",
+      data: statisticsData.top_cards[0],
+      defaultImage: "/defaul2.png",
+      hoverImage: "/default-hover2.png",
+      gridArea: "students",
+      className: "",
+      height: "h-[320px]",
+      mdHeight: "220px",
+    },
+    {
+      id: "center-team",
+      data: null,
+      defaultImage: "/default1.png",
+      hoverImage: "/default-hover1.png",
+      gridArea: "center-team",
+      className: "",
+      height: "h-[420px]",
+      mdHeight: "180px",
+    },
+    {
+      id: "countries",
+      data: statisticsData.top_cards[1],
+      defaultImage: "/default5.png",
+      hoverImage: "/default-hover5.png",
+      gridArea: "countries",
+      className: "",
+      height: "h-[260px]",
+      mdHeight: "220px",
+    },
+    {
+      id: "retention",
+      data: statisticsData.middle_cards[0],
+      defaultImage: "/default3.png",
+      hoverImage: "/default-hover3.png",
+      gridArea: "retention",
+      className: "-mt-24",
+      height: "h-[450px]",
+      mdHeight: "180px",
+    },
+    {
+      id: "partners",
+      data: statisticsData.middle_cards[1],
+      defaultImage: "/default4.png",
+      hoverImage: "/default-hover4.png",
+      gridArea: "partners",
+      className: "",
+      height: "h-[355px]",
+      mdHeight: "180px",
+    },
+    {
+      id: "alumni",
+      data: statisticsData.middle_cards[2],
+      defaultImage: "/default6.png",
+      hoverImage: "/default-hover6.png",
+      gridArea: "alumni",
+      className: "-mt-40",
+      height: "h-[515px]",
+      mdHeight: "200px",
+    },
+    {
+      id: "projects",
+      data: statisticsData.bottom_cards[0],
+      defaultImage: "/default7.png",
+      hoverImage: "/default-hover7.png",
+      gridArea: "projects",
+      className: "",
+      height: "h-[280px]",
+      mdHeight: "200px",
+    },
+    {
+      id: "completion",
+      data: statisticsData.bottom_cards[1],
+      defaultImage: "/default8.png",
+      hoverImage: "/default-hover8.png",
+      gridArea: "completion",
+      className: "",
+      height: "h-[280px]",
+      mdHeight: "200px",
+    },
+  ];
+
+  const getAltText = (card: any) => {
+    if (card.data) {
+      return `${card.data.stat} ${card.data.titile}`;
+    }
+    return "Professional team image";
+  };
 
   return (
     <section className={`${bgColor} py-16 lg:py-24`}>
@@ -29,7 +133,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
         {displayHeader && (
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-              {headerText}
+              {finalHeaderText}
             </h2>
           </div>
         )}
@@ -43,224 +147,105 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           }}
         >
           {/* Row 1: Students, Center Team, Countries */}
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredCard("students")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[320px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/defaul2.png"
-                alt="39,000+ Students upskilled"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "students" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover2.png"
-                alt="39,000+ Students upskilled - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "students" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
+          {cardMapping.slice(0, 3).map((card) => (
+            <div
+              key={card.id}
+              className={`cursor-pointer ${card.className}`}
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div
+                className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+              >
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="33vw"
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="33vw"
+                />
+              </div>
             </div>
-          </div>
-
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredCard("center-team")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[420px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default1.png"
-                alt="Professional team image"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "center-team" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover1.png"
-                alt="Professional team image - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "center-team" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
-            </div>
-          </div>
-
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredCard("countries")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[260px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default5.png"
-                alt="17+ African countries inspired"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "countries" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover5.png"
-                alt="17+ African countries inspired - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "countries" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
-            </div>
-          </div>
+          ))}
 
           {/* Row 2: Retention, Partners, Alumni */}
-          <div
-            className="cursor-pointer -mt-24"
-            onMouseEnter={() => setHoveredCard("retention")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[450px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default3.png"
-                alt="85% Average retention of trainees"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "retention" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover3.png"
-                alt="85% Average retention of trainees - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "retention" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
+          {cardMapping.slice(3, 6).map((card) => (
+            <div
+              key={card.id}
+              className={`cursor-pointer ${card.className}`}
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div
+                className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+              >
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="33vw"
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="33vw"
+                />
+              </div>
             </div>
-          </div>
-
-          <div
-            className="cursor-pointer "
-            onMouseEnter={() => setHoveredCard("partners")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[355px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default4.png"
-                alt="30+ Corporate access partners"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "partners" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover4.png"
-                alt="30+ Corporate access partners - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "partners" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
-            </div>
-          </div>
-
-          <div
-            className="cursor-pointer -mt-40"
-            onMouseEnter={() => setHoveredCard("alumni")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[515px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default6.png"
-                alt="11,000+ Robust Alumni network"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "alumni" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="33vw"
-              />
-              <Image
-                src="/default-hover6.png"
-                alt="11,000+ Robust Alumni network - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "alumni" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="33vw"
-              />
-            </div>
-          </div>
+          ))}
         </div>
 
+        {/* Bottom Row: Projects and Completion */}
         <div className="hidden xl:grid grid-cols-2 gap-4 max-w-[1180px] mx-auto mt-4">
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredCard("projects")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[280px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default7.png"
-                alt="12+ Projects completed through SEO Cares"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "projects" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="50vw"
-              />
-              <Image
-                src="/default-hover7.png"
-                alt="12+ Projects completed through SEO Cares - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "projects" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="50vw"
-              />
+          {cardMapping.slice(6, 8).map((card) => (
+            <div
+              key={card.id}
+              className={`cursor-pointer ${card.className}`}
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div
+                className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+              >
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="50vw"
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="50vw"
+                />
+              </div>
             </div>
-          </div>
-
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredCard("completion")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div className="relative w-full h-[280px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
-              <Image
-                src="/default8.png"
-                alt="92% Programme Completion Rate"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "completion" ? "opacity-0" : "opacity-100"
-                }`}
-                sizes="50vw"
-              />
-              <Image
-                src="/default-hover8.png"
-                alt="92% Programme Completion Rate - hover state"
-                fill
-                className={`object-cover transition-opacity duration-500 ease-in-out ${
-                  hoveredCard === "completion" ? "opacity-100" : "opacity-0"
-                }`}
-                sizes="50vw"
-              />
-            </div>
-          </div>
+          ))}
         </div>
 
         <div
@@ -276,7 +261,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
             "projects completion"`,
           }}
         >
-          {statsCards.map((card) => (
+          {cardMapping.map((card) => (
             <div
               key={card.id}
               className="cursor-pointer"
@@ -287,7 +272,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               <div className="relative w-full h-full rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
                 <Image
                   src={card.defaultImage}
-                  alt={card.alt}
+                  alt={getAltText(card)}
                   fill
                   className={`object-cover transition-opacity duration-500 ease-in-out ${
                     hoveredCard === card.id ? "opacity-0" : "opacity-100"
@@ -296,7 +281,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 />
                 <Image
                   src={card.hoverImage}
-                  alt={`${card.alt} - hover state`}
+                  alt={`${getAltText(card)} - hover state`}
                   fill
                   className={`object-cover transition-opacity duration-500 ease-in-out ${
                     hoveredCard === card.id ? "opacity-100" : "opacity-0"
@@ -309,7 +294,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
         </div>
 
         <div className="grid md:hidden grid-cols-1 gap-6">
-          {statsCards.map((card) => {
+          {cardMapping.map((card) => {
             const getCardHeight = (cardId: string) => {
               switch (cardId) {
                 case "center-team":
@@ -344,7 +329,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 >
                   <Image
                     src={card.defaultImage}
-                    alt={card.alt}
+                    alt={getAltText(card)}
                     fill
                     className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
                       hoveredCard === card.id ? "opacity-0" : "opacity-100"
@@ -356,7 +341,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                   />
                   <Image
                     src={card.hoverImage}
-                    alt={`${card.alt} - hover state`}
+                    alt={`${getAltText(card)} - hover state`}
                     fill
                     className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
                       hoveredCard === card.id ? "opacity-100" : "opacity-0"

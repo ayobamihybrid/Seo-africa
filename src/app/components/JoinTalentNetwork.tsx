@@ -4,14 +4,35 @@ import React from "react";
 import Image from "next/image";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import Link from "next/link";
+import { getStrapiImageUrl } from "../lib/strapi";
+
+interface TalentSection {
+  id: number;
+  title: string;
+  description: string;
+  cta_text: string;
+  cover_image: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    url: string;
+    formats?: {
+      large?: { url: string; width: number; height: number };
+      medium?: { url: string; width: number; height: number };
+      small?: { url: string; width: number; height: number };
+      thumbnail?: { url: string; width: number; height: number };
+    };
+  };
+}
 
 interface JoinTalentNetworkProps {
-  title?: string;
-  description?: string;
+  talentData: TalentSection;
   memberCount?: string;
-  ctaText?: string;
   websiteUrl?: string;
-  backgroundImage?: string;
   onJoinClick?: () => void;
   className?: string;
   socialLinks?: {
@@ -24,10 +45,8 @@ interface JoinTalentNetworkProps {
 }
 
 const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
-  title = "Find opportunities in SEO Africa. Join our talent network.",
-  description = "We curate a list of skilled individuals and professionals within our community that we like to connect to appropriate work opportunities from time to time. Join our talent network and receive first hand information about our activities and opportunities.",
+  talentData,
   memberCount = "+32k others",
-  ctaText = "Join our talent network",
   onJoinClick,
   className = "",
 }) => {
@@ -64,6 +83,10 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
     }
   };
 
+  const coverImageUrl = talentData.cover_image
+    ? getStrapiImageUrl(talentData.cover_image)
+    : "/JoinTalentNetwork.png"; 
+
   return (
     <section className={`bg-gray-900 relative overflow-hidden ${className}`}>
       <div className="relative z-20 max-w-7xl mx-auto px-4 py-16 md:py-24">
@@ -89,7 +112,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
                 className={`text-2xl md:text-5xl font-bold leading-tight mb-6 ${titleAnimation.animationClass}`}
                 style={{ transitionDelay: "200ms" }}
               >
-                {title}{" "}
+                {talentData.title}{" "}
                 <span
                   ref={avatarsAnimation.ref}
                   className={`inline-flex items-center gap-0 mt-1 md:mt-0 -ml-2 ${avatarsAnimation.animationClass}`}
@@ -131,7 +154,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
               className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-base md:text-lg text-white font-semibold px-3 py-2 md:px-7 md:py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group ${buttonAnimation.animationClass}`}
               style={{ transitionDelay: "600ms" }}
             >
-              <Link href="/career-opportunities">{ctaText}</Link>
+              <Link href="/career-opportunities">{talentData.cta_text}</Link>
             </button>
           </div>
 
@@ -142,7 +165,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
           >
             <div className="border-t border-b border-white/20 py-8">
               <p className="text-base md:text-xl leading-relaxed text-gray-200">
-                {description}
+                {talentData.description}
               </p>
             </div>
           </div>
@@ -155,8 +178,10 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
         >
           <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[32rem] xl:h-[40rem]">
             <Image
-              src="/JoinTalentNetwork.png"
-              alt="Join Talent Network"
+              src={coverImageUrl}
+              alt={
+                talentData.cover_image?.alternativeText || "Join Talent Network"
+              }
               fill
               className="object-cover rounded-lg"
             />
@@ -168,4 +193,4 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
 };
 
 export default JoinTalentNetwork;
-export type { JoinTalentNetworkProps };
+export type { JoinTalentNetworkProps, TalentSection };

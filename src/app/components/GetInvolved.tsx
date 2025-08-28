@@ -5,12 +5,47 @@ import Image from "next/image";
 import { Heart, Rocket, Users } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import Link from "next/link";
+import { getStrapiImageUrl } from "../lib/strapi";
+
+interface CardBlock {
+  id: number;
+  title: string | null;
+  description: string;
+  cta_text: string;
+  cover_image: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    url: string;
+    formats?: {
+      large?: { url: string; width: number; height: number };
+      medium?: { url: string; width: number; height: number };
+      small?: { url: string; width: number; height: number };
+      thumbnail?: { url: string; width: number; height: number };
+    };
+  } | null;
+}
+
+interface CardBlockSection {
+  id: number;
+  main_card: CardBlock;
+  green_card: CardBlock;
+  blue_card: CardBlock;
+}
 
 interface GetInvolvedProps {
+  cardBlockData: CardBlockSection;
   className?: string;
 }
 
-const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
+const GetInvolved: React.FC<GetInvolvedProps> = ({
+  cardBlockData,
+  className = "",
+}) => {
   const donateCardAnimation = useScrollAnimation({
     animationType: "fade-left",
     threshold: 0.2,
@@ -51,6 +86,12 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
     threshold: 0.3,
   });
 
+  const mainCardImageUrl = cardBlockData.main_card.cover_image
+    ? getStrapiImageUrl(cardBlockData.main_card.cover_image)
+    : "";
+
+  const partnerCardImageUrl = "/donate_image.png";
+
   return (
     <section className={`py-16 px-4 bg-gray-50 ${className}`}>
       <div className="max-w-7xl mx-auto">
@@ -61,8 +102,11 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
           >
             <div className="absolute inset-0 z-0">
               <Image
-                src="/donate_image2.png"
-                alt="SEO Africa event background"
+                src={mainCardImageUrl}
+                alt={
+                  cardBlockData.main_card.cover_image?.alternativeText ||
+                  "SEO Africa event background"
+                }
                 fill
                 className="object-cover opacity-30"
                 sizes="50vw"
@@ -104,10 +148,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                 style={{ transitionDelay: "400ms" }}
               >
                 <p className="text-lg text-gray-300 leading-relaxed max-w-2xl">
-                  SEO Africa has been the propelling wind behind thousands of
-                  successful careers and leadership stories in young Africans
-                  for more than 13 years now. You can help us be there for
-                  thousands more!
+                  {cardBlockData.main_card.description}
                 </p>
               </div>
 
@@ -117,7 +158,9 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                 style={{ transitionDelay: "600ms" }}
               >
                 <button className="bg-white text-slate-800 px-6 py-2 rounded-sm font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group cursor-pointer">
-                  <Link href={"/donate"}>Donate now</Link>
+                  <Link href={"/donate"}>
+                    {cardBlockData.main_card.cta_text}
+                  </Link>
                   <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
                 </button>
               </div>
@@ -145,18 +188,16 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                   style={{ transitionDelay: "600ms" }}
                 >
                   <h3 className="mt-9 text-2xl md:text-3xl font-bold mb-4 leading-tight">
-                    Prepare for the next phase of your career. Join a programme.
+                    {cardBlockData.blue_card.title}
                   </h3>
 
                   <p className="text-blue-100 mb-6 leading-relaxed">
-                    Join one of our programmes at SEO Africa & gain the skills,
-                    mentorship, and opportunities you need to grow, lead, & make
-                    your mark in your industry.
+                    {cardBlockData.blue_card.description}
                   </p>
 
                   <button className="bg-transparent bg-opacity-20 text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                     <Link href={"/career-opportunities"}>
-                      Select a programme
+                      {cardBlockData.blue_card.cta_text}
                     </Link>
                   </button>
                 </div>
@@ -167,7 +208,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
               ref={partnerCardAnimation.ref}
               className={`bg-gradient-to-br from-green-700 to-green-800 rounded-3xl p-8 md:p-10 text-white min-h-[370px] flex flex-col justify-between relative overflow-hidden bg-cover bg-center bg-no-repeat ${partnerCardAnimation.animationClass}`}
               style={{
-                backgroundImage: "url('/donate_image.png')",
+                backgroundImage: `url('${partnerCardImageUrl}')`,
                 transitionDelay: "400ms",
               }}
             >
@@ -183,21 +224,15 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
                 style={{ transitionDelay: "600ms" }}
               >
                 <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
-                  Contribute towards a global African future. Become one of our
-                  partners.
+                  {cardBlockData.green_card.title}
                 </h3>
 
                 <p className="text-green-100 mb-6 leading-relaxed text-sm">
-                  With over 30 top organizations across the world partnering
-                  with us through internship placements, mentorship programs,
-                  employability training, and sponsorship opportunities, we're
-                  always open to more impact-driven organizations who would like
-                  to directly contribute to building a diverse, skilled, and
-                  globally competitive future.
+                  {cardBlockData.green_card.description}
                 </p>
 
                 <button className="bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
-                  Partner with us
+                  {cardBlockData.green_card.cta_text}
                 </button>
               </div>
             </div>
@@ -209,3 +244,4 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({ className = "" }) => {
 };
 
 export default GetInvolved;
+export type { GetInvolvedProps, CardBlockSection, CardBlock };

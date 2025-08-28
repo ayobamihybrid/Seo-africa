@@ -3,208 +3,78 @@
 import React from "react";
 import Image from "next/image";
 import useScrollAnimation from "../hooks/useScrollAnimation";
+import { getStrapiImageUrl } from "../lib/strapi";
 
-interface Partner {
+interface StrapiPartner {
+  id: number;
+  documentId: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  logo: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    formats?: {
+      thumbnail?: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+    };
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: null;
+    provider: string;
+    provider_metadata: null;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  };
+}
+
+interface LocalPartner {
   id: string;
   name: string;
   logo: string;
   website?: string;
 }
 
+interface PartnersSection {
+  id: number;
+  pill_text: string;
+  title: string;
+}
+
 interface PartnersProps {
-  partners?: Partner[];
-  title?: string;
-  subtitle?: string;
+  partnersData: PartnersSection;
+  strapiPartners?: StrapiPartner[];
+  localPartners?: LocalPartner[];
   description?: string;
   showButton?: boolean;
   buttonText?: string;
   buttonLink?: string;
   variant?: "default" | "ourTeam" | "custom";
   className?: string;
-  getInvolved?: boolean; // New prop to control conditional title
+  getInvolved?: boolean;
 }
 
-const defaultPartners: Partner[] = [
-  {
-    id: "1",
-    name: "Adenia Partners",
-    logo: "/parner_image1.png",
-    website: "https://adeniapartners.com",
-  },
-  {
-    id: "2",
-    name: "Goldman Sachs",
-    logo: "/parner_image2.png",
-    website: "https://goldmansachs.com",
-  },
-  {
-    id: "3",
-    name: "Argentil",
-    logo: "/parner_image3.png",
-    website: "https://argentil.com",
-  },
-  {
-    id: "4",
-    name: "Genser Energy",
-    logo: "/parner_image4.png",
-    website: "https://genserenergy.com",
-  },
-  {
-    id: "5",
-    name: "Sterling Bank",
-    logo: "/parner_image5.png",
-    website: "https://sterling.ng",
-  },
-  {
-    id: "6",
-    name: "Obsidian Achenar",
-    logo: "/parner_image6.png",
-    website: "https://obsidian.com",
-  },
-  {
-    id: "7",
-    name: "FCMB",
-    logo: "/parner_image7.png",
-    website: "https://fcmb.com",
-  },
-  {
-    id: "8",
-    name: "Norfund",
-    logo: "/parner_image8.png",
-    website: "https://norfund.no",
-  },
-  {
-    id: "9",
-    name: "Sentinel Global",
-    logo: "/parner_image9.png",
-    website: "https://sentinel.com",
-  },
-  {
-    id: "10",
-    name: "British International Investment",
-    logo: "/parner_image10.png",
-    website: "https://bii.co.uk",
-  },
-  {
-    id: "11",
-    name: "Temple Investments",
-    logo: "/parner_image11.png",
-    website: "https://temple.com",
-  },
-  {
-    id: "12",
-    name: "Argentil",
-    logo: "/parner_image12.png",
-    website: "https://argentil.com",
-  },
-  {
-    id: "13",
-    name: "Injaro",
-    logo: "/parner_image13.png",
-    website: "https://injaro.com",
-  },
-  {
-    id: "14",
-    name: "Vodafone",
-    logo: "/parner_image14.png",
-    website: "https://vodafone.com",
-  },
-  {
-    id: "15",
-    name: "Genser Oil & Gas",
-    logo: "/parner_image15.png",
-    website: "https://genser.com",
-  },
-  {
-    id: "16",
-    name: "FreezeLink",
-    logo: "/parner_image16.png",
-    website: "https://freezelink.com",
-  },
-  {
-    id: "17",
-    name: "Verod",
-    logo: "/parner_image17.png",
-    website: "https://verod.com",
-  },
-  {
-    id: "18",
-    name: "Bank of America",
-    logo: "/parner_image18.png",
-    website: "https://bankofamerica.com",
-  },
-  {
-    id: "19",
-    name: "Constant Capital",
-    logo: "/parner_image19.png",
-    website: "https://constant.com",
-  },
-  {
-    id: "20",
-    name: "UDC",
-    logo: "/parner_image20.png",
-    website: "https://udc.com",
-  },
-  {
-    id: "21",
-    name: "Databank",
-    logo: "/parner_image21.png",
-    website: "https://databank.com",
-  },
-  {
-    id: "22",
-    name: "Kuramo Capital",
-    logo: "/parner_image22.png",
-    website: "https://kuramo.com",
-  },
-  {
-    id: "23",
-    name: "Linklaters",
-    logo: "/parner_image23.png",
-    website: "https://linklaters.com",
-  },
-  {
-    id: "24",
-    name: "TLG Capital",
-    logo: "/parner_image24.png",
-    website: "https://tlg.com",
-  },
-  {
-    id: "25",
-    name: "Halliburton",
-    logo: "/parner_image25.png",
-    website: "https://halliburton.com",
-  },
-  {
-    id: "26",
-    name: "Stanbic Bank",
-    logo: "/parner_image26.png",
-    website: "https://stanbic.com",
-  },
-  {
-    id: "27",
-    name: "UBA",
-    logo: "/parner_image27.png",
-    website: "https://ubagroup.com",
-  },
-  {
-    id: "28",
-    name: "RMB",
-    logo: "/parner_image28.png",
-    website: "https://rmb.co.za",
-  },
-  {
-    id: "29",
-    name: "Vanguard Assurance",
-    logo: "/parner_image29.png",
-    website: "https://vanguard.com",
-  },
-];
-
 interface VariantConfig {
-  title?: string;
-  subtitle?: string;
-  description?: string;
   showButton?: boolean;
   buttonText?: string;
   buttonLink?: string;
@@ -213,33 +83,24 @@ interface VariantConfig {
 
 const variantConfigs: Record<string, VariantConfig> = {
   default: {
-    title: "Trusted by 20+ world leading organizations.",
-    subtitle: "Our Partners",
     showButton: false,
     background: "bg-gray-50",
   },
   ourTeam: {
-    title: "We've partnered with the best organizations and brands.",
-    subtitle: "",
-    description:
-      "We've been lucky to stand on the shoulders of giants. We're recognized and backed by SEO communities and world leading organizations and partners worldwide, including SEO London, SEO Shanghai, SEO USA, Ho-Chih Mihn (SEO Vietnam) amongst others.",
     showButton: true,
     buttonText: "Become a partner",
     buttonLink: "#",
     background: "bg-white",
   },
   custom: {
-    title: "",
-    subtitle: "",
     showButton: false,
     background: "bg-gray-50",
   },
 };
 
 const Partners: React.FC<PartnersProps> = ({
-  partners = defaultPartners,
-  title,
-  subtitle,
+  partnersData,
+  strapiPartners,
   description,
   showButton,
   buttonText,
@@ -250,17 +111,25 @@ const Partners: React.FC<PartnersProps> = ({
 }) => {
   const config = variantConfigs[variant];
 
+  const normalizedPartners =
+    strapiPartners && strapiPartners.length > 0
+      ? strapiPartners.map((partner) => ({
+          id: `strapi-${partner.id}`,
+          name: partner.name,
+          logo: getStrapiImageUrl(partner.logo),
+          website: undefined,
+        }))
+      : [];
+
   const getConditionalTitle = () => {
-    if (title !== undefined) return title;
-    if (getInvolved)
+    if (getInvolved) {
       return "We've partnered with the best organizations and brands. Be a part of an elite movement.";
-    return config.title;
+    }
+    return partnersData.title;
   };
 
   const finalTitle = getConditionalTitle();
-  const finalSubtitle = subtitle !== undefined ? subtitle : config.subtitle;
-  const finalDescription =
-    description !== undefined ? description : config.description;
+  const finalSubtitle = partnersData.pill_text;
   const finalShowButton =
     showButton !== undefined ? showButton : config.showButton;
   const finalButtonText =
@@ -328,7 +197,7 @@ const Partners: React.FC<PartnersProps> = ({
             </h2>
           )}
 
-          {finalDescription && (
+          {description && (
             <div
               ref={descriptionAnimation.ref}
               className={`${
@@ -374,7 +243,7 @@ const Partners: React.FC<PartnersProps> = ({
                     amongst others.
                   </>
                 ) : (
-                  finalDescription
+                  description
                 )}
               </p>
             </div>
@@ -416,7 +285,7 @@ const Partners: React.FC<PartnersProps> = ({
           className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-9 md:gap-12 ${gridAnimation.animationClass}`}
           style={{ transitionDelay: "500ms" }}
         >
-          {partners.map((partner, index) => (
+          {normalizedPartners.map((partner, index) => (
             <PartnerLogo key={partner.id} partner={partner} index={index} />
           ))}
         </div>
@@ -426,7 +295,12 @@ const Partners: React.FC<PartnersProps> = ({
 };
 
 interface PartnerLogoProps {
-  partner: Partner;
+  partner: {
+    id: string;
+    name: string;
+    logo: string;
+    website?: string;
+  };
   index: number;
 }
 
@@ -479,4 +353,4 @@ const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner, index }) => {
 };
 
 export default Partners;
-export type { Partner, PartnersProps };
+export type { StrapiPartner, LocalPartner, PartnersProps };

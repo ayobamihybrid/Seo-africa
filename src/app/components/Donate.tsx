@@ -5,20 +5,19 @@ import { Heart } from "lucide-react";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import Link from "next/link";
 
-interface DonateProps {
-  className?: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  buttonText?: string;
+interface DonateSection {
+  id: number;
+  title: string;
+  description: string;
+  cta_text: string;
 }
 
-const Donate: React.FC<DonateProps> = ({
-  className = "",
-  title = "Make an uncommon impact. Support our work at SEO Africa",
-  description = "SEO Africa has been the propelling wind behind thousands of successful careers and leadership stories in young Africans for more than 13 years now. You can help us be there for thousands more!",
-  buttonText = "Donate now",
-}) => {
+interface DonateProps {
+  donateData: DonateSection;
+  className?: string;
+}
+
+const Donate: React.FC<DonateProps> = ({ donateData, className = "" }) => {
   const backgroundAnimation = useScrollAnimation({
     animationType: "fade-in",
     threshold: 0.2,
@@ -88,7 +87,7 @@ const Donate: React.FC<DonateProps> = ({
               className={`text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight ${titleAnimation.animationClass}`}
               style={{ transitionDelay: "200ms" }}
             >
-              {title}
+              {donateData.title}
             </h2>
 
             <p
@@ -96,7 +95,7 @@ const Donate: React.FC<DonateProps> = ({
               className={`text-white text-base leading-relaxed max-w-xl opacity-90 ${descriptionAnimation.animationClass}`}
               style={{ transitionDelay: "400ms" }}
             >
-              {description}
+              {donateData.description}
             </p>
           </div>
 
@@ -105,12 +104,13 @@ const Donate: React.FC<DonateProps> = ({
             className={`flex-shrink-0 ${buttonAnimation.animationClass}`}
             style={{ transitionDelay: "600ms" }}
           >
-            <Link href="/donate" className="bg-white text-gray-800 px-5 md:px-6 py-2 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-              <span>{buttonText}</span>
+            <Link
+              href="/donate"
+              className="bg-white text-gray-800 px-5 md:px-6 py-2 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-3 group shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            >
+              <span>{donateData.cta_text}</span>
               <Heart className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
             </Link>
-
-          
           </div>
         </div>
       </div>
@@ -119,3 +119,4 @@ const Donate: React.FC<DonateProps> = ({
 };
 
 export default Donate;
+export type { DonateProps, DonateSection };
