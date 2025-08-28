@@ -228,7 +228,7 @@ const BlogDetail = async ({ params }: Props) => {
         <FindOpportunities />
       </div>
 
-      <Donate />
+      {/* <Donate /> */}
       <Footer />
     </div>
   );

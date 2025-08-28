@@ -47,7 +47,7 @@ const Blog = (props: Props) => {
       readTime: "1 min read",
       image: "/ourblog_image1.png",
       hasProfile: true,
-      slug: "sustainable-academic-innovation", 
+      slug: "sustainable-academic-innovation",
     },
     {
       id: 2,
@@ -595,9 +595,7 @@ const Blog = (props: Props) => {
         </div>
       </section>
 
-     
-
-      <Donate />
+      {/* <Donate /> */}
 
       <Footer />
     </div>

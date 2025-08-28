@@ -388,7 +388,7 @@ const GetInvolved: React.FC = () => {
         </div>
       </section>
 
-      <Partners getInvolved={true} />
+      {/* <Partners getInvolved={true} /> */}
 
       <section className="bg-white py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
@@ -764,7 +764,7 @@ const GetInvolved: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#131B3E]/90 via-transparent to-[#131B3E]/90"></div>
       </section>
 
-      <Donate />
+      {/* <Donate /> */}
 
       <Footer />
     </div>

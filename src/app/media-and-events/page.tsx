@@ -417,7 +417,7 @@ const MediaAndEvents = (props: Props) => {
         </div>
       </section>
 
-      <Donate />
+      {/* <Donate /> */}
 
       <Footer />
     </div>

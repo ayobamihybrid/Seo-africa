@@ -484,7 +484,7 @@ const SeoCares = (props: Props) => {
         </div>
       </section>
 
-      <Donate />
+      {/* <Donate /> */}
 
       <Footer />
     </div>
