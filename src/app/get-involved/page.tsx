@@ -328,7 +328,7 @@ const GetInvolved: React.FC = () => {
 
               <Link
                 href={"/contact-us"}
-                className="border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                className="border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 text-center px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 Contact us
               </Link>
