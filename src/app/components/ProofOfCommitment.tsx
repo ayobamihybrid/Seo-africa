@@ -43,80 +43,64 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.top_cards[0],
       defaultImage: "/defaul2.png",
       hoverImage: "/default-hover2.png",
-      gridArea: "students",
       className: "",
       height: "h-[320px]",
-      mdHeight: "220px",
     },
     {
       id: "center-team",
       data: null,
       defaultImage: "/default1.png",
       hoverImage: "/default-hover1.png",
-      gridArea: "center-team",
       className: "",
       height: "h-[420px]",
-      mdHeight: "180px",
     },
     {
       id: "countries",
       data: statisticsData.top_cards[1],
       defaultImage: "/default5.png",
       hoverImage: "/default-hover5.png",
-      gridArea: "countries",
       className: "",
       height: "h-[260px]",
-      mdHeight: "220px",
     },
     {
       id: "retention",
       data: statisticsData.middle_cards[0],
       defaultImage: "/default3.png",
       hoverImage: "/default-hover3.png",
-      gridArea: "retention",
       className: "-mt-24",
       height: "h-[450px]",
-      mdHeight: "180px",
     },
     {
       id: "partners",
       data: statisticsData.middle_cards[1],
       defaultImage: "/default4.png",
       hoverImage: "/default-hover4.png",
-      gridArea: "partners",
       className: "",
       height: "h-[355px]",
-      mdHeight: "180px",
     },
     {
       id: "alumni",
       data: statisticsData.middle_cards[2],
       defaultImage: "/default6.png",
       hoverImage: "/default-hover6.png",
-      gridArea: "alumni",
       className: "-mt-40",
       height: "h-[515px]",
-      mdHeight: "200px",
     },
     {
       id: "projects",
       data: statisticsData.bottom_cards[0],
       defaultImage: "/default7.png",
       hoverImage: "/default-hover7.png",
-      gridArea: "projects",
       className: "",
       height: "h-[280px]",
-      mdHeight: "200px",
     },
     {
       id: "completion",
       data: statisticsData.bottom_cards[1],
       defaultImage: "/default8.png",
       hoverImage: "/default-hover8.png",
-      gridArea: "completion",
       className: "",
       height: "h-[280px]",
-      mdHeight: "200px",
     },
   ];
 
@@ -125,6 +109,50 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       return `${card.data.stat} ${card.data.titile}`;
     }
     return "Professional team image";
+  };
+
+  const getMdCardHeight = (cardId: string) => {
+    switch (cardId) {
+      case "students":
+        return "h-[810px]";
+      case "center-team":
+        return "h-[900px]";
+      case "countries":
+        return "h-[800px]";
+      case "retention":
+        return "h-[900px]";
+      case "partners":
+        return "h-[800px]";
+      case "alumni":
+        return "h-[1200px]";
+      case "projects":
+        return "h-[320px]";
+      case "completion":
+        return "h-[320px]";
+      default:
+        return "h-[500px]";
+    }
+  };
+
+  const getMobileCardHeight = (cardId: string) => {
+    switch (cardId) {
+      case "center-team":
+        return "h-[400px]";
+      case "retention":
+      case "alumni":
+        return "h-[480px]";
+      case "students":
+        return "h-[440px]";
+      case "countries":
+        return "h-[380px]";
+      case "partners":
+        return "h-[384px]";
+      case "projects":
+      case "completion":
+        return "h-40";
+      default:
+        return "h-64";
+    }
   };
 
   return (
@@ -138,6 +166,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           </div>
         )}
 
+        {/* Custom grid layout for XL and above */}
         <div
           className="hidden xl:grid gap-4"
           style={{
@@ -213,7 +242,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        {/* Bottom Row: Projects and Completion */}
+        {/* XL and above: The bottom row with 2 columns */}
         <div className="hidden xl:grid grid-cols-2 gap-4 max-w-[1180px] mx-auto mt-4">
           {cardMapping.slice(6, 8).map((card) => (
             <div
@@ -248,28 +277,16 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        <div
-          className="hidden md:grid xl:hidden gap-4"
-          style={{
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "220px 180px 220px 180px 200px",
-            gridTemplateAreas: `
-            "students center-team"
-            "retention center-team"
-            "countries partners"
-            "alumni partners"
-            "projects completion"`,
-          }}
-        >
-          {cardMapping.map((card) => (
+        {/* LG to XL: 2-column grid for first 6 cards with uniform height */}
+        <div className="hidden lg:grid xl:hidden grid-cols-2 gap-6">
+          {cardMapping.slice(0, 6).map((card) => (
             <div
               key={card.id}
               className="cursor-pointer"
-              style={{ gridArea: card.gridArea }}
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
             >
-              <div className="relative w-full h-full rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
+              <div className="relative w-full h-[550px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
                 <Image
                   src={card.defaultImage}
                   alt={getAltText(card)}
@@ -293,65 +310,112 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        <div className="grid md:hidden grid-cols-1 gap-6">
-          {cardMapping.map((card) => {
-            const getCardHeight = (cardId: string) => {
-              switch (cardId) {
-                case "center-team":
-                  return "h-96";
-                case "retention":
-                case "alumni":
-                  return "h-96";
-                case "students":
-                case "countries":
-                  return "h-96";
-                case "partners":
-                  return "h-96";
-                case "projects":
-                case "completion":
-                  return "h-56";
-                default:
-                  return "h-64";
-              }
-            };
-
-            return (
-              <div
-                key={card.id}
-                className="cursor-pointer"
-                onMouseEnter={() => setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <div
-                  className={`relative w-full ${getCardHeight(
-                    card.id
-                  )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
-                >
-                  <Image
-                    src={card.defaultImage}
-                    alt={getAltText(card)}
-                    fill
-                    className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
-                      hoveredCard === card.id ? "opacity-0" : "opacity-100"
-                    }`}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority={
-                      card.id === "students" || card.id === "center-team"
-                    }
-                  />
-                  <Image
-                    src={card.hoverImage}
-                    alt={`${getAltText(card)} - hover state`}
-                    fill
-                    className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
-                      hoveredCard === card.id ? "opacity-100" : "opacity-0"
-                    }`}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
+        {/* LG to XL: Single column grid for last 2 cards with uniform height */}
+        <div className="hidden lg:grid xl:hidden grid-cols-1 gap-6 mt-6 ">
+          {cardMapping.slice(6, 8).map((card) => (
+            <div
+              key={card.id}
+              className="cursor-pointer"
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div className="relative w-full h-[400px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="100vw"
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="100vw"
+                />
               </div>
-            );
-          })}
+            </div>
+          ))}
+        </div>
+
+        {/* MD to LG: Single column grid with individual heights */}
+        <div className="hidden md:grid lg:hidden grid-cols-1 gap-6">
+          {cardMapping.map((card) => (
+            <div
+              key={card.id}
+              className="cursor-pointer"
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div
+                className={`relative w-full ${getMdCardHeight(
+                  card.id
+                )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+              >
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="100vw"
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="100vw"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: Single column grid */}
+        <div className="grid md:hidden grid-cols-1 gap-6">
+          {cardMapping.map((card) => (
+            <div
+              key={card.id}
+              className="cursor-pointer"
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div
+                className={`relative w-full ${getMobileCardHeight(
+                  card.id
+                )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
+              >
+                <Image
+                  src={card.defaultImage}
+                  alt={getAltText(card)}
+                  fill
+                  className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-0" : "opacity-100"
+                  }`}
+                  sizes="100vw"
+                  priority={card.id === "students" || card.id === "center-team"}
+                />
+                <Image
+                  src={card.hoverImage}
+                  alt={`${getAltText(card)} - hover state`}
+                  fill
+                  className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
+                    hoveredCard === card.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  sizes="100vw"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
