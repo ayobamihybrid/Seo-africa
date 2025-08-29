@@ -80,7 +80,7 @@ const BlogStories: React.FC<BlogStoriesProps> = ({
     return (
       <section className={`py-16 px-4 bg-white ${className}`}>
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-500">No Blogpost response.</p>
+          <p className="text-gray-500 hidden">No Blogpost response.</p>
         </div>
       </section>
     );
