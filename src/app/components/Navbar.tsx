@@ -744,7 +744,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                 </Link>
 
                 <Link
-                  href="#"
+                  href="/get-involved"
                   className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
