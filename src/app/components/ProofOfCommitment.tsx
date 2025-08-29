@@ -114,7 +114,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
   const getMdCardHeight = (cardId: string) => {
     switch (cardId) {
       case "students":
-        return "h-[810px]";
+        return "h-[850px]";
       case "center-team":
         return "h-[900px]";
       case "countries":
@@ -152,6 +152,28 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
         return "h-40";
       default:
         return "h-64";
+    }
+  };
+
+  // Surface Duo specific heights (540px width)
+  const getSurfaceDuoCardHeight = (cardId: string) => {
+    switch (cardId) {
+      case "center-team":
+        return "min-[540px]:max-md:h-[600px]";
+      case "retention":
+      case "alumni":
+        return "min-[540px]:max-md:h-[680px]";
+      case "students":
+        return "min-[540px]:max-md:h-[640px]";
+      case "countries":
+        return "min-[540px]:max-md:h-[580px]";
+      case "partners":
+        return "min-[540px]:max-md:h-[584px]";
+      case "projects":
+      case "completion":
+        return "min-[540px]:max-md:h-[240px]";
+      default:
+        return "min-[540px]:max-md:h-[500px]";
     }
   };
 
@@ -380,7 +402,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        {/* Mobile: Single column grid */}
+        {/* Mobile: Single column grid with Surface Duo support */}
         <div className="grid md:hidden grid-cols-1 gap-6">
           {cardMapping.map((card) => (
             <div
@@ -391,6 +413,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
             >
               <div
                 className={`relative w-full ${getMobileCardHeight(
+                  card.id
+                )} ${getSurfaceDuoCardHeight(
                   card.id
                 )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
               >
