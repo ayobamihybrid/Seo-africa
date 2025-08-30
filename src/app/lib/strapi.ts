@@ -198,7 +198,7 @@ export async function getFeaturedBlogPost() {
       filters: { featured: true },
       pagination: { limit: 1 },
     });
-
+  
     return response.data[0] || null;
   } catch (error) {
     const errorMessage = getErrorMessage(error);
@@ -792,5 +792,239 @@ export async function getTeamMembers(page = 1, pageSize = 25) {
     const errorMessage = getErrorMessage(error);
     console.error("Failed to fetch team members:", errorMessage);
     throw new Error(`Unable to fetch team members from Strapi: ${errorMessage}`);
+  }
+}
+
+export async function getGetInvolvedPageData() {
+  try {
+    const url = `${STRAPI_URL}/get-involved-page?pLevel=4`;
+    console.log("Fetching get involved page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Get involved page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No get involved page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch get involved page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch get involved page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getSeoCaresPageData() {
+  try {
+    const url = `${STRAPI_URL}/seo-cares-page?pLevel=4`;
+    console.log("Fetching SEO Cares page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ SEO Cares page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No SEO Cares page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch SEO Cares page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch SEO Cares page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getMediaPageData() {
+  try {
+    const url = `${STRAPI_URL}/media-page?pLevel=4`;
+    console.log("Fetching Media page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Media page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No Media page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch Media page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch Media page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getDonatePageData() {
+  try {
+    const url = `${STRAPI_URL}/donate-page?pLevel=4`;
+    console.log("Fetching Donate page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Donate page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No Donate page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch Donate page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch Donate page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getCareerPageData() {
+  try {
+    const url = `${STRAPI_URL}/career-page?pLevel=4`;
+    console.log("Fetching Career page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Career page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No Career page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch Career page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch Career page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getJobs(page = 1, pageSize = 25) {
+  try {
+    const url = `${STRAPI_URL}/jobs?pLevel=4&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    console.log("Fetching jobs from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Jobs API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No jobs data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch jobs:", errorMessage);
+    throw new Error(`Unable to fetch jobs from Strapi: ${errorMessage}`);
+  }
+}
+
+export async function getJobCompanies(page = 1, pageSize = 25) {
+  try {
+    const url = `${STRAPI_URL}/job-companies?pLevel=4&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    console.log("Fetching job companies from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Job companies API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No job companies data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch job companies:", errorMessage);
+    throw new Error(`Unable to fetch job companies from Strapi: ${errorMessage}`);
   }
 }

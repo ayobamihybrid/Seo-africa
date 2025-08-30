@@ -29,7 +29,7 @@ async function ServerContent() {
           "⚠️ Failed to fetch programmes list, using fallback:",
           error
         );
-        return { data: [] }; // Return empty array as fallback
+        return { data: [] }; 
       }),
     ]);
 
