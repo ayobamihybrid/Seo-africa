@@ -2,11 +2,22 @@
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Copy, Check } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Image from "next/image";
 import { getStrapiImageUrl } from "../lib/strapi";
 import type { DonatePageData } from "../donate/page";
+
+declare global {
+  interface Window {
+    PaystackPop: {
+      setup: (config: any) => {
+        openIframe: () => void;
+      };
+    };
+  }
+}
 
 interface DonateClientProps {
   donatePageData: DonatePageData | null;
@@ -17,6 +28,47 @@ const DonateClient: React.FC<DonateClientProps> = ({
 }) => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("₦");
   const [copiedText, setCopiedText] = useState<string | null>(null);
+
+  const [amount, setAmount] = useState<number>(5000);
+  const [email, setEmail] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [isPaystackLoaded, setIsPaystackLoaded] = useState(false);
+
+  // Load Paystack script dynamically if not already loaded
+  useEffect(() => {
+    const loadPaystackScript = () => {
+      if (window.PaystackPop) {
+        setIsPaystackLoaded(true);
+        return;
+      }
+
+      const existingScript = document.querySelector('script[src*="paystack"]');
+      if (existingScript) {
+        existingScript.addEventListener("load", () =>
+          setIsPaystackLoaded(true)
+        );
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://js.paystack.co/v1/inline.js";
+      script.async = true;
+      script.onload = () => setIsPaystackLoaded(true);
+      script.onerror = () => {
+        console.error("Failed to load Paystack script");
+        toast.error(
+          "Payment system is currently unavailable. Please try bank transfer or contact us.",
+          {
+            duration: 5000,
+          }
+        );
+      };
+      document.body.appendChild(script);
+    };
+
+    loadPaystackScript();
+  }, []);
 
   const useTextReveal = (threshold = 0.1) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -116,7 +168,77 @@ const DonateClient: React.FC<DonateClientProps> = ({
     );
   };
 
-  // Fallback data
+  // Handle paystack payment
+  const handlePaystackPayment = () => {
+    if (!email || !firstName || !lastName) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    if (amount < 100) {
+      toast.error("Minimum donation amount is ₦100");
+      return;
+    }
+
+    if (!isPaystackLoaded || !window.PaystackPop) {
+      toast.error("Payment system is loading. Please try again in a moment.");
+      return;
+    }
+
+    const toastId = toast.loading("Initializing payment...");
+
+    const handler = window.PaystackPop.setup({
+      key:
+        process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "pk_test_your_key_here",
+      email: email,
+      amount: amount * 100,
+      currency: "NGN",
+      ref: `seo-africa-${Date.now()}`,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Donor Name",
+            variable_name: "donor_name",
+            value: `${firstName} ${lastName}`,
+          },
+          {
+            display_name: "Donation Purpose",
+            variable_name: "donation_purpose",
+            value: "SEO Africa Initiative",
+          },
+        ],
+      },
+      callback: function (response: any) {
+        // Payment was successful
+        toast.dismiss(toastId);
+        toast.success(
+          `Thank you ${firstName}! Your donation of ₦${amount.toLocaleString()} was successful.`,
+          {
+            duration: 6000,
+            icon: "🎉",
+          }
+        );
+
+        console.log("Payment successful:", response);
+
+        setAmount(5000);
+        setEmail("");
+        setFirstName("");
+        setLastName("");
+      },
+      onClose: function () {
+        toast.dismiss(toastId);
+        toast("Payment cancelled", {
+          icon: "❌",
+          duration: 3000,
+        });
+        console.log("Payment dialog closed");
+      },
+    });
+
+    handler.openIframe();
+  };
+
   const fallbackData = {
     hero: {
       heading: "Donate to Africa's Next Generation of Leadership.",
@@ -212,6 +334,39 @@ const DonateClient: React.FC<DonateClientProps> = ({
 
   return (
     <div className="bg-[#131B3E]">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        gutter={8}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+          success: {
+            duration: 6000,
+            style: {
+              background: "#10B981",
+              color: "#fff",
+            },
+          },
+          error: {
+            duration: 5000,
+            style: {
+              background: "#EF4444",
+              color: "#fff",
+            },
+          },
+          loading: {
+            style: {
+              background: "#3B82F6",
+              color: "#fff",
+            },
+          },
+        }}
+      />
+
       <Navbar />
 
       <section className="relative h-[91vh] bg-gray-900 overflow-hidden">
@@ -249,7 +404,6 @@ const DonateClient: React.FC<DonateClientProps> = ({
         </div>
       </section>
 
-      {/* Donate Section */}
       <section className="bg-white py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
@@ -390,13 +544,100 @@ const DonateClient: React.FC<DonateClientProps> = ({
                 <div className="p-4 bg-[#00158005] rounded-lg">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="relative w-8 h-6 rounded">
-                      <Image src={"/paystack.svg"} alt="" fill />
+                      <Image src={"/paystack.svg"} alt="Paystack" fill />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 mb-4">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          First Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Enter first name"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Last Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Enter last name"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter email address"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Donation Amount (₦) *
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-2 text-gray-500">
+                          ₦
+                        </span>
+                        <input
+                          type="number"
+                          value={amount}
+                          onChange={(e) => setAmount(Number(e.target.value))}
+                          className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="5000"
+                          min="100"
+                          required
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Minimum amount: ₦100
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-sm text-gray-600">
+                        Quick amounts:
+                      </span>
+                      {[1000, 5000, 10000, 25000, 50000].map((quickAmount) => (
+                        <button
+                          key={quickAmount}
+                          onClick={() => setAmount(quickAmount)}
+                          className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                            amount === quickAmount
+                              ? "bg-blue-500 text-white border-blue-500"
+                              : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
+                          }`}
+                        >
+                          ₦{quickAmount.toLocaleString()}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
                   <p className="text-sm text-gray-600 mb-4">
-                    Click the button below to donate with your card, powered by
-                    Paystack.
+                    Secure payment powered by Paystack. Your donation helps
+                    empower Africa's next generation of leaders.
                   </p>
 
                   <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
@@ -408,8 +649,20 @@ const DonateClient: React.FC<DonateClientProps> = ({
                     <span className="bg-gray-100 px-2 py-1 rounded">Verve</span>
                   </div>
 
-                  <button className="bg-white text-[#3051F3] border border-[#3051F3] px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                    Donate with Card
+                  <button
+                    onClick={handlePaystackPayment}
+                    className="w-full bg-[#3051F3] text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={
+                      !email ||
+                      !firstName ||
+                      !lastName ||
+                      amount < 100 ||
+                      !isPaystackLoaded
+                    }
+                  >
+                    {isPaystackLoaded
+                      ? `Donate ₦${amount.toLocaleString()} with Card`
+                      : "Loading Payment System..."}
                   </button>
                 </div>
               </div>

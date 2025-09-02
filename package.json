@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paystack/inline-js": "^2.22.7",
     "lucide-react": "^0.526.0",
     "next": "15.4.4",
     "react": "19.1.0",
