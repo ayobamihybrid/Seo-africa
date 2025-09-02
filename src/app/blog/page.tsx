@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { ChevronRight } from "lucide-react";
 
 type Props = {};
 
@@ -574,19 +575,7 @@ const Blog = (props: Props) => {
 
                   <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors">
                     Next
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               </div>

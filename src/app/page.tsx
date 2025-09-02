@@ -9,9 +9,17 @@ import BlogStories from "./components/BlogStories";
 import Donate from "./components/Donate";
 import Footer from "./components/Footer";
 
-import { getHomePageData, getHomePageRawData, getTestimonials, getPartners, getFeaturedBlogPost, getBlogPosts } from "./lib/strapi";
+import {
+  getHomePageData,
+  getHomePageRawData,
+  getTestimonials,
+  getPartners,
+  getFeaturedBlogPost,
+  getBlogPosts,
+} from "./lib/strapi";
 import { Suspense } from "react";
 import { BlogPost } from "./types/strapi";
+import { AlertTriangle } from "lucide-react";
 
 function ServerLoading() {
   return (
@@ -19,7 +27,6 @@ function ServerLoading() {
       <div className="text-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
         <h2 className="text-xl font-semibold text-gray-700">Loading...</h2>
-       
       </div>
     </div>
   );
@@ -30,19 +37,7 @@ function ServerErrorFallback({ error }: { error: Error | unknown }) {
     <div className="min-h-screen flex items-center justify-center bg-red-50">
       <div className="text-center max-w-md mx-auto p-6">
         <div className="text-red-600 mb-4">
-          <svg
-            className="w-16 h-16 mx-auto"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-            />
-          </svg>
+          <AlertTriangle className="w-16 h-16 mx-auto" />
         </div>
         <h2 className="text-2xl font-bold text-red-800 mb-4">
           Unable to Load Content
@@ -75,7 +70,7 @@ async function ServerContent() {
   try {
     const homePageResponse = await getHomePageData();
     const homePageData = homePageResponse.data.attributes;
-    
+
     const rawHomePageData = await getHomePageRawData();
 
     const aboutSectionData = {
@@ -100,10 +95,13 @@ async function ServerContent() {
     let strapiTestimonials = null;
     try {
       const testimonialsResponse = await getTestimonials();
-      strapiTestimonials = testimonialsResponse.data; 
+      strapiTestimonials = testimonialsResponse.data;
       console.log("✅ Testimonials fetched successfully", strapiTestimonials);
     } catch (error) {
-      console.warn("⚠️ Failed to fetch testimonials, using fallback data:", error);
+      console.warn(
+        "⚠️ Failed to fetch testimonials, using fallback data:",
+        error
+      );
     }
 
     // For actual partners from Strapi
@@ -122,10 +120,10 @@ async function ServerContent() {
     try {
       const featuredResponse = await getFeaturedBlogPost();
       featuredBlogPost = featuredResponse?.attributes;
-      
-      const postsResponse = await getBlogPosts(1, 5); 
-      blogPosts = postsResponse.data.map(post => post.attributes);
-      
+
+      const postsResponse = await getBlogPosts(1, 5);
+      blogPosts = postsResponse.data.map((post) => post.attributes);
+
       console.log("✅ Blog posts fetched successfully");
     } catch (error) {
       console.warn("⚠️ Failed to fetch blog posts:", error);
@@ -138,24 +136,24 @@ async function ServerContent() {
         <Hero homePageData={homePageData} />
         <AboutSeo aboutData={aboutSectionData} />
         <ProofOfCommitment statisticsData={statisticsData} />
-        <PartnersShowcase 
+        <PartnersShowcase
           partnersData={partnersData}
           strapiPartners={strapiPartners}
         />
         <JoinTalentNetwork talentData={talentData} />
-        <Testimonials 
+        <Testimonials
           testimonialsData={testimonialsData}
           strapiTestimonials={strapiTestimonials}
         />
         <GetInvolved cardBlockData={cardBlockData} />
-        <BlogStories 
+        <BlogStories
           blogData={blogData}
           featuredPost={featuredBlogPost}
           posts={blogPosts}
         />
         <Donate donateData={donateData} />
 
-        <Footer/>
+        <Footer />
       </div>
     );
   } catch (error) {

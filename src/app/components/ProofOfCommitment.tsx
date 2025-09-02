@@ -44,7 +44,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/defaul2.png",
       hoverImage: "/default-hover2.png",
       className: "",
-      height: "h-[320px]",
+      height: "h-[420px]",
     },
     {
       id: "center-team",
@@ -52,7 +52,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default1.png",
       hoverImage: "/default-hover1.png",
       className: "",
-      height: "h-[420px]",
+      height: "h-[500px]",
     },
     {
       id: "countries",
@@ -60,15 +60,15 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default5.png",
       hoverImage: "/default-hover5.png",
       className: "",
-      height: "h-[260px]",
+      height: "h-[330px]",
     },
     {
       id: "retention",
       data: statisticsData.middle_cards[0],
       defaultImage: "/default3.png",
       hoverImage: "/default-hover3.png",
-      className: "-mt-24",
-      height: "h-[450px]",
+      className: "-mt-18",
+      height: "h-[425px]",
     },
     {
       id: "partners",
@@ -92,7 +92,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default7.png",
       hoverImage: "/default-hover7.png",
       className: "",
-      height: "h-[280px]",
+      height: "h-[270px]",
     },
     {
       id: "completion",
@@ -100,7 +100,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default8.png",
       hoverImage: "/default-hover8.png",
       className: "",
-      height: "h-[280px]",
+      height: "h-[270px]",
     },
   ];
 
