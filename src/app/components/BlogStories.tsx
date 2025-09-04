@@ -74,7 +74,15 @@ const BlogStories: React.FC<BlogStoriesProps> = ({
     });
   };
 
- 
+  const getImageUrl = (featuredImage: any) => {
+    if (featuredImage?.data?.attributes?.url) {
+      return getStrapiImageUrl(featuredImage);
+    }
+    if (typeof featuredImage?.data?.attributes?.url === "string") {
+      return featuredImage.data.attributes.url;
+    }
+    return "/ourblog_image1.png";
+  };
 
   if (!featuredPost && posts.length === 0) {
     return (
@@ -104,14 +112,15 @@ const BlogStories: React.FC<BlogStoriesProps> = ({
             {blogData.description}
           </p>
 
-          <button
+          <Link
+            href="/blog"
             ref={buttonAnimation.ref}
-            className={`bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center gap-2 group ${buttonAnimation.animationClass}`}
+            className={`bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center gap-2 group inline-flex ${buttonAnimation.animationClass}`}
             style={{ transitionDelay: "400ms" }}
           >
-            <Link href={"/blog"}>{blogData.cta_text}</Link>
+            {blogData.cta_text}
             <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-          </button>
+          </Link>
         </div>
 
         <div
@@ -131,14 +140,14 @@ const BlogStories: React.FC<BlogStoriesProps> = ({
                 <div className="relative bg-white rounded-2xl overflow-hidden h-full">
                   <div className="relative h-96 lg:h-full min-h-[500px] overflow-hidden">
                     <Image
-                      src={getStrapiImageUrl(featuredPost.featuredImage)}
+                      src={getImageUrl(featuredPost.featuredImage)}
                       alt={
                         featuredPost.featuredImage?.data?.attributes
                           ?.alternativeText || featuredPost.title
                       }
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="50vw"
+                      sizes="(max-width: 1024px) 100vw, 40vw"
                     />
 
                     {featuredPost.category && (
@@ -204,6 +213,16 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
     });
   };
 
+  const getImageUrl = (featuredImage: any) => {
+    if (featuredImage?.data?.attributes?.url) {
+      return getStrapiImageUrl(featuredImage);
+    }
+    if (typeof featuredImage?.data?.attributes?.url === "string") {
+      return featuredImage.data.attributes.url;
+    }
+    return "/ourblog_image1.png";
+  };
+
   return (
     <article
       ref={cardAnimation.ref}
@@ -234,7 +253,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
 
           <div className="relative w-32 h-full flex-shrink-0">
             <Image
-              src={getStrapiImageUrl(post.featuredImage)}
+              src={getImageUrl(post.featuredImage)}
               alt={
                 post.featuredImage?.data?.attributes?.alternativeText ||
                 post.title

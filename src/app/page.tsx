@@ -116,15 +116,43 @@ async function ServerContent() {
 
     //  blog posts from Strapi
     let featuredBlogPost = null;
-    let blogPosts: BlogPost[] | undefined = [];
+    let blogPosts: any[] = [];
+
     try {
-      const featuredResponse = await getFeaturedBlogPost();
-      featuredBlogPost = featuredResponse?.attributes;
+      const postsResponse = await getBlogPosts(1, 6);
+      const strapiBlogPosts = postsResponse.data;
 
-      const postsResponse = await getBlogPosts(1, 5);
-      blogPosts = postsResponse.data.map((post: { attributes: any; }) => post.attributes);
+      if (strapiBlogPosts && strapiBlogPosts.length > 0) {
+        const transformedPosts = strapiBlogPosts.map((post: any) => ({
+          title: post.title,
+          excerpt: post.body
+            ? post.body.replace(/<[^>]*>/g, "").substring(0, 150) + "..."
+            : "No excerpt available",
+          content: post.body || "",
+          publishedAt: post.post_date,
+          slug: post.slug,
+          readTime: `${post.time_to_read} min read`,
+          category:
+            post.categories && post.categories.length > 0
+              ? post.categories[0].name
+              : undefined,
+          featuredImage: {
+            data: {
+              attributes: {
+                url: post.cover_image?.url || "/ourblog_image1.png",
+                alternativeText:
+                  post.cover_image?.alternativeText || post.title,
+              },
+            },
+          },
+        }));
 
-      console.log("✅ Blog posts fetched successfully");
+        featuredBlogPost = transformedPosts[0];
+
+        blogPosts = transformedPosts.slice(1);
+      }
+
+      console.log("✅ Blog posts fetched and transformed successfully");
     } catch (error) {
       console.warn("⚠️ Failed to fetch blog posts:", error);
     }
