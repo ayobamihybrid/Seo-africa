@@ -122,7 +122,7 @@ async function ServerContent() {
       featuredBlogPost = featuredResponse?.attributes;
 
       const postsResponse = await getBlogPosts(1, 5);
-      blogPosts = postsResponse.data.map((post) => post.attributes);
+      blogPosts = postsResponse.data.map((post: { attributes: any; }) => post.attributes);
 
       console.log("✅ Blog posts fetched successfully");
     } catch (error) {

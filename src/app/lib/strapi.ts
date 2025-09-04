@@ -178,19 +178,6 @@ export async function fetchSingleFromStrapi<T>(
   }
 }
 
-export async function getBlogPosts(page = 1, pageSize = 10) {
-  try {
-    return await fetchFromStrapi<BlogPost>("/articles", {
-      populate: ["featuredImage"],
-      pagination: { page, pageSize },
-    });
-  } catch (error) {
-    const errorMessage = getErrorMessage(error);
-    console.error("Failed to fetch blog posts:", errorMessage);
-    throw new Error(`Unable to fetch blog posts from Strapi: ${errorMessage}`);
-  }
-}
-
 export async function getFeaturedBlogPost() {
   try {
     const response = await fetchFromStrapi<BlogPost>("/articles", {
@@ -198,7 +185,7 @@ export async function getFeaturedBlogPost() {
       filters: { featured: true },
       pagination: { limit: 1 },
     });
-  
+
     return response.data[0] || null;
   } catch (error) {
     const errorMessage = getErrorMessage(error);
@@ -791,7 +778,9 @@ export async function getTeamMembers(page = 1, pageSize = 25) {
   } catch (error) {
     const errorMessage = getErrorMessage(error);
     console.error("Failed to fetch team members:", errorMessage);
-    throw new Error(`Unable to fetch team members from Strapi: ${errorMessage}`);
+    throw new Error(
+      `Unable to fetch team members from Strapi: ${errorMessage}`
+    );
   }
 }
 
@@ -1025,6 +1014,142 @@ export async function getJobCompanies(page = 1, pageSize = 25) {
   } catch (error) {
     const errorMessage = getErrorMessage(error);
     console.error("Failed to fetch job companies:", errorMessage);
-    throw new Error(`Unable to fetch job companies from Strapi: ${errorMessage}`);
+    throw new Error(
+      `Unable to fetch job companies from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getBlogPageData() {
+  try {
+    const url = `${STRAPI_URL}/blog-page?pLevel=3`;
+    console.log("Fetching blog page data from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Blog page API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No blog page data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch blog page data:", errorMessage);
+    throw new Error(
+      `Unable to fetch blog page data from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getBlogPosts(page = 1, pageSize = 25) {
+  try {
+    const url = `${STRAPI_URL}/blog-posts?pLevel=3&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    console.log("Fetching blog posts from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Blog posts API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No blog posts data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch blog posts:", errorMessage);
+    throw new Error(`Unable to fetch blog posts from Strapi: ${errorMessage}`);
+  }
+}
+
+export async function getBlogPostCategories() {
+  try {
+    const url = `${STRAPI_URL}/blog-post-categories`;
+    console.log("Fetching blog post categories from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Blog post categories API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No blog post categories data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch blog post categories:", errorMessage);
+    throw new Error(
+      `Unable to fetch blog post categories from Strapi: ${errorMessage}`
+    );
+  }
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  try {
+    const url = `${STRAPI_URL}/blog-posts?pLevel=3&filters[slug]=${slug}`;
+    console.log("Fetching blog post by slug from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("✅ Blog post by slug API response received");
+
+    if (!apiResponse.data || apiResponse.data.length === 0) {
+      throw new Error("No blog post found with the provided slug");
+    }
+
+    return apiResponse.data[0];
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch blog post by slug:", errorMessage);
+    throw new Error(
+      `Unable to fetch blog post by slug from Strapi: ${errorMessage}`
+    );
   }
 }
