@@ -104,16 +104,16 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       <div className="space-y-4">
                         <Link
                           href="/about-us"
-                          className="py-2 text-gray-900 hover:text-blue-600 transition-colors"
+                          className=" text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           <span className="text-base">About SEO Africa</span>
                         </Link>
 
-                        <div className="mt-5 flex items-center gap-2 py-2">
+                        <div className="mt-4 flex items-center gap-2 ">
                           <Link
                             href="/our-team"
-                            className="text-gray-900 hover:text-blue-600 transition-colors text-base"
+                            className="text-gray-900 hover:text-blue-600 hover:underline transition-colors text-base"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our team & partners
@@ -127,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                         <Link
                           href="/impact"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors py-2 text-base"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-base"
                           onClick={() => setActiveDropdown(null)}
                         >
                           Our impact & coverage
@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                         <Link
                           href="/faq"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors py-2 text-base"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors  text-base"
                           onClick={() => setActiveDropdown(null)}
                         >
                           FAQs
@@ -143,7 +143,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                         <Link
                           href="/donate"
-                          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors py-2 text-base font-medium"
+                          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors text-base font-medium"
                           onClick={() => setActiveDropdown(null)}
                         >
                           <span>Donate</span>
@@ -200,7 +200,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                         <Link
                           href="/blog"
-                          className="inline-flex items-center text-gray-900 hover:text-blue-600 text-sm font-bold tracking-wider border-b-2 border-gray-900 hover:border-blue-600 transition-colors pb-1"
+                          className="inline-flex items-center text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold tracking-wider border-b-2 border-gray-900 hover:border-blue-600 transition-colors pb-1"
                           onClick={() => setActiveDropdown(null)}
                         >
                           READ MORE
@@ -250,7 +250,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       <div className="space-y-3">
                         <Link
                           href="/our-programmes"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           All Programmes
@@ -258,7 +258,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         <div className="flex items-center space-x-2">
                           <Link
                             href="/career-opportunities"
-                            className="text-gray-900 hover:text-blue-600 transition-colors"
+                            className="text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Career opportunities/ Job site
@@ -271,14 +271,14 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </div>
                         <Link
                           href="/"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           SEO Africa On-campus
                         </Link>
                         <Link
                           href="/"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           MBA Launchpad
@@ -363,14 +363,14 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         <div className="space-y-3">
                           <Link
                             href="/faq"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             FAQs
                           </Link>
                           <Link
                             href="/about-us"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             About us
@@ -378,7 +378,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/our-team"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our team & partners
@@ -386,7 +386,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/impact"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our impacts/Coverage
@@ -394,7 +394,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/blog"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Our blog
@@ -416,7 +416,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         <div className="space-y-3">
                           <Link
                             href="#"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Alumni testimonials
@@ -424,7 +424,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/seo-cares"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEOCares projects
@@ -432,7 +432,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/media-and-events"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Events & updates
@@ -440,7 +440,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="#"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEO Africa guides & tips
@@ -448,7 +448,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/career-opportunities"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEO career opportunities
@@ -470,7 +470,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         <div className="space-y-3">
                           <Link
                             href="/become-partner"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Become a partner
@@ -478,7 +478,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/career-opportunities"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Join our talent network
@@ -487,7 +487,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           <div className="flex items-center space-x-2">
                             <Link
                               href="/our-programmes"
-                              className="text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                              className="text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                               onClick={() => setActiveDropdown(null)}
                             >
                               Our programmes
@@ -501,14 +501,14 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                           <Link
                             href="/donate"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Donate to SEO Africa
                           </Link>
                           <Link
                             href="/contact-us"
-                            className="block text-gray-900 hover:text-blue-600 transition-colors text-sm"
+                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Contact us
@@ -542,7 +542,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           </h4>
                           <Link
                             href="/blog"
-                            className="text-gray-900 hover:text-blue-600 text-sm font-bold underline"
+                            className="text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold underline"
                             onClick={() => setActiveDropdown(null)}
                           >
                             READ MORE
@@ -574,7 +574,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           </h4>
                           <Link
                             href="/blog"
-                            className="text-gray-900 hover:text-blue-600 text-sm font-bold underline"
+                            className="text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold underline"
                             onClick={() => setActiveDropdown(null)}
                           >
                             READ MORE
@@ -624,7 +624,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       <div className="space-y-3">
                         <Link
                           href="/get-involved"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           Become a partner
@@ -633,7 +633,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         <div className="flex items-center space-x-2">
                           <Link
                             href="#"
-                            className="text-gray-900 hover:text-blue-600 transition-colors"
+                            className="text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Volunteer with us
@@ -648,7 +648,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                         <Link
                           href="/career-opportunities"
-                          className="block text-gray-900 hover:text-blue-600 transition-colors"
+                          className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           Join our talent network
@@ -887,7 +887,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       href="/donate"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <button className="w-full bg-transparent border border-white text-white px-4 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium text-sm">
+                      <button className="w-full bg-transparent border border-white text-white px-4 py-3 rounded-lg hover:bg-white hover:text-blue-600 hover:underline transition-colors font-medium text-sm">
                         Donate to SEO Africa
                       </button>
                     </Link>

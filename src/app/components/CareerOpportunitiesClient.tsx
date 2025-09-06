@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import { getStrapiImageUrl } from "../lib/strapi";
 import type { CareerPageData } from "../career-opportunities/page";
+import { Calendar, Clock, MapPin } from "lucide-react";
 
 interface JobCompany {
   id: number;
@@ -394,45 +395,17 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
 
                               <div className="flex items-center gap-6 text-sm text-gray-400 mb-6">
                                 <div className="flex items-center gap-2">
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
+                                  <MapPin className="w-4 h-4 text-gray-500" />
                                   {job.location}
                                 </div>
+
                                 <div className="flex items-center gap-2">
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
+                                  <Calendar className="w-4 h-4 text-gray-500" />
                                   Posted {formatDate(job.posted_date)}
                                 </div>
+
                                 <div className="flex items-center gap-2">
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
+                                  <Clock className="w-4 h-4 text-gray-500" />
                                   Expires {formatDate(job.expire_date)}
                                 </div>
                               </div>
@@ -475,11 +448,12 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
             />
+
+            <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-b-lg"></div>
           </div>
         </div>
       </section>
 
-      {/* Newsletter */}
       <section className="bg-gray-50 px-4 sm:px-6 lg:px-12 py-16 lg:py-24">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-[#131B3E] text-xl md:text-4xl lg:text-5xl font-medium leading-tight mb-6">

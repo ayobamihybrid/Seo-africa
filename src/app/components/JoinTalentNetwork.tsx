@@ -85,7 +85,7 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
 
   const coverImageUrl = talentData.cover_image
     ? getStrapiImageUrl(talentData.cover_image)
-    : "/JoinTalentNetwork.png"; 
+    : "/JoinTalentNetwork.png";
 
   return (
     <section className={`bg-gray-900 relative overflow-hidden ${className}`}>
@@ -185,6 +185,8 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
               fill
               className="object-cover rounded-lg"
             />
+
+            <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-b-lg"></div>
           </div>
         </div>
       </div>

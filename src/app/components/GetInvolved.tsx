@@ -123,7 +123,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                   Get involved with us.
                 </h2>
                 <div className="mb-3">
-                  <span className="text-4xl md:text-5xl font-bold text-green-400">
+                  <span className="text-4xl md:text-5xl font-bold text-[#4DE5A0]">
                     Donate
                   </span>
                   <span className="text-4xl md:text-5xl font-bold text-white">
@@ -135,7 +135,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                   <span className="text-4xl md:text-5xl font-bold text-white mr-3">
                     good{" "}
                   </span>
-                  <span className="text-4xl md:text-5xl font-bold text-green-400">
+                  <span className="text-4xl md:text-5xl font-bold text-[#4DE5A0]">
                     today.
                   </span>
                   <span className="text-4xl ml-3">💛</span>

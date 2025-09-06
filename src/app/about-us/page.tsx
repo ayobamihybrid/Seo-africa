@@ -176,7 +176,6 @@ async function AboutPageContent() {
     const aboutPageData = aboutPageResponse.data;
     const pressItems = pressItemsResponse.data;
 
-    console.log("✅ About page data fetched successfully");
     console.log(
       "📊 About page data structure:",
       JSON.stringify(aboutPageData, null, 2)

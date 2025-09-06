@@ -171,7 +171,7 @@ async function TeamPageContent() {
       getTeamPageData(),
       getTeamMembers().catch((error) => {
         console.warn("⚠️ Failed to fetch team members, using fallback:", error);
-        return { data: [] }; // Return empty array as fallback
+        return { data: [] }; 
       }),
     ]);
 

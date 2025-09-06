@@ -92,7 +92,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default7.png",
       hoverImage: "/default-hover7.png",
       className: "",
-      height: "h-[270px]",
+      height: "h-[260px]",
     },
     {
       id: "completion",
@@ -100,7 +100,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       defaultImage: "/default8.png",
       hoverImage: "/default-hover8.png",
       className: "",
-      height: "h-[270px]",
+      height: "h-[260px]",
     },
   ];
 
