@@ -179,11 +179,11 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
         </div>
       </section>
 
-      {/* Featured Project Section */}
+      {/* Featured Project  */}
       {featuredProject && (
         <section className="bg-white px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-stretch lg:h-[600px]">
+            <div className="grid lg:grid-cols-2 items-stretch lg:h-[600px]">
               <div className="relative h-64 sm:h-80 lg:h-full">
                 <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
                   <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold uppercase tracking-wide">

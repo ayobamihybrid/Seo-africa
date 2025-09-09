@@ -178,7 +178,7 @@ const BlogClient: React.FC<BlogClientProps> = ({
 
       <section className="bg-[#131B3E] px-4 sm:px-6 lg:px-12 py-16 lg:py-24 pb-48 lg:pb-64">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16 lg:mb-24">
+          <div className="mb-1 lg:mb-24">
             <div className="mb-8">
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent text-xl font-bold">
                 {heroData.accent_text}
@@ -306,7 +306,7 @@ const BlogClient: React.FC<BlogClientProps> = ({
 
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: featuredPost.body.substring(0, 300) + "...",
+                    __html: featuredPost.body.substring(0, 100) + "...",
                   }}
                   className="text-gray-600 text-lg leading-relaxed"
                 />

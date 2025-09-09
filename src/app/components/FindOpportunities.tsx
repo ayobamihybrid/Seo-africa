@@ -50,7 +50,7 @@ const FindOpportunities: React.FC<FindOpportunitiesProps> = ({
       className={`relative py-16 lg:py-24 px-4 sm:px-6 lg:px-12 ${finalCtaAnimation.animationClass}`}
       style={{ transitionDelay: "600ms" }}
     >
-      <div className="max-w-7xl mx-auto rounded-2xl overflow-hidden bg-blue-600">
+      <div className="max-w-7xl mx-auto overflow-hidden bg-blue-600">
         <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[500px]">
           <div className="px-4 sm:px-6 lg:px-12 py-16 lg:py-24 flex flex-col justify-center relative z-10 order-2 lg:order-1">
             <div className="absolute inset-0 opacity-10">

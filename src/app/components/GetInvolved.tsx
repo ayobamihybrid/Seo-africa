@@ -113,29 +113,29 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
               />
             </div>
 
-            <div className="mt-[15rem] relative z-10 p-8 md:p-12 flex flex-col gap-3 h-full">
+            <div className="md:mt-[15rem] relative z-10 p-8 md:p-12 flex flex-col gap-3 h-full">
               <div
                 ref={donateHeadingAnimation.ref}
                 className={donateHeadingAnimation.animationClass}
                 style={{ transitionDelay: "200ms" }}
               >
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 leading-tight">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
                   Get involved with us.
                 </h2>
                 <div className="mb-3">
-                  <span className="text-4xl md:text-5xl font-bold text-[#4DE5A0]">
+                  <span className="text-3xl md:text-5xl font-bold text-[#4DE5A0]">
                     Donate
                   </span>
-                  <span className="text-4xl md:text-5xl font-bold text-white">
+                  <span className="text-3xl md:text-5xl font-bold text-white">
                     {" "}
                     to a greater
                   </span>
                 </div>
                 <div className="flex items-center mb-8">
-                  <span className="text-4xl md:text-5xl font-bold text-white mr-3">
+                  <span className="text-3xl md:text-5xl font-bold text-white mr-3">
                     good{" "}
                   </span>
-                  <span className="text-4xl md:text-5xl font-bold text-[#4DE5A0]">
+                  <span className="text-3xl md:text-5xl font-bold text-[#4DE5A0]">
                     today.
                   </span>
                   <span className="text-4xl ml-3">💛</span>
@@ -195,7 +195,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                     {cardBlockData.blue_card.description}
                   </p>
 
-                  <button className="bg-transparent bg-opacity-20 text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
+                  <button className="w-full md:w-fit bg-transparent bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                     <Link href={"/career-opportunities"}>
                       {cardBlockData.blue_card.cta_text}
                     </Link>
@@ -231,7 +231,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                   {cardBlockData.green_card.description}
                 </p>
 
-                <button className="bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
+                <button className="w-full md:w-fit bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                   {cardBlockData.green_card.cta_text}
                 </button>
               </div>

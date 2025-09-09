@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import type { MediaPageData } from "../media-and-events/page";
-import { ChevronRight, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 
 interface MediaAndEventsClientProps {
   mediaPageData: MediaPageData | null;
@@ -70,7 +70,7 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
 
       <section className="bg-[#131B3E] px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-24 pb-32 sm:pb-48 lg:pb-64">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12 sm:mb-16 lg:mb-24">
+          <div className=" lg:mb-24">
             <div className="mb-6 sm:mb-8">
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent text-lg sm:text-xl font-bold">
                 {heroData.accent_text}
@@ -284,7 +284,7 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
                         1 min read
                       </span>
                     </div>
-                    <h3 className="text-gray-900 text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 leading-tight hover:text-[#3051F3] transition-colors">
+                    <h3 className="text-gray-900 text-lg sm:text-xl lg:text-2xl font-bold mb-5 sm:mb-6 leading-tight hover:text-[#3051F3] transition-colors">
                       <Link
                         href={`/blog/sustainable-academic-innovation-${item}`}
                         className="touch-manipulation"
@@ -293,31 +293,21 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
                         post sharing ambitions for a new collaboration
                       </Link>
                     </h3>
-                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
+
+                    {/* <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
                       Crafting engaging presentations involves a blend of
                       storytelling and visual appeal. Start by outlining your
                       key points and supporting them with relevant data.
                       Finally, use eye-catching visuals to enhance your message
                       and keep your audience captivated.
-                    </p>
+                    </p> */}
+
                     <Link
                       href={`/blog/sustainable-academic-innovation-${item}`}
                       className="inline-flex items-center gap-2 text-[#3051F3] font-semibold hover:text-[#2441d4] transition-colors duration-200 touch-manipulation"
                     >
                       Read More
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </div>
@@ -332,19 +322,8 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
               disabled={currentPage === 1}
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation order-2 sm:order-1"
             >
-              <svg
-                className="w-4 h-4 rotate-180"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <ChevronLeft className="w-4 h-4" />
+
               <span className="hidden sm:inline">Previous</span>
               <span className="sm:hidden">Prev</span>
             </button>
@@ -411,19 +390,7 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
             >
               <span className="hidden sm:inline">Next</span>
               <span className="sm:hidden">Next</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>

@@ -10,6 +10,8 @@ import ProofOfCommitment from "../components/ProofOfCommitment";
 import TestimonialsSlider from "../components/TestimonialSlider";
 import FindOpportunities from "../components/FindOpportunities";
 import { getStrapiImageUrl } from "../lib/strapi";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 interface ImpactPageData {
   id: number;
@@ -264,6 +266,15 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
                 {heroData.description}
               </p>
             </div>
+
+            <Link
+              href={"/career-opportunities"}
+              className="mt-7 bg-white w-fit p-3 rounded-lg text-black font-bold flex items-center gap-2"
+            >
+              <p>Join our talent network</p>
+
+              <ArrowUpRight />
+            </Link>
           </div>
         </div>
       </section>
@@ -285,7 +296,7 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
               />
 
-<div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-b-lg"></div>
+              <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-b-lg"></div>
             </div>
           </div>
         </div>

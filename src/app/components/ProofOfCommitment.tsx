@@ -43,6 +43,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.top_cards[0],
       defaultImage: "/defaul2.png",
       hoverImage: "/default-hover2.png",
+      mobileDefaultImage: "/defaul2.png", 
+      mobileHoverImage: "/default-hover2.png", 
       className: "",
       height: "h-[420px]",
     },
@@ -51,6 +53,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: null,
       defaultImage: "/default1.png",
       hoverImage: "/default-hover1.png",
+      mobileDefaultImage: "/default1.png", 
+      mobileHoverImage: "/default-hover1.png", 
       className: "",
       height: "h-[500px]",
     },
@@ -59,6 +63,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.top_cards[1],
       defaultImage: "/default5.png",
       hoverImage: "/default-hover5.png",
+      mobileDefaultImage: "/default5.png", 
+      mobileHoverImage: "/default-hover5.png", 
       className: "",
       height: "h-[330px]",
     },
@@ -67,6 +73,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[0],
       defaultImage: "/default3.png",
       hoverImage: "/default-hover3.png",
+      mobileDefaultImage: "/default3.png", 
+      mobileHoverImage: "/default-hover3.png", 
       className: "-mt-18",
       height: "h-[425px]",
     },
@@ -75,6 +83,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[1],
       defaultImage: "/default4.png",
       hoverImage: "/default-hover4.png",
+      mobileDefaultImage: "/default4.png", 
+      mobileHoverImage: "/default-hover4.png", 
       className: "",
       height: "h-[355px]",
     },
@@ -83,6 +93,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[2],
       defaultImage: "/default6.png",
       hoverImage: "/default-hover6.png",
+      mobileDefaultImage: "/default6.png", 
+      mobileHoverImage: "/default-hover6.png", 
       className: "-mt-40",
       height: "h-[515px]",
     },
@@ -91,6 +103,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.bottom_cards[0],
       defaultImage: "/default7.png",
       hoverImage: "/default-hover7.png",
+      mobileDefaultImage: "/39k.png", 
+      mobileHoverImage: "/39k.png", 
       className: "",
       height: "h-[260px]",
     },
@@ -99,6 +113,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.bottom_cards[1],
       defaultImage: "/default8.png",
       hoverImage: "/default-hover8.png",
+      mobileDefaultImage: "/12.png", 
+      mobileHoverImage: "/12.png", 
       className: "",
       height: "h-[260px]",
     },
@@ -148,8 +164,9 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       case "partners":
         return "h-[384px]";
       case "projects":
+        return "h-[230px]";
       case "completion":
-        return "h-40";
+        return "h-[300px]";
       default:
         return "h-64";
     }
@@ -170,8 +187,9 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       case "partners":
         return "min-[540px]:max-md:h-[584px]";
       case "projects":
+        return "min-[540px]:max-md:h-[295px]";
       case "completion":
-        return "min-[540px]:max-md:h-[240px]";
+        return "min-[540px]:max-md:h-[420px]";
       default:
         return "min-[540px]:max-md:h-[500px]";
     }
@@ -402,7 +420,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
           ))}
         </div>
 
-        {/* Mobile: Single column grid with Surface Duo support */}
+        {/* Mobile: Single column grid with Surface Duo support and different images for last two cards */}
         <div className="grid md:hidden grid-cols-1 gap-6">
           {cardMapping.map((card) => (
             <div
@@ -419,7 +437,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                 )} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
               >
                 <Image
-                  src={card.defaultImage}
+                  src={card.mobileDefaultImage}
                   alt={getAltText(card)}
                   fill
                   className={`object-cover object-center transition-opacity duration-500 ease-in-out ${
@@ -429,7 +447,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
                   priority={card.id === "students" || card.id === "center-team"}
                 />
                 <Image
-                  src={card.hoverImage}
+                  src={card.mobileHoverImage}
                   alt={`${getAltText(card)} - hover state`}
                   fill
                   className={`object-cover object-center transition-opacity duration-500 ease-in-out ${

@@ -81,7 +81,6 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
     threshold: 0.3,
   });
 
-  // Helper functions
   const getJobStatus = (expireDate: string) => {
     const today = new Date();
     const expiry = new Date(expireDate);
@@ -302,9 +301,9 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
             </h2>
 
             <div className="flex items-center gap-2 md:gap-3">
-              <span className="text-gray-500 text-xs md:text-sm">
+              {/* <span className="text-gray-500 text-xs md:text-sm">
                 Location:
-              </span>
+              </span> */}
               <div className="relative">
                 <select
                   value={selectedLocation}
@@ -393,7 +392,7 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
                                 {job.content}
                               </p>
 
-                              <div className="flex items-center gap-6 text-sm text-gray-400 mb-6">
+                              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 text-sm text-gray-400 mb-6">
                                 <div className="flex items-center gap-2">
                                   <MapPin className="w-4 h-4 text-gray-500" />
                                   {job.location}
@@ -440,7 +439,7 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
             )}
           </div>
 
-          <div className="mt-20 relative h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] xl:h-[500px] w-full rounded-lg overflow-hidden">
+          <div className="mt-20 relative h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] xl:h-[500px] w-full overflow-hidden">
             <Image
               src={openRolesImageSrc}
               alt="Career opportunities showcase"
@@ -449,14 +448,14 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
             />
 
-            <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-b-lg"></div>
+            <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-pink-500 to-purple-600"></div>
           </div>
         </div>
       </section>
 
       <section className="bg-gray-50 px-4 sm:px-6 lg:px-12 py-16 lg:py-24">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-[#131B3E] text-xl md:text-4xl lg:text-5xl font-medium leading-tight mb-6">
+          <h2 className="text-[#131B3E] text-xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
             {newsletterData.title}
           </h2>
 

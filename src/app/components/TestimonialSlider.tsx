@@ -16,8 +16,20 @@ const TestimonialsSlider = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  const handleThumbnailClick = (index: React.SetStateAction<number>) => {
+  const handleThumbnailClick = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  const nextTestimonial = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevTestimonial = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+    );
   };
 
   return (
@@ -35,9 +47,12 @@ const TestimonialsSlider = () => {
           </h2>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Link href={'/career-opportunities'} className="bg-white text-[#5E68FF] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
+            <Link
+              href={"/career-opportunities"}
+              className="bg-white w-fit text-[#5E68FF] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            >
               Join our talent network
-              <ArrowUpRight/>
+              <ArrowUpRight />
             </Link>
 
             <button className="text-white hover:text-white/80 transition-colors inline-flex items-center gap-2 underline">
@@ -59,7 +74,8 @@ const TestimonialsSlider = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl overflow-hidden shadow-xl mb-8">
+        {/* Desktop Layout */}
+        <div className="hidden lg:block bg-white rounded-2xl overflow-hidden shadow-xl mb-8">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 relative">
               <div className="w-full h-[30rem] overflow-hidden">
@@ -85,7 +101,7 @@ const TestimonialsSlider = () => {
                 "{testimonials[currentIndex].text}"
               </blockquote>
 
-              <div className="flex ">
+              <div className="flex">
                 <div className="flex space-x-2">
                   {testimonials.map((testimonial, index) => (
                     <button
@@ -107,6 +123,50 @@ const TestimonialsSlider = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="lg:hidden mb-8">
+          <div className="relative">
+            <div className="bg-white rounded-2xl p-6 shadow-xl max-w-sm mx-auto">
+              <blockquote className="text-gray-800 text-base leading-relaxed mb-6">
+                "{testimonials[currentIndex].text}"
+              </blockquote>
+
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                  <img
+                    src={testimonials[currentIndex].avatar}
+                    alt={testimonials[currentIndex].name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                    {testimonials[currentIndex].name}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {testimonials[currentIndex].company}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-2 mt-6">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleThumbnailClick(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? "bg-white scale-125"
+                    : "bg-white/50 hover:bg-white/70"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
 

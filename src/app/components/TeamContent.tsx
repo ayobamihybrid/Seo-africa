@@ -8,6 +8,8 @@ import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import FindOpportunities from "../components/FindOpportunities";
 import { getStrapiImageUrl } from "../lib/strapi";
 import { TeamPageData, TeamMember } from "../our-team/page";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 interface TeamContentProps {
   teamData: TeamPageData;
@@ -69,6 +71,18 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
         : member.avatar.url;
     }
     return "/team1.png";
+  };
+
+  const getRouteFromTitle = (title: string) => {
+    const titleLower = title.toLowerCase();
+    if (titleLower.includes("programme")) {
+      return "/our-programmes";
+    } else if (titleLower.includes("career")) {
+      return "/career-opportunities";
+    } else if (titleLower.includes("blog")) {
+      return "/blog";
+    }
+    return "#";
   };
 
   return (
@@ -135,6 +149,15 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
                 {teamData.hero_section.description}
               </p>
             </div>
+
+            <Link
+              href={"/career-opportunities"}
+              className="mt-7 bg-white w-fit p-3 rounded-lg text-black font-bold flex items-center gap-2"
+            >
+              <p>Join our talent network</p>
+
+              <ArrowUpRight />
+            </Link>
           </div>
         </div>
       </section>
@@ -323,7 +346,7 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
           className={`max-w-7xl mx-auto ${galleryScrollAnimation.animationClass}`}
           style={{ transitionDelay: "200ms" }}
         >
-          <div className="space-y-8 overflow-hidden">
+          <div className="hidden md:block space-y-8 overflow-hidden">
             <div className="relative w-full overflow-hidden">
               <div className="flex gap-6 animate-scroll-right">
                 {[...topRowImages, ...topRowImages].map((image, index) => (
@@ -372,6 +395,37 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
               </div>
             </div>
           </div>
+
+          {/* Mobile Layout - Single Row */}
+          <div className="md:hidden overflow-hidden">
+            <div className="relative w-full overflow-hidden">
+              <div className="flex gap-4 animate-scroll-right">
+                {[
+                  ...topRowImages,
+                  ...bottomRowImages,
+                  ...topRowImages,
+                  ...bottomRowImages,
+                ].map((image, index) => (
+                  <div
+                    key={`mobile-${image.id}-${index}`}
+                    className="flex-shrink-0 relative group"
+                  >
+                    <div className="relative w-64 h-48 sm:w-72 sm:h-54 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      />
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -380,7 +434,7 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
         className={`bg-white w-full px-4 sm:px-6 lg:px-12 py-16 ${insightsAnimation.animationClass}`}
       >
         <div className="bg-[#8499FF14] max-w-7xl mx-auto py-16 px-8 lg:px-12 rounded-lg">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12">
             <div>
               <h3 className="text-gray-900 text-2xl lg:text-3xl xl:text-4xl font-light leading-tight mb-8">
                 {teamData.explore_section.title}
@@ -389,8 +443,11 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
 
             <div className="grid md:grid-cols-3 gap-8">
               {teamData.explore_section.cards.map((item, index) => (
-                <div key={item.id} className="px-2 border-l text-center">
-                  <div className="relative w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div
+                  key={item.id}
+                  className="px-2 border-l text-left md:text-center"
+                >
+                  <div className="relative w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center md:mx-auto mb-4">
                     <Image src={`/insight${index + 1}.svg`} alt="" fill />
                   </div>
                   <h4 className="text-gray-900 text-lg font-semibold mb-2">
@@ -400,9 +457,12 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
                     <p className="text-gray-600 text-sm mb-4">{item.content}</p>
                   )}
                   {item.cta_text && (
-                    <button className="text-gray-900 hover:text-blue-600 font-medium text-sm underline transition-colors duration-200">
+                    <Link
+                      href={getRouteFromTitle(item.title)}
+                      className="text-gray-900 hover:text-blue-600 font-medium text-sm underline transition-colors duration-200"
+                    >
                       {item.cta_text}
-                    </button>
+                    </Link>
                   )}
                 </div>
               ))}

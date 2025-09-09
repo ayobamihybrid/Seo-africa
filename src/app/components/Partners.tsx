@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 import { getStrapiImageUrl } from "../lib/strapi";
+import { ArrowUpRight } from "lucide-react";
 
 interface StrapiPartner {
   id: number;
@@ -262,19 +263,7 @@ const Partners: React.FC<PartnersProps> = ({
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 {finalButtonText}
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                  />
-                </svg>
+                <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
           )}
