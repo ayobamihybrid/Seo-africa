@@ -9,16 +9,6 @@ import Image from "next/image";
 import { getStrapiImageUrl } from "../lib/strapi";
 import type { DonatePageData } from "../donate/page";
 
-declare global {
-  interface Window {
-    PaystackPop: {
-      setup: (config: any) => {
-        openIframe: () => void;
-      };
-    };
-  }
-}
-
 interface DonateClientProps {
   donatePageData: DonatePageData | null;
 }
@@ -27,48 +17,17 @@ const DonateClient: React.FC<DonateClientProps> = ({
   donatePageData: strapiData,
 }) => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("₦");
-  const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [copiedItems, setCopiedItems] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const [amount, setAmount] = useState<number>(5000);
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [isPaystackLoaded, setIsPaystackLoaded] = useState(false);
-
-  // Load Paystack script dynamically if not already loaded
-  useEffect(() => {
-    const loadPaystackScript = () => {
-      if (window.PaystackPop) {
-        setIsPaystackLoaded(true);
-        return;
-      }
-
-      const existingScript = document.querySelector('script[src*="paystack"]');
-      if (existingScript) {
-        existingScript.addEventListener("load", () =>
-          setIsPaystackLoaded(true)
-        );
-        return;
-      }
-
-      const script = document.createElement("script");
-      script.src = "https://js.paystack.co/v1/inline.js";
-      script.async = true;
-      script.onload = () => setIsPaystackLoaded(true);
-      script.onerror = () => {
-        console.error("Failed to load Paystack script");
-        toast.error(
-          "Payment system is currently unavailable. Please try bank transfer or contact us.",
-          {
-            duration: 5000,
-          }
-        );
-      };
-      document.body.appendChild(script);
-    };
-
-    loadPaystackScript();
-  }, []);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const useTextReveal = (threshold = 0.1) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -129,12 +88,15 @@ const DonateClient: React.FC<DonateClientProps> = ({
     );
   };
 
-  const CopyButton = ({ text }: { text: string }) => {
+  const CopyButton: React.FC<{ text: string; id: string }> = ({ text, id }) => {
     const handleCopy = async () => {
       try {
         await navigator.clipboard.writeText(text);
-        setCopiedText(text);
-        setTimeout(() => setCopiedText(null), 2000);
+        setCopiedItems((prev) => ({ ...prev, [id]: true }));
+        setTimeout(
+          () => setCopiedItems((prev) => ({ ...prev, [id]: false })),
+          2000
+        );
       } catch (err) {
         console.error("Failed to copy text: ", err);
         const textArea = document.createElement("textarea");
@@ -144,8 +106,11 @@ const DonateClient: React.FC<DonateClientProps> = ({
         textArea.select();
         try {
           document.execCommand("copy");
-          setCopiedText(text);
-          setTimeout(() => setCopiedText(null), 2000);
+          setCopiedItems((prev) => ({ ...prev, [id]: true }));
+          setTimeout(
+            () => setCopiedItems((prev) => ({ ...prev, [id]: false })),
+            2000
+          );
         } catch (fallbackErr) {
           console.error("Fallback copy failed: ", fallbackErr);
         }
@@ -153,13 +118,15 @@ const DonateClient: React.FC<DonateClientProps> = ({
       }
     };
 
+    const isCopied = copiedItems[id] || false;
+
     return (
       <button
         onClick={handleCopy}
         className="p-2 text-blue-600 hover:text-blue-800 transition-colors flex items-center justify-center"
-        title={copiedText === text ? "Copied!" : "Copy to clipboard"}
+        title={isCopied ? "Copied!" : "Copy to clipboard"}
       >
-        {copiedText === text ? (
+        {isCopied ? (
           <Check className="w-4 h-4 text-green-600" />
         ) : (
           <Copy className="w-4 h-4" />
@@ -168,76 +135,73 @@ const DonateClient: React.FC<DonateClientProps> = ({
     );
   };
 
-  // Handle paystack payment
-  const handlePaystackPayment = () => {
-    if (!email || !firstName || !lastName) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
+const handleFormSubmission = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!email || !firstName || !lastName || !phoneNumber) {
+    toast.error("Please fill in all required fields");
+    return;
+  }
 
-    if (amount < 100) {
-      toast.error("Minimum donation amount is ₦100");
-      return;
-    }
+  const minimumAmount = selectedCurrency === "₦" ? 1000 : 1;
+  if (amount < minimumAmount) {
+    toast.error(`Minimum donation amount is ${selectedCurrency}${selectedCurrency === "₦" ? "1,000" : "1"}`);
+    return;
+  }
 
-    if (!isPaystackLoaded || !window.PaystackPop) {
-      toast.error("Payment system is loading. Please try again in a moment.");
-      return;
-    }
-
-    const toastId = toast.loading("Initializing payment...");
-
-    const handler = window.PaystackPop.setup({
-      key:
-        process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "pk_test_your_key_here",
-      email: email,
-      amount: amount * 100,
-      currency: "NGN",
-      ref: `seo-africa-${Date.now()}`,
-      metadata: {
-        custom_fields: [
-          {
-            display_name: "Donor Name",
-            variable_name: "donor_name",
-            value: `${firstName} ${lastName}`,
-          },
-          {
-            display_name: "Donation Purpose",
-            variable_name: "donation_purpose",
-            value: "SEO Africa Initiative",
-          },
-        ],
+  setIsSubmitting(true);
+  
+  try {
+    const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+    
+    const response = await fetch(`${STRAPI_URL}/donation-requests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      callback: function (response: any) {
-        // Payment was successful
-        toast.dismiss(toastId);
-        toast.success(
-          `Thank you ${firstName}! Your donation of ₦${amount.toLocaleString()} was successful.`,
-          {
-            duration: 6000,
-            icon: "🎉",
-          }
-        );
-
-        console.log("Payment successful:", response);
-
-        setAmount(5000);
-        setEmail("");
-        setFirstName("");
-        setLastName("");
-      },
-      onClose: function () {
-        toast.dismiss(toastId);
-        toast("Payment cancelled", {
-          icon: "❌",
-          duration: 3000,
-        });
-        console.log("Payment dialog closed");
-      },
+      body: JSON.stringify({
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          email_address: email,
+          phone_number: phoneNumber,
+          amount: amount.toString(),
+          currency: selectedCurrency,
+          message: message || null,
+        }
+      }),
     });
 
-    handler.openIframe();
-  };
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    
+    toast.success(
+      `Thank you ${firstName}! We have received your donation request of ${selectedCurrency}${amount.toLocaleString()}. Our team will contact you shortly to complete the donation process.`,
+      {
+        duration: 8000,
+        icon: "🎉",
+      }
+    );
+
+    // Reset form
+    setAmount(selectedCurrency === "₦" ? 1000 : 1);
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPhoneNumber("");
+    setMessage("");
+    
+  } catch (error) {
+    console.error('Error submitting donation request:', error);
+    toast.error("Something went wrong. Please try again or contact us directly.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const fallbackData = {
     hero: {
@@ -345,7 +309,7 @@ const DonateClient: React.FC<DonateClientProps> = ({
             color: "#fff",
           },
           success: {
-            duration: 6000,
+            duration: 8000,
             style: {
               background: "#10B981",
               color: "#fff",
@@ -417,14 +381,16 @@ const DonateClient: React.FC<DonateClientProps> = ({
           </div>
 
           <div className="border rounded-lg p-3 grid lg:grid-cols-2 gap-8">
-            <div className="bg-[#F5F6FA] rounded-lg shadow-sm p-8 text-black">
-              <h3 className="text-2xl font-semibold mb-6">Donate now</h3>
+            <div className="bg-[#F5F6FA] rounded-lg shadow-sm p-6 text-black h-fit">
+              <h3 className="text-2xl font-semibold mb-6">
+                Donation Information
+              </h3>
 
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Select currency:
                 </label>
-                <div className="flex flex-wrap gap-4 pb-6 border-b border-gray-200">
+                <div className="flex flex-wrap gap-4 pb-4 border-b border-gray-200">
                   {donateData.donate_cards.map((card) => (
                     <label
                       key={card.id}
@@ -446,15 +412,17 @@ const DonateClient: React.FC<DonateClientProps> = ({
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div>
                 <p className="text-sm text-[#000D4D73] mb-4">
                   Every donation to SEO Africa is an investment that goes
                   towards:
                 </p>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {donateData.features.map((feature) => (
                     <li key={feature.id} className="flex items-start">
-                      <div className="w-6 h-6 text-blue-600 mr-3 mt-0.5">✱</div>
+                      <div className="w-4 h-4 text-blue-600 mr-3 mt-1 flex-shrink-0">
+                        ✱
+                      </div>
                       <span className="text-sm text-gray-700">
                         {feature.text}
                       </span>
@@ -498,7 +466,10 @@ const DonateClient: React.FC<DonateClientProps> = ({
                           <p className="font-medium">
                             {transfer.account_number}
                           </p>
-                          <CopyButton text={transfer.account_number} />
+                          <CopyButton
+                            text={transfer.account_number}
+                            id={`account-${transfer.id}`}
+                          />
                         </div>
                       </div>
                       {transfer.account_name && (
@@ -516,7 +487,10 @@ const DonateClient: React.FC<DonateClientProps> = ({
                           </label>
                           <div className="flex items-center justify-between">
                             <p className="font-medium">{transfer.swift_code}</p>
-                            <CopyButton text={transfer.swift_code} />
+                            <CopyButton
+                              text={transfer.swift_code}
+                              id={`swift-${transfer.id}`}
+                            />
                           </div>
                         </div>
                       )}
@@ -527,7 +501,10 @@ const DonateClient: React.FC<DonateClientProps> = ({
                           </label>
                           <div className="flex items-center justify-between">
                             <p className="font-medium">{transfer.sort_code}</p>
-                            <CopyButton text={transfer.sort_code} />
+                            <CopyButton
+                              text={transfer.sort_code}
+                              id={`sort-${transfer.id}`}
+                            />
                           </div>
                         </div>
                       )}
@@ -538,17 +515,16 @@ const DonateClient: React.FC<DonateClientProps> = ({
 
               <div className="p-6">
                 <h4 className="text-lg font-semibold mb-4">
-                  Donate using Debit/Credit cards
+                  Submit Donation Request
                 </h4>
 
                 <div className="p-4 bg-[#00158005] rounded-lg">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="relative w-8 h-6 rounded">
-                      <Image src={"/paystack.svg"} alt="Paystack" fill />
-                    </div>
-                  </div>
+                  <p className="text-sm text-gray-600 mb-6">
+                    Fill out the form below and our team will contact you to
+                    facilitate your donation process.
+                  </p>
 
-                  <div className="space-y-4 mb-4">
+                  <form onSubmit={handleFormSubmission} className="space-y-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -594,11 +570,25 @@ const DonateClient: React.FC<DonateClientProps> = ({
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Donation Amount (₦) *
+                        Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter phone number"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Intended Donation Amount ({selectedCurrency}) *
                       </label>
                       <div className="relative">
                         <span className="absolute left-3 top-2 text-gray-500">
-                          ₦
+                          {selectedCurrency}
                         </span>
                         <input
                           type="number"
@@ -611,7 +601,8 @@ const DonateClient: React.FC<DonateClientProps> = ({
                         />
                       </div>
                       <p className="text-xs text-gray-500 mt-1">
-                        Minimum amount: ₦100
+                        Minimum amount: {selectedCurrency}
+                        {selectedCurrency === "₦" ? "1,000" : "1"}
                       </p>
                     </div>
 
@@ -621,6 +612,7 @@ const DonateClient: React.FC<DonateClientProps> = ({
                       </span>
                       {[1000, 5000, 10000, 25000, 50000].map((quickAmount) => (
                         <button
+                          type="button"
                           key={quickAmount}
                           onClick={() => setAmount(quickAmount)}
                           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
@@ -629,41 +621,51 @@ const DonateClient: React.FC<DonateClientProps> = ({
                               : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
                           }`}
                         >
-                          ₦{quickAmount.toLocaleString()}
+                          {selectedCurrency}
+                          {quickAmount.toLocaleString()}
                         </button>
                       ))}
                     </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Message (Optional)
+                      </label>
+                      <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Any additional message or specific purpose for your donation..."
+                        rows={4}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-[#3051F3] text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={
+                        !email ||
+                        !firstName ||
+                        !lastName ||
+                        !phoneNumber ||
+                        amount < 100 ||
+                        isSubmitting
+                      }
+                    >
+                      {isSubmitting
+                        ? "Submitting..."
+                        : `Submit Donation Request for ${selectedCurrency}${amount.toLocaleString()}`}
+                    </button>
+                  </form>
+
+                  <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm text-blue-800">
+                      <strong>Next Steps:</strong> After submitting this form,
+                      our team will contact you within 24-48 hours to guide you
+                      through the donation process and provide any additional
+                      information you may need.
+                    </p>
                   </div>
-
-                  <p className="text-sm text-gray-600 mb-4">
-                    Secure payment powered by Paystack. Your donation helps
-                    empower Africa's next generation of leaders.
-                  </p>
-
-                  <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
-                    <span>Supports:</span>
-                    <span className="bg-gray-100 px-2 py-1 rounded">VISA</span>
-                    <span className="bg-gray-100 px-2 py-1 rounded">
-                      Mastercard
-                    </span>
-                    <span className="bg-gray-100 px-2 py-1 rounded">Verve</span>
-                  </div>
-
-                  <button
-                    onClick={handlePaystackPayment}
-                    className="w-full bg-[#3051F3] text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={
-                      !email ||
-                      !firstName ||
-                      !lastName ||
-                      amount < 100 ||
-                      !isPaystackLoaded
-                    }
-                  >
-                    {isPaystackLoaded
-                      ? `Donate ₦${amount.toLocaleString()} with Card`
-                      : "Loading Payment System..."}
-                  </button>
                 </div>
               </div>
             </div>
