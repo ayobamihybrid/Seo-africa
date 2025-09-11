@@ -154,7 +154,13 @@ const JoinTalentNetwork: React.FC<JoinTalentNetworkProps> = ({
               className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-base md:text-lg text-white font-semibold px-3 py-2 md:px-7 md:py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group ${buttonAnimation.animationClass}`}
               style={{ transitionDelay: "600ms" }}
             >
-              <Link href="/career-opportunities">{talentData.cta_text}</Link>
+              <Link
+                href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {talentData.cta_text}
+              </Link>
             </button>
           </div>
 

@@ -95,10 +95,10 @@ const defaultContactInfo = {
 };
 
 const defaultSocialLinks = {
-  instagram: "https://instagram.com/seo-africa",
-  facebook: "https://facebook.com/seo-africa",
-  twitter: "https://twitter.com/seo-africa",
-  linkedin: "https://linkedin.com/company/seo-africa",
+  instagram: "https://www.instagram.com/seo_africa",
+  facebook: "https://web.facebook.com/seoinafrica",
+  twitter: "https://x.com/SEOinAfrica",
+  linkedin: "https://www.linkedIn.com/company/seo-africa-org",
 };
 
 const defaultLegalLinks: FooterLink[] = [
@@ -141,6 +141,8 @@ const Footer: React.FC<FooterProps> = ({
                   href={socialLinks.instagram}
                   className="rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors duration-300"
                   aria-label="Instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
@@ -150,6 +152,8 @@ const Footer: React.FC<FooterProps> = ({
                   href={socialLinks.facebook}
                   className="rounded-lg flex items-center justify-center transition-colors duration-300"
                   aria-label="Facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Facebook className="w-5 h-5" />
                 </a>
@@ -159,6 +163,8 @@ const Footer: React.FC<FooterProps> = ({
                   href={socialLinks.twitter}
                   className="rounded-lg flex items-center justify-center transition-colors duration-300"
                   aria-label="Twitter"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Twitter className="w-5 h-5" />
                 </a>
@@ -166,6 +172,8 @@ const Footer: React.FC<FooterProps> = ({
               {socialLinks.linkedin && (
                 <a
                   href={socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-lg flex items-center justify-center transition-colors duration-300"
                   aria-label="LinkedIn"
                 >

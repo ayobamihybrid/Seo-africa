@@ -10,9 +10,12 @@ import {
   BookOpen,
   Zap,
   ExternalLink,
+  Globe,
+  ArrowDown,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import CustomGoogleTranslate from "./CustomGoogleTranslate";
 
 interface NavbarProps {
   details?: boolean;
@@ -50,10 +53,27 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
     };
   }, []);
 
+  const handleAlumniTestimonialsClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setActiveDropdown(null);
+
+    if (window.location.pathname === "/" || window.location.pathname === "") {
+      const element = document.getElementById("alumni-testimonials");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      window.location.href = "/#alumni-testimonials";
+    }
+  };
+
   return (
     <>
       <nav
-        className="max-w-[90rem] mx-auto relative z-10 flex items-center justify-between px-4 sm:px-6 py-4 lg:px-12"
+        className="max-w-[90rem] mx-auto relative z-[10000] flex items-center justify-between px-4 sm:px-6 py-4 lg:px-12"
         ref={dropdownRef}
       >
         <Link href={"/"} className="w-12 h-12 md:w-20 md:h-20 relative">
@@ -82,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             </button>
 
             {activeDropdown === "about" && (
-              <div className="absolute top-full left-0 w-[900px] z-50">
+              <div className="absolute top-full left-0 w-[900px] z-[9999]">
                 <div className="bg-white rounded-lg shadow-xl border border-gray-100 mt-2">
                   <div className="grid grid-cols-12 min-h-[500px]">
                     <div className="col-span-5 p-8 ">
@@ -415,9 +435,9 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </p>
                         <div className="space-y-3">
                           <Link
-                            href="#"
+                            href="/#alumni-testimonials"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
-                            onClick={() => setActiveDropdown(null)}
+                            onClick={handleAlumniTestimonialsClick}
                           >
                             Alumni testimonials
                           </Link>
@@ -429,7 +449,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             SEOCares projects
                           </Link>
-
                           <Link
                             href="/media-and-events"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
@@ -437,15 +456,13 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             Events & updates
                           </Link>
-
-                          <Link
+                          {/* <Link
                             href="#"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             SEO Africa guides & tips
-                          </Link>
-
+                          </Link> */}
                           <Link
                             href="/career-opportunities"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
@@ -684,21 +701,19 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
         </div>
 
         <div className="hidden xl:flex items-center space-x-3 lg:space-x-4">
-          <div
-            className={`flex items-center space-x-1 ${textColor} cursor-pointer ${hoverColor} transition-colors`}
-          >
-            <span className="text-sm">EN</span>
-            <ChevronDown className="w-3 h-3" />
-          </div>
+          <CustomGoogleTranslate />
 
           <Link href="/donate" className={donateButtonClasses}>
             <span className="text-sm xl:text-base">Donate</span>
             <Heart className="w-3 h-3 lg:w-4 lg:h-4" />
           </Link>
 
-          <button className="bg-white text-black px-4 lg:px-6 py-2 rounded-full hover:bg-gray-100 transition-colors text-sm">
+          <Link
+            href={"/get-involved"}
+            className="bg-white text-black px-4 lg:px-6 py-2 rounded-full hover:bg-gray-100 transition-colors text-sm"
+          >
             Join us
-          </button>
+          </Link>
         </div>
 
         <button
@@ -760,10 +775,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                 </Link>
 
                 <div className="flex flex-col space-y-4 pt-6 border-t border-white/20">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-300 text-sm">Language</span>
-                    <span className="text-white font-medium">EN</span>
-                  </div>
+                  <CustomGoogleTranslate />
 
                   <div className="flex flex-col space-y-3">
                     <Link
@@ -893,9 +905,11 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                     </Link>
                   </div>
 
-                  <div className="flex items-center space-x-1 mt-6 pt-4 border-t border-blue-500">
-                    <span className="text-blue-100 text-sm">Language:</span>
-                    <span className="text-white font-medium text-sm">EN</span>
+                  <div className="flex items-center space-x-1 text-white cursor-pointer hover:text-gray-300 transition-colors">
+                    <div id="google_translate_element">
+                      <span className="text-blue-100 text-sm">Language:</span>
+                      <span className="text-white font-medium text-sm">EN</span>
+                    </div>
                   </div>
                 </div>
               </div>

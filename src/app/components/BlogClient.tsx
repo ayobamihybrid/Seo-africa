@@ -224,7 +224,7 @@ const BlogClient: React.FC<BlogClientProps> = ({
                   <>
                     We care about your data in our{" "}
                     <a
-                      href="/privacy-policy"
+                      href="#"
                       className="text-white/80 hover:text-white underline underline-offset-2 transition-colors duration-200"
                     >
                       privacy policy

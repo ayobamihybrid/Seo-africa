@@ -289,7 +289,7 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
                 src={heroImageSrc}
                 alt="SEO Africa team networking event"
                 fill
-                className="object-cover"
+                className="object-cover "
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
               />
@@ -380,7 +380,7 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
         </div>
       </section>
 
-      {/* Become Partner Section */}
+      {/* Become Partner  */}
       <section className="bg-gray-50 py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="mb-16 lg:mb-20">
@@ -482,9 +482,12 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
                   {volunteerData.title}
                 </h2>
 
-                <button className="bg-[#3051F3] hover:bg-[#3051f3ef] text-white px-8 py-3 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <Link
+                  href={"mailto:info@seo-africa.org"}
+                  className="bg-[#3051F3] hover:bg-[#3051f3ef] text-white px-8 py-3 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
                   {volunteerData.cta_text}
-                </button>
+                </Link>
               </div>
             </div>
 

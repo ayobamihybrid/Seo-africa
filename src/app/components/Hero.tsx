@@ -40,20 +40,15 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ homePageData }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const heroTitle =
-    homePageData?.heroTitle || "";
-  const heroDescription =
-    homePageData?.heroDescription ||
-    "";
+  const heroTitle = homePageData?.heroTitle || "";
+  const heroDescription = homePageData?.heroDescription || "";
   const sliderItems = homePageData?.heroSliderItems || [];
-  const primaryButtonText =
-    homePageData?.heroButtonText || "";
-  const secondaryButtonText =
-    homePageData?.heroSecondaryButtonText || "";
+  const primaryButtonText = homePageData?.heroButtonText || "";
+  const secondaryButtonText = homePageData?.heroSecondaryButtonText || "";
 
   const backgroundImage = homePageData?.heroBackgroundImage
     ? getStrapiImageUrl(homePageData.heroBackgroundImage)
-    : ""; 
+    : "";
 
   useEffect(() => {
     if (sliderItems.length > 0) {
@@ -95,7 +90,13 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
 
           <div className="flex items-center space-x-6">
             <button className="bg-blue-600 hover:bg-blue-700 text-white md:px-8 px-3 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors w-fit sm:w-auto">
-              <Link href="/career-opportunities">{primaryButtonText}</Link>
+              <Link
+                href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {primaryButtonText}
+              </Link>
             </button>
 
             <div className="flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300 group">

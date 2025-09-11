@@ -124,7 +124,7 @@ const TestimonialsCarousel: React.FC<TestimonialsProps> = ({
   }
 
   return (
-    <section className={`py-16 px-4 bg-gray-50 ${className}`}>
+    <section id="alumni-testimonials" className={`py-16 px-4 bg-gray-50 ${className}`}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <div>
