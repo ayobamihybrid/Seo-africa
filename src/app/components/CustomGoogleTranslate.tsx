@@ -20,102 +20,51 @@ declare global {
 }
 
 interface Language {
-  code: string;
+  code: "en" | "fr";
   name: string;
   flag: string;
 }
 
 const CustomGoogleTranslate: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userSelectedLang, setUserSelectedLang] = useState("en");
+  const [currentLang, setCurrentLang] = useState<"en" | "fr">("en");
 
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
-  const currentLang = userSelectedLang.toUpperCase();
+  const setLanguage = (lang: "en" | "fr") => {
+    setCurrentLang(lang);
+
+    // Explicitly set googtrans cookie
+    document.cookie = `googtrans=/en/${lang}; path=/;`;
+
+    // Update hash for Google Translate
+    if (lang === "en") {
+      window.location.hash = "";
+    } else {
+      window.location.hash = `#googtrans(en|${lang})`;
+    }
+
+    // Force reload so Google Translate applies
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("userLang");
-      if (saved && languages.some((l) => l.code === saved)) {
-        setUserSelectedLang(saved);
-      }
+    // On mount, detect current language from cookie
+    const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
+    if (match && match[1]) {
+      setCurrentLang(match[1] as "en" | "fr");
+    } else {
+      setCurrentLang("en");
     }
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && userSelectedLang) {
-      const hostname = window.location.hostname;
-      const isLocalhost = hostname === "localhost" || hostname === "127.0.0.1";
-      const domainPart = isLocalhost ? "" : `domain=${hostname};`;
-      const desiredCookie =
-        userSelectedLang === "en" ? "/en/en" : `/en/${userSelectedLang}`;
-      const currentCookieMatch = document.cookie.match(/googtrans=([^;]*)/);
-      const currentCookie = currentCookieMatch ? currentCookieMatch[1] : null;
-      const hasWrongHash = window.location.hash.includes("googtrans");
-
-      let needsReload = false;
-
-      if (userSelectedLang === "en") {
-        document.cookie = `googtrans=/en/en; path=/; ${domainPart}`;
-        if (hasWrongHash || currentCookie !== "/en/en") {
-          needsReload = true;
-        }
-        history.replaceState(
-          null,
-          "",
-          window.location.pathname + window.location.search
-        );
-        document.body.classList.remove("translated-ltr", "translated-rtl");
-      } else {
-        document.cookie = `googtrans=/en/${userSelectedLang}; path=/; ${domainPart}`;
-        if (
-          !window.location.hash.includes(`googtrans(en|${userSelectedLang})`) ||
-          currentCookie !== `/en/${userSelectedLang}`
-        ) {
-          needsReload = true;
-          window.location.hash = `#googtrans(en|${userSelectedLang})`;
-        }
-      }
-
-      const lastEnforce = localStorage.getItem("lastEnforce");
-      const now = Date.now();
-      const skipReload = lastEnforce && now - parseInt(lastEnforce) < 2000;
-
-      if (needsReload && !skipReload) {
-        localStorage.setItem("lastEnforce", now.toString());
-        console.log(`Enforcing ${userSelectedLang}: Reloading due to mismatch`);
-        setTimeout(() => window.location.reload(), 100);
-      } else if (needsReload) {
-        console.log(
-          `Enforcing ${userSelectedLang}: Skipping reload (recent enforce)`
-        );
-      } else {
-        console.log(`Already in ${userSelectedLang} state: No reload needed`);
-      }
-    }
-  }, [userSelectedLang]);
-
-  const translateTo = (langCode: string): void => {
-    console.log(`User selected: ${langCode}`);
-    setUserSelectedLang(langCode);
-    localStorage.setItem("userLang", langCode);
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
     if (typeof window !== "undefined" && !window.google?.translate) {
-      console.log("Loading Google Translate...");
-
-      const existingElement = document.getElementById(
-        "google_translate_element"
-      );
-      if (existingElement) {
-        existingElement.remove();
-      }
-
       const container = document.createElement("div");
       container.id = "google_translate_element";
       container.style.cssText = `
@@ -136,18 +85,17 @@ const CustomGoogleTranslate: React.FC = () => {
       document.head.appendChild(script);
 
       window.googleTranslateElementInit = () => {
-        console.log("Google Translate script loaded");
         try {
           new window.google.translate.TranslateElement(
             {
-              includedLanguages: "en,fr,es,de,zh,ja",
+              pageLanguage: "en",
+              includedLanguages: "en,fr",
               layout:
                 window.google.translate.TranslateElement.InlineLayout.SIMPLE,
               autoDisplay: false,
             },
             "google_translate_element"
           );
-          console.log("Google Translate element initialized");
         } catch (error) {
           console.error("Error initializing Google Translate:", error);
         }
@@ -164,7 +112,9 @@ const CustomGoogleTranslate: React.FC = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-2 text-white hover:bg-white/20 transition-all duration-300 min-w-[80px]"
           >
-            <span className="text-sm font-medium">{currentLang}</span>
+            <span className="text-sm font-medium">
+              {currentLang.toUpperCase()}
+            </span>
             <ChevronDown
               className={`w-3 h-3 transition-transform duration-200 ${
                 isOpen ? "rotate-180" : ""
@@ -177,12 +127,15 @@ const CustomGoogleTranslate: React.FC = () => {
               {languages.map((lang) => (
                 <button
                   key={lang.code}
-                  onClick={() => translateTo(lang.code)}
+                  onClick={() => {
+                    setLanguage(lang.code);
+                    setIsOpen(false);
+                  }}
                   className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-white/10 transition-colors text-white text-sm"
                 >
                   <span className="text-lg">{lang.flag}</span>
                   <span className="font-medium">{lang.name}</span>
-                  {currentLang === lang.code.toUpperCase() && (
+                  {currentLang === lang.code && (
                     <span className="ml-auto w-2 h-2 bg-blue-400 rounded-full" />
                   )}
                 </button>
