@@ -32,7 +32,6 @@ const CustomGoogleTranslate: React.FC = () => {
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
- 
   ];
 
   const getNormalizedDomain = (hostname: string): string => {
@@ -93,40 +92,29 @@ const CustomGoogleTranslate: React.FC = () => {
     }
   };
 
-  const resetToEnglish = (): void => {
-    console.log("Aggressive English reset...");
+  const resetToEnglish = () => {
+    console.log("Force reset to English");
 
+    const expires = "Thu, 01 Jan 1970 00:00:00 UTC";
     const hostname = window.location.hostname;
-    const rootDomain = getNormalizedDomain(hostname);
-    const domains = [hostname, `.${hostname}`, rootDomain, `.${rootDomain}`]; 
 
-    window.location.hash = "";
+    document.cookie = `googtrans=; expires=${expires}; path=/;`;
 
-    setCookieAcrossDomains("googtrans", "/en/en", domains);
+    document.cookie = `googtrans=; expires=${expires}; path=/; domain=${hostname};`;
 
-    // Targeted storage clear only
+    document.cookie = `googtrans=; expires=${expires}; path=/; domain=.${hostname};`;
+
     try {
-      if (localStorage.getItem("googtrans"))
-        localStorage.removeItem("googtrans");
-      if (sessionStorage.getItem("googtrans"))
-        sessionStorage.removeItem("googtrans");
-    } catch (e) {
-      console.log("Storage clear failed:", e);
-    }
+      localStorage.removeItem("googtrans");
+      sessionStorage.removeItem("googtrans");
+    } catch {}
 
-    const googleTranslateElement = document.getElementById(
-      "google_translate_element"
-    );
-    if (googleTranslateElement) {
-      googleTranslateElement.innerHTML = "";
-    }
+    const el = document.getElementById("google_translate_element");
+    if (el) el.innerHTML = "";
 
-    const googleTranslateBars = document.querySelectorAll(
-      ".goog-te-banner-frame, .skiptranslate"
-    );
-    googleTranslateBars.forEach((el) => el.remove());
-
-    dismissGoogleTranslate();
+    document
+      .querySelectorAll(".goog-te-banner-frame, .skiptranslate")
+      .forEach((n) => n.remove());
 
     setTimeout(() => {
       const cleanUrl =
@@ -136,7 +124,7 @@ const CustomGoogleTranslate: React.FC = () => {
         window.location.pathname +
         window.location.search;
       window.location.replace(cleanUrl);
-    }, 100);
+    }, 200);
   };
 
   const dismissGoogleTranslate = (): void => {
@@ -157,7 +145,7 @@ const CustomGoogleTranslate: React.FC = () => {
         }
       }
     } catch (e) {
-      console.log("Could not access iframe for dismiss:", e); 
+      console.log("Could not access iframe for dismiss:", e);
     }
   };
 
