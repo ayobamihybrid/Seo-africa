@@ -27,124 +27,83 @@ interface Language {
 
 const CustomGoogleTranslate: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("EN");
+  const [userSelectedLang, setUserSelectedLang] = useState("en");
 
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
-  const expireGoogtransCookie = (): void => {
-    const hostname = window.location.hostname;
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    console.log("Expired googtrans cookie");
-  };
-
-  const cacheBustReload = (): void => {
-    const cleanUrl =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname +
-      window.location.search;
-    window.location.href = cleanUrl + "?cb=" + Date.now();
-  };
-
-  const translateTo = (langCode: string): void => {
-    console.log(`Translating to: ${langCode}`);
-
-    if (langCode === "en") {
-      console.log("Resetting to English...");
-
-      window.location.hash = "";
-      expireGoogtransCookie();
-
-      document.body.classList.remove("translated-ltr", "translated-rtl");
-
-      setTimeout(() => {
-        history.pushState(
-          "",
-          document.title,
-          window.location.pathname + window.location.search
-        );
-        cacheBustReload();
-      }, 100);
-    } else {
-      console.log(`Setting hash to translate to ${langCode}`);
-
-      window.location.hash = "";
-
-      setTimeout(() => {
-        window.location.hash = `#googtrans(en|${langCode})`;
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
-      }, 50);
-    }
-  };
-
-  const resetToEnglish = (): void => {
-    console.log("Aggressive English reset...");
-
-    window.location.hash = "";
-    expireGoogtransCookie();
-
-    const googleTranslateElement = document.getElementById(
-      "google_translate_element"
-    );
-    if (googleTranslateElement) {
-      googleTranslateElement.innerHTML = "";
-    }
-
-    const googleTranslateBars = document.querySelectorAll(
-      ".goog-te-banner-frame, .skiptranslate"
-    );
-    googleTranslateBars.forEach((el) => el.remove());
-
-    document.body.classList.remove("translated-ltr", "translated-rtl");
-
-    setTimeout(() => {
-      history.pushState(
-        "",
-        document.title,
-        window.location.pathname + window.location.search
-      );
-      cacheBustReload();
-    }, 100);
-  };
+  const currentLang = userSelectedLang.toUpperCase();
 
   useEffect(() => {
-    const updateCurrentLanguage = () => {
-      const hash = window.location.hash;
-      console.log("Current hash:", hash);
-
-      if (hash.includes("googtrans")) {
-        const match = hash.match(/googtrans\([^|]*\|([^)]*)\)/);
-        if (match && match[1]) {
-          const langCode = match[1];
-          const lang = languages.find((l) => l.code === langCode);
-          if (lang) {
-            console.log(`Detected language: ${lang.code}`);
-            setCurrentLang(lang.code.toUpperCase());
-          }
-        }
-      } else {
-        console.log("No translation hash found, setting to English");
-        setCurrentLang("EN");
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("userLang");
+      if (saved && languages.some((l) => l.code === saved)) {
+        setUserSelectedLang(saved);
       }
-    };
-
-    updateCurrentLanguage();
-
-    const handleHashChange = () => {
-      console.log("Hash changed");
-      updateCurrentLanguage();
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && userSelectedLang) {
+      const hostname = window.location.hostname;
+      const isLocalhost = hostname === "localhost" || hostname === "127.0.0.1";
+      const domainPart = isLocalhost ? "" : `domain=${hostname};`;
+      const desiredCookie =
+        userSelectedLang === "en" ? "/en/en" : `/en/${userSelectedLang}`;
+      const currentCookieMatch = document.cookie.match(/googtrans=([^;]*)/);
+      const currentCookie = currentCookieMatch ? currentCookieMatch[1] : null;
+      const hasWrongHash = window.location.hash.includes("googtrans");
+
+      let needsReload = false;
+
+      if (userSelectedLang === "en") {
+        document.cookie = `googtrans=/en/en; path=/; ${domainPart}`;
+        if (hasWrongHash || currentCookie !== "/en/en") {
+          needsReload = true;
+        }
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+        document.body.classList.remove("translated-ltr", "translated-rtl");
+      } else {
+        document.cookie = `googtrans=/en/${userSelectedLang}; path=/; ${domainPart}`;
+        if (
+          !window.location.hash.includes(`googtrans(en|${userSelectedLang})`) ||
+          currentCookie !== `/en/${userSelectedLang}`
+        ) {
+          needsReload = true;
+          window.location.hash = `#googtrans(en|${userSelectedLang})`;
+        }
+      }
+
+      const lastEnforce = localStorage.getItem("lastEnforce");
+      const now = Date.now();
+      const skipReload = lastEnforce && now - parseInt(lastEnforce) < 2000;
+
+      if (needsReload && !skipReload) {
+        localStorage.setItem("lastEnforce", now.toString());
+        console.log(`Enforcing ${userSelectedLang}: Reloading due to mismatch`);
+        setTimeout(() => window.location.reload(), 100);
+      } else if (needsReload) {
+        console.log(
+          `Enforcing ${userSelectedLang}: Skipping reload (recent enforce)`
+        );
+      } else {
+        console.log(`Already in ${userSelectedLang} state: No reload needed`);
+      }
+    }
+  }, [userSelectedLang]);
+
+  const translateTo = (langCode: string): void => {
+    console.log(`User selected: ${langCode}`);
+    setUserSelectedLang(langCode);
+    localStorage.setItem("userLang", langCode);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined" && !window.google?.translate) {
@@ -218,14 +177,7 @@ const CustomGoogleTranslate: React.FC = () => {
               {languages.map((lang) => (
                 <button
                   key={lang.code}
-                  onClick={() => {
-                    if (lang.code === "en") {
-                      resetToEnglish();
-                    } else {
-                      translateTo(lang.code);
-                    }
-                    setIsOpen(false);
-                  }}
+                  onClick={() => translateTo(lang.code)}
                   className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-white/10 transition-colors text-white text-sm"
                 >
                   <span className="text-lg">{lang.flag}</span>
