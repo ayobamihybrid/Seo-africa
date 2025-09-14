@@ -32,21 +32,23 @@ const CustomGoogleTranslate: React.FC = () => {
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
-
   ];
 
-  const resetGoogtransCookie = (): void => {
+  const expireGoogtransCookie = (): void => {
     const hostname = window.location.hostname;
-    const cookieValue = "/en/en";
-
-    document.cookie = `googtrans=${cookieValue}; path=/; domain=${hostname};`;
-
     document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
-
-    document.cookie = `googtrans=${cookieValue}; path=/;`;
     document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    console.log("Expired googtrans cookie");
+  };
 
-    console.log("Reset googtrans cookie across variants");
+  const cacheBustReload = (): void => {
+    const cleanUrl =
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname +
+      window.location.search;
+    window.location.href = cleanUrl + "?cb=" + Date.now();
   };
 
   const translateTo = (langCode: string): void => {
@@ -56,23 +58,18 @@ const CustomGoogleTranslate: React.FC = () => {
       console.log("Resetting to English...");
 
       window.location.hash = "";
-
-      resetGoogtransCookie();
-
-      try {
-        if (localStorage.getItem("googtrans"))
-          localStorage.removeItem("googtrans");
-        if (sessionStorage.getItem("googtrans"))
-          sessionStorage.removeItem("googtrans");
-      } catch (e) {
-        console.log("Could not clear storage:", e);
-      }
+      expireGoogtransCookie();
 
       document.body.classList.remove("translated-ltr", "translated-rtl");
 
-      dismissGoogleTranslate();
-
-      window.location.reload();
+      setTimeout(() => {
+        history.pushState(
+          "",
+          document.title,
+          window.location.pathname + window.location.search
+        );
+        cacheBustReload();
+      }, 100);
     } else {
       console.log(`Setting hash to translate to ${langCode}`);
 
@@ -91,17 +88,7 @@ const CustomGoogleTranslate: React.FC = () => {
     console.log("Aggressive English reset...");
 
     window.location.hash = "";
-
-    resetGoogtransCookie();
-
-    try {
-      if (localStorage.getItem("googtrans"))
-        localStorage.removeItem("googtrans");
-      if (sessionStorage.getItem("googtrans"))
-        sessionStorage.removeItem("googtrans");
-    } catch (e) {
-      console.log("Storage clear failed:", e);
-    }
+    expireGoogtransCookie();
 
     const googleTranslateElement = document.getElementById(
       "google_translate_element"
@@ -115,32 +102,16 @@ const CustomGoogleTranslate: React.FC = () => {
     );
     googleTranslateBars.forEach((el) => el.remove());
 
-    dismissGoogleTranslate();
+    document.body.classList.remove("translated-ltr", "translated-rtl");
 
-    window.location.reload();
-  };
-
-  const dismissGoogleTranslate = (): void => {
-    const iframe =
-      (document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement) ||
-      (document.getElementById(":1.container") as HTMLIFrameElement);
-    if (!iframe) return;
-
-    try {
-      const innerDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (innerDoc) {
-        const buttons = innerDoc.getElementsByTagName("button");
-        for (let i = 0; i < buttons.length; i++) {
-          if (buttons[i].id.indexOf("restore") >= 0) {
-            (buttons[i] as HTMLElement).click();
-            console.log("Clicked restore button in iframe");
-            return;
-          }
-        }
-      }
-    } catch (e) {
-      console.log("Iframe access blocked (CORS):", e); 
-    }
+    setTimeout(() => {
+      history.pushState(
+        "",
+        document.title,
+        window.location.pathname + window.location.search
+      );
+      cacheBustReload();
+    }, 100);
   };
 
   useEffect(() => {
@@ -210,7 +181,6 @@ const CustomGoogleTranslate: React.FC = () => {
         try {
           new window.google.translate.TranslateElement(
             {
-              pageLanguage: "en",
               includedLanguages: "en,fr,es,de,zh,ja",
               layout:
                 window.google.translate.TranslateElement.InlineLayout.SIMPLE,
