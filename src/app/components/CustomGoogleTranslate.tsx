@@ -32,33 +32,50 @@ const CustomGoogleTranslate: React.FC = () => {
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
+ 
   ];
+
+  const getNormalizedDomain = (hostname: string): string => {
+    return hostname.replace(/^www\./, "");
+  };
+
+  const setCookieAcrossDomains = (
+    name: string,
+    value: string,
+    domains: string[]
+  ) => {
+    domains.forEach((domain) => {
+      document.cookie = `${name}=${value}; path=/; domain=${domain};`;
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+    });
+  };
 
   const translateTo = (langCode: string): void => {
     console.log(`Translating to: ${langCode}`);
+
+    const hostname = window.location.hostname;
+    const rootDomain = getNormalizedDomain(hostname);
+    const domains = [hostname, `.${hostname}`, rootDomain, `.${rootDomain}`];
 
     if (langCode === "en") {
       console.log("Resetting to English...");
 
       window.location.hash = "";
 
-      document.cookie =
-        "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" +
-        window.location.hostname +
-        ";";
-      document.cookie =
-        "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." +
-        window.location.hostname +
-        ";";
+      setCookieAcrossDomains("googtrans", "/en/en", domains);
 
       try {
-        localStorage.removeItem("googtrans");
-        sessionStorage.removeItem("googtrans");
+        if (localStorage.getItem("googtrans"))
+          localStorage.removeItem("googtrans");
+        if (sessionStorage.getItem("googtrans"))
+          sessionStorage.removeItem("googtrans");
       } catch (e) {
         console.log("Could not clear storage:", e);
       }
 
       document.body.classList.remove("translated-ltr", "translated-rtl");
+
+      dismissGoogleTranslate();
 
       const url = window.location.href.split("#")[0];
       window.location.replace(url);
@@ -76,37 +93,40 @@ const CustomGoogleTranslate: React.FC = () => {
     }
   };
 
-  const resetToEnglish = () => {
-    console.log("Resetting to English (production-safe)");
+  const resetToEnglish = (): void => {
+    console.log("Aggressive English reset...");
+
+    const hostname = window.location.hostname;
+    const rootDomain = getNormalizedDomain(hostname);
+    const domains = [hostname, `.${hostname}`, rootDomain, `.${rootDomain}`]; 
 
     window.location.hash = "";
 
-    const expires = "Thu, 01 Jan 1970 00:00:00 UTC";
-    const paths = ["/"];
-    const domains = [window.location.hostname, "." + window.location.hostname];
+    setCookieAcrossDomains("googtrans", "/en/en", domains);
 
-    document.cookie = `googtrans=; expires=${expires}; path=/;`;
-
-    domains.forEach((domain) => {
-      paths.forEach((path) => {
-        document.cookie = `googtrans=; expires=${expires}; path=${path}; domain=${domain};`;
-      });
-    });
-
+    // Targeted storage clear only
     try {
-      localStorage.removeItem("googtrans");
-      sessionStorage.removeItem("googtrans");
-    } catch (e) {}
+      if (localStorage.getItem("googtrans"))
+        localStorage.removeItem("googtrans");
+      if (sessionStorage.getItem("googtrans"))
+        sessionStorage.removeItem("googtrans");
+    } catch (e) {
+      console.log("Storage clear failed:", e);
+    }
 
     const googleTranslateElement = document.getElementById(
       "google_translate_element"
     );
-    if (googleTranslateElement) googleTranslateElement.innerHTML = "";
+    if (googleTranslateElement) {
+      googleTranslateElement.innerHTML = "";
+    }
 
     const googleTranslateBars = document.querySelectorAll(
       ".goog-te-banner-frame, .skiptranslate"
     );
     googleTranslateBars.forEach((el) => el.remove());
+
+    dismissGoogleTranslate();
 
     setTimeout(() => {
       const cleanUrl =
@@ -116,7 +136,29 @@ const CustomGoogleTranslate: React.FC = () => {
         window.location.pathname +
         window.location.search;
       window.location.replace(cleanUrl);
-    }, 150);
+    }, 100);
+  };
+
+  const dismissGoogleTranslate = (): void => {
+    const iframe = document.querySelector(
+      ".goog-te-banner-frame"
+    ) as HTMLIFrameElement;
+    if (!iframe) return;
+
+    try {
+      const innerDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (innerDoc) {
+        const restoreButtons = innerDoc.querySelectorAll(
+          "button[id*='restore']"
+        );
+        if (restoreButtons.length > 0) {
+          (restoreButtons[0] as HTMLElement).click();
+          console.log("Dismissed Google Translate via restore button");
+        }
+      }
+    } catch (e) {
+      console.log("Could not access iframe for dismiss:", e); 
+    }
   };
 
   useEffect(() => {
