@@ -32,9 +32,6 @@ const CustomGoogleTranslate: React.FC = () => {
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
-    // { code: "es", name: "Español", flag: "🇪🇸" },
-    // { code: "de", name: "Deutsch", flag: "🇩🇪" },
- 
   ];
 
   const translateTo = (langCode: string): void => {
@@ -79,32 +76,32 @@ const CustomGoogleTranslate: React.FC = () => {
     }
   };
 
-  const resetToEnglish = (): void => {
-    console.log("Aggressive English reset...");
+  const resetToEnglish = () => {
+    console.log("Resetting to English (production-safe)");
 
     window.location.hash = "";
 
-    const hostname = window.location.hostname;
-    const domains = [hostname, "." + hostname, "localhost", ".localhost"];
+    const expires = "Thu, 01 Jan 1970 00:00:00 UTC";
+    const paths = ["/"];
+    const domains = [window.location.hostname, "." + window.location.hostname];
+
+    document.cookie = `googtrans=; expires=${expires}; path=/;`;
 
     domains.forEach((domain) => {
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-      document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+      paths.forEach((path) => {
+        document.cookie = `googtrans=; expires=${expires}; path=${path}; domain=${domain};`;
+      });
     });
 
     try {
-      localStorage.clear();
-      sessionStorage.clear();
-    } catch (e) {
-      console.log("Storage clear failed:", e);
-    }
+      localStorage.removeItem("googtrans");
+      sessionStorage.removeItem("googtrans");
+    } catch (e) {}
 
     const googleTranslateElement = document.getElementById(
       "google_translate_element"
     );
-    if (googleTranslateElement) {
-      googleTranslateElement.innerHTML = "";
-    }
+    if (googleTranslateElement) googleTranslateElement.innerHTML = "";
 
     const googleTranslateBars = document.querySelectorAll(
       ".goog-te-banner-frame, .skiptranslate"
@@ -119,7 +116,7 @@ const CustomGoogleTranslate: React.FC = () => {
         window.location.pathname +
         window.location.search;
       window.location.replace(cleanUrl);
-    }, 100);
+    }, 150);
   };
 
   useEffect(() => {
@@ -229,7 +226,7 @@ const CustomGoogleTranslate: React.FC = () => {
                   key={lang.code}
                   onClick={() => {
                     if (lang.code === "en") {
-                      resetToEnglish(); 
+                      resetToEnglish();
                     } else {
                       translateTo(lang.code);
                     }
