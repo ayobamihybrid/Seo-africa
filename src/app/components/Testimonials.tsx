@@ -235,14 +235,14 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
       <div className="flex flex-col md:flex-row h-full min-h-[500px]">
         <div
           ref={imageAnimation.ref}
-          className={`relative md:w-1/2 w-full h-64 md:h-full min-h-[400px] md:min-h-[500px] ${imageAnimation.animationClass}`}
+          className={`relative md:w-1/2 w-full h-64 md:h-full min-h-[400px] md:min-h-[520px] ${imageAnimation.animationClass}`}
           style={{ transitionDelay: "200ms" }}
         >
           <Image
             src={testimonial.avatar}
             alt={`${testimonial.name} - ${testimonial.title}`}
             fill
-            className="object-cover"
+            className="object-fit"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>

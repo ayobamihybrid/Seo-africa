@@ -42,7 +42,20 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
 
   const heroTitle = homePageData?.heroTitle || "";
   const heroDescription = homePageData?.heroDescription || "";
-  const sliderItems = homePageData?.heroSliderItems || [];
+  const sliderItems = homePageData?.heroSliderItems || [
+    {
+      name: "David Serlorm Atsu",
+      title: "From SEO Africa to Goldman Sachs",
+    },
+    {
+      name: "Kwame Asante",
+      title: "From SEO Africa to Google Africa",
+    },
+    {
+      name: "Fatima Al-Rashid",
+      title: "From SEO Africa to World Bank",
+    },
+  ];
   const primaryButtonText = homePageData?.heroButtonText || "";
   const secondaryButtonText = homePageData?.heroSecondaryButtonText || "";
 
@@ -75,16 +88,11 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
 
       <div className="max-w-7xl mx-auto relative flex items-center min-h-[calc(100vh-100px)] px-4 sm:px-6 lg:px-12">
         <div className="max-w-4xl w-full">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight mb-6 lg:mb-8">
-            {titleLines.map((line, index) => (
-              <React.Fragment key={index}>
-                {line.trim()}
-                {index < titleLines.length - 1 && <br />}
-              </React.Fragment>
-            ))}
+          <h1 className="max-w-2xl text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight mb-6 lg:mb-8">
+            {titleLines}
           </h1>
 
-          <p className="text-white/60 text-base sm:text-lg lg:text-xl max-w-2xl mb-8 lg:mb-12 leading-relaxed">
+          <p className="text-white/95 text-base sm:text-lg lg:text-xl max-w-2xl mb-8 lg:mb-12 leading-relaxed">
             {heroDescription}
           </p>
 
