@@ -38,10 +38,8 @@ const CustomGoogleTranslate: React.FC = () => {
     const hostname = window.location.hostname;
     const domains = [hostname, "." + hostname];
 
-    // Clear cookies
     domains.forEach((domain) => {
       document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-      document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
     });
 
     try {
@@ -50,17 +48,30 @@ const CustomGoogleTranslate: React.FC = () => {
     } catch {}
   };
 
+  const hardResetGoogleTranslate = () => {
+    window.location.hash = "";
+
+    document
+      .querySelectorAll(
+        "iframe.goog-te-banner-frame, .goog-te-banner-frame, .skiptranslate"
+      )
+      .forEach((el) => el.remove());
+
+    document.querySelectorAll("style, link").forEach((node) => {
+      if (
+        node.innerHTML.includes(".goog-te") ||
+        (node instanceof HTMLLinkElement && node.href.includes("translate"))
+      ) {
+        node.remove();
+      }
+    });
+  };
+
   const setLanguage = (lang: "en" | "fr") => {
     if (lang === "en") {
       clearGoogTransCompletely();
+      hardResetGoogleTranslate();
       setCurrentLang("en");
-      window.location.hash = "";
-
-      const gtFrame = document.querySelector("iframe.goog-te-banner-frame");
-      if (gtFrame) gtFrame.remove();
-
-      const skipTranslate = document.querySelector(".skiptranslate");
-      if (skipTranslate) skipTranslate.innerHTML = "";
 
       setTimeout(() => {
         const cleanUrl =
@@ -70,16 +81,17 @@ const CustomGoogleTranslate: React.FC = () => {
           window.location.pathname +
           window.location.search;
         window.location.replace(cleanUrl);
-      }, 150);
+      }, 200);
     } else {
-      setCurrentLang("fr");
+      clearGoogTransCompletely();
       document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname};`;
       document.cookie = `googtrans=/en/${lang}; path=/; domain=.${window.location.hostname};`;
-      window.location.hash = `#googtrans(en|${lang})`;
+      setCurrentLang("fr");
 
       setTimeout(() => {
+        window.location.hash = `#googtrans(en|${lang})`;
         window.location.reload();
-      }, 100);
+      }, 200);
     }
   };
 
