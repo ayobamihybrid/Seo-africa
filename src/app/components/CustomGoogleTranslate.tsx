@@ -34,30 +34,53 @@ const CustomGoogleTranslate: React.FC = () => {
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
-  const clearGoogTransCookies = () => {
+  const clearGoogTransCompletely = () => {
     const hostname = window.location.hostname;
     const domains = [hostname, "." + hostname];
 
+    // Clear cookies
     domains.forEach((domain) => {
       document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+      document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
     });
+
+    try {
+      localStorage.removeItem("googtrans");
+      sessionStorage.removeItem("googtrans");
+    } catch {}
   };
 
   const setLanguage = (lang: "en" | "fr") => {
-    setCurrentLang(lang);
-
     if (lang === "en") {
-      clearGoogTransCookies();
+      clearGoogTransCompletely();
+      setCurrentLang("en");
       window.location.hash = "";
+
+      const gtFrame = document.querySelector("iframe.goog-te-banner-frame");
+      if (gtFrame) gtFrame.remove();
+
+      const skipTranslate = document.querySelector(".skiptranslate");
+      if (skipTranslate) skipTranslate.innerHTML = "";
+
+      setTimeout(() => {
+        const cleanUrl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          window.location.pathname +
+          window.location.search;
+        window.location.replace(cleanUrl);
+      }, 150);
     } else {
+      setCurrentLang("fr");
       document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname};`;
       document.cookie = `googtrans=/en/${lang}; path=/; domain=.${window.location.hostname};`;
       window.location.hash = `#googtrans(en|${lang})`;
-    }
 
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
   };
 
   useEffect(() => {
