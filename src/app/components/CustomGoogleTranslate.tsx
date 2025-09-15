@@ -37,11 +37,12 @@ const CustomGoogleTranslate: React.FC = () => {
   const setLanguage = (lang: "en" | "fr") => {
     setCurrentLang(lang);
 
-    document.cookie = `googtrans=/en/${lang}; path=/;`;
-
     if (lang === "en") {
+      document.cookie =
+        "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       window.location.hash = "";
     } else {
+      document.cookie = `googtrans=/en/${lang}; path=/;`;
       window.location.hash = `#googtrans(en|${lang})`;
     }
 
