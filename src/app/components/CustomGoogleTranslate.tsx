@@ -37,24 +37,20 @@ const CustomGoogleTranslate: React.FC = () => {
   const setLanguage = (lang: "en" | "fr") => {
     setCurrentLang(lang);
 
-    // Explicitly set googtrans cookie
     document.cookie = `googtrans=/en/${lang}; path=/;`;
 
-    // Update hash for Google Translate
     if (lang === "en") {
       window.location.hash = "";
     } else {
       window.location.hash = `#googtrans(en|${lang})`;
     }
 
-    // Force reload so Google Translate applies
     setTimeout(() => {
       window.location.reload();
     }, 100);
   };
 
   useEffect(() => {
-    // On mount, detect current language from cookie
     const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
     if (match && match[1]) {
       setCurrentLang(match[1] as "en" | "fr");
