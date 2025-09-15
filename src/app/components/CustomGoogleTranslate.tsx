@@ -20,129 +20,133 @@ declare global {
 }
 
 interface Language {
-  code: "en" | "fr";
+  code: string;
   name: string;
   flag: string;
 }
 
 const CustomGoogleTranslate: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState<"en" | "fr">("en");
+  const [userSelectedLang, setUserSelectedLang] = useState("en");
 
   const languages: Language[] = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
-  const clearGoogTransCompletely = () => {
-    const hostname = window.location.hostname;
-    const domains = [hostname, "." + hostname];
-
-    domains.forEach((domain) => {
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-    });
-
-    try {
-      localStorage.removeItem("googtrans");
-      sessionStorage.removeItem("googtrans");
-    } catch {}
-  };
-
-  const hardResetGoogleTranslate = () => {
-    window.location.hash = "";
-
-    document
-      .querySelectorAll(
-        "iframe.goog-te-banner-frame, .goog-te-banner-frame, .skiptranslate"
-      )
-      .forEach((el) => el.remove());
-
-    document.querySelectorAll("style, link").forEach((node) => {
-      if (
-        node.innerHTML.includes(".goog-te") ||
-        (node instanceof HTMLLinkElement && node.href.includes("translate"))
-      ) {
-        node.remove();
-      }
-    });
-  };
-
-  const setLanguage = (lang: "en" | "fr") => {
-    if (lang === "en") {
-      clearGoogTransCompletely();
-      hardResetGoogleTranslate();
-      setCurrentLang("en");
-
-      setTimeout(() => {
-        const cleanUrl =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          window.location.pathname +
-          window.location.search;
-        window.location.replace(cleanUrl);
-      }, 200);
-    } else {
-      clearGoogTransCompletely();
-      document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname};`;
-      document.cookie = `googtrans=/en/${lang}; path=/; domain=.${window.location.hostname};`;
-      setCurrentLang("fr");
-
-      setTimeout(() => {
-        window.location.hash = `#googtrans(en|${lang})`;
-        window.location.reload();
-      }, 200);
-    }
-  };
+  const currentLang = userSelectedLang.toUpperCase();
 
   useEffect(() => {
-    const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
-    if (match && match[1]) {
-      setCurrentLang(match[1] as "en" | "fr");
-    } else {
-      setCurrentLang("en");
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("userLang");
+      if (saved && languages.some((l) => l.code === saved)) {
+        setUserSelectedLang(saved);
+      }
     }
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !window.google?.translate) {
-      const container = document.createElement("div");
-      container.id = "google_translate_element";
-      container.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        opacity: 0;
-        pointer-events: none;
-      `;
-      document.body.appendChild(container);
+    if (typeof window !== "undefined" && userSelectedLang) {
+      const hostname = window.location.hostname;
+      const isLocalhost = hostname === "localhost" || hostname === "127.0.0.1";
+      const domainPart = isLocalhost ? "" : `domain=${hostname};`;
+      const desiredCookie =
+        userSelectedLang === "en" ? "" : `/en/${userSelectedLang}`;
+      const currentCookieMatch = document.cookie.match(/googtrans=([^;]*)/);
+      const currentCookie = currentCookieMatch ? currentCookieMatch[1] : null;
+      const hasWrongHash = window.location.hash.includes("googtrans");
 
-      const script = document.createElement("script");
-      script.src =
-        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.head.appendChild(script);
+      let needsReload = false;
 
-      window.googleTranslateElementInit = () => {
-        try {
+      if (userSelectedLang === "en") {
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; ${domainPart}`;
+        if (hasWrongHash || currentCookie) {
+          needsReload = true;
+        }
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+        document.body.classList.remove("translated-ltr", "translated-rtl");
+      } else {
+        document.cookie = `googtrans=/en/${userSelectedLang}; path=/; ${domainPart}`;
+        if (
+          !window.location.hash.includes(`googtrans(en|${userSelectedLang})`) ||
+          currentCookie !== `/en/${userSelectedLang}`
+        ) {
+          needsReload = true;
+          window.location.hash = `#googtrans(en|${userSelectedLang})`;
+        }
+      }
+
+      const lastEnforce = localStorage.getItem("lastEnforce");
+      const now = Date.now();
+      const skipReload = lastEnforce && now - parseInt(lastEnforce) < 5000;
+
+      if (needsReload && !skipReload) {
+        localStorage.setItem("lastEnforce", now.toString());
+        console.log(`Enforcing ${userSelectedLang}: Reloading due to mismatch`);
+        setTimeout(() => window.location.reload(), 200);
+      } else if (needsReload) {
+        console.log(
+          `Enforcing ${userSelectedLang}: Skipping reload (recent enforce)`
+        );
+      } else {
+        console.log(`Already in ${userSelectedLang} state: No reload needed`);
+      }
+    }
+  }, [userSelectedLang]);
+
+  const translateTo = (langCode: string): void => {
+    console.log(`User selected: ${langCode}`);
+    setUserSelectedLang(langCode);
+    localStorage.setItem("userLang", langCode);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const initWidget = () => {
+        if (window.google?.translate) {
+          const existingElement = document.getElementById(
+            "google_translate_element"
+          );
+          if (existingElement) {
+            existingElement.remove();
+          }
+
+          const container = document.createElement("div");
+          container.id = "google_translate_element";
+          container.style.cssText = `
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+          `;
+          document.body.appendChild(container);
+
           new window.google.translate.TranslateElement(
             {
               pageLanguage: "en",
-              includedLanguages: "en,fr",
+              includedLanguages: "en,fr,es,de,zh,ja",
               layout:
                 window.google.translate.TranslateElement.InlineLayout.SIMPLE,
               autoDisplay: false,
             },
             "google_translate_element"
           );
-        } catch (error) {
-          console.error("Error initializing Google Translate:", error);
+          console.log("Google Translate re-initialized");
         }
       };
+
+      initWidget();
+      setTimeout(initWidget, 500);
     }
-  }, []);
+  }, [userSelectedLang]);
 
   return (
     <div className="relative">
@@ -153,9 +157,7 @@ const CustomGoogleTranslate: React.FC = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-2 text-white hover:bg-white/20 transition-all duration-300 min-w-[80px]"
           >
-            <span className="text-sm font-medium">
-              {currentLang.toUpperCase()}
-            </span>
+            <span className="text-sm font-medium">{currentLang}</span>
             <ChevronDown
               className={`w-3 h-3 transition-transform duration-200 ${
                 isOpen ? "rotate-180" : ""
@@ -168,15 +170,12 @@ const CustomGoogleTranslate: React.FC = () => {
               {languages.map((lang) => (
                 <button
                   key={lang.code}
-                  onClick={() => {
-                    setLanguage(lang.code);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => translateTo(lang.code)}
                   className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-white/10 transition-colors text-white text-sm"
                 >
                   <span className="text-lg">{lang.flag}</span>
                   <span className="font-medium">{lang.name}</span>
-                  {currentLang === lang.code && (
+                  {currentLang === lang.code.toUpperCase() && (
                     <span className="ml-auto w-2 h-2 bg-blue-400 rounded-full" />
                   )}
                 </button>
