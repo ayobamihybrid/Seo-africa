@@ -34,15 +34,24 @@ const CustomGoogleTranslate: React.FC = () => {
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
+  const clearGoogTransCookies = () => {
+    const hostname = window.location.hostname;
+    const domains = [hostname, "." + hostname];
+
+    domains.forEach((domain) => {
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+    });
+  };
+
   const setLanguage = (lang: "en" | "fr") => {
     setCurrentLang(lang);
 
     if (lang === "en") {
-      document.cookie =
-        "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      clearGoogTransCookies();
       window.location.hash = "";
     } else {
-      document.cookie = `googtrans=/en/${lang}; path=/;`;
+      document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname};`;
+      document.cookie = `googtrans=/en/${lang}; path=/; domain=.${window.location.hostname};`;
       window.location.hash = `#googtrans(en|${lang})`;
     }
 
