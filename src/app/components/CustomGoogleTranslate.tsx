@@ -34,18 +34,39 @@ const CustomGoogleTranslate: React.FC = () => {
     { code: "fr", name: "Français", flag: "🇫🇷" },
   ];
 
-  const clearGoogTransCompletely = () => {
+  const clearAllGoogleTranslateCookies = () => {
     const hostname = window.location.hostname;
-    const domains = [hostname, "." + hostname];
+    const domains = [
+      hostname,
+      "." + hostname,
+      window.location.host,
+      "." + window.location.host,
+    ];
 
     domains.forEach((domain) => {
       document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}; secure;`;
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     });
 
     try {
       localStorage.removeItem("googtrans");
       sessionStorage.removeItem("googtrans");
-    } catch {}
+
+      Object.keys(localStorage).forEach((key) => {
+        if (key.includes("googtrans") || key.includes("google-translate")) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      Object.keys(sessionStorage).forEach((key) => {
+        if (key.includes("googtrans") || key.includes("google-translate")) {
+          sessionStorage.removeItem(key);
+        }
+      });
+    } catch (e) {
+      console.log("Storage clearing failed:", e);
+    }
   };
 
   const hardResetGoogleTranslate = () => {
@@ -53,77 +74,100 @@ const CustomGoogleTranslate: React.FC = () => {
 
     document
       .querySelectorAll(
-        "iframe.goog-te-banner-frame, .goog-te-banner-frame, .skiptranslate"
+        "iframe.goog-te-banner-frame, .goog-te-banner-frame, .skiptranslate, .goog-te-menu-frame"
       )
       .forEach((el) => el.remove());
 
     document.querySelectorAll("style, link").forEach((node) => {
       if (
-        node.innerHTML.includes(".goog-te") ||
-        (node instanceof HTMLLinkElement && node.href.includes("translate"))
+        node.innerHTML?.includes(".goog-te") ||
+        (node instanceof HTMLLinkElement && node.href?.includes("translate"))
       ) {
         node.remove();
       }
     });
+
+    document.body.removeAttribute("style");
+    document.documentElement.removeAttribute("style");
+  };
+
+  const forceReloadPage = () => {
+    clearAllGoogleTranslateCookies();
+    hardResetGoogleTranslate();
+
+    const cleanUrl =
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname +
+      window.location.search;
+
+    window.location.href = cleanUrl;
   };
 
   const setLanguage = (lang: "en" | "fr") => {
     if (lang === "en") {
-      clearGoogTransCompletely();
-      hardResetGoogleTranslate();
+      console.log("Switching to English - clearing all cookies and reloading");
       setCurrentLang("en");
-
-      setTimeout(() => {
-        const cleanUrl =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          window.location.pathname +
-          window.location.search;
-        window.location.replace(cleanUrl);
-      }, 200);
+      forceReloadPage();
     } else {
-      clearGoogTransCompletely();
-      document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname};`;
-      document.cookie = `googtrans=/en/${lang}; path=/; domain=.${window.location.hostname};`;
-      setCurrentLang("fr");
+      console.log("Switching to French");
+      clearAllGoogleTranslateCookies();
+
+      const hostname = window.location.hostname;
+      document.cookie = `googtrans=/en/${lang}; path=/; domain=${hostname};`;
+      document.cookie = `googtrans=/en/${lang}; path=/; domain=.${hostname};`;
+
+      setCurrentLang(lang);
 
       setTimeout(() => {
         window.location.hash = `#googtrans(en|${lang})`;
         window.location.reload();
-      }, 200);
+      }, 100);
     }
   };
 
   useEffect(() => {
-    const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
-    if (match && match[1]) {
-      setCurrentLang(match[1] as "en" | "fr");
-    } else {
-      setCurrentLang("en");
-    }
+    const checkCurrentLanguage = () => {
+      const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
+      if (match && match[1] && match[1] !== "en") {
+        setCurrentLang(match[1] as "en" | "fr");
+      } else {
+        setCurrentLang("en");
+      }
+    };
+
+    checkCurrentLanguage();
   }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined" && !window.google?.translate) {
-      const container = document.createElement("div");
-      container.id = "google_translate_element";
-      container.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        opacity: 0;
-        pointer-events: none;
-      `;
-      document.body.appendChild(container);
+      let container = document.getElementById("google_translate_element");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "google_translate_element";
+        container.style.cssText = `
+          position: absolute !important;
+          left: -9999px !important;
+          width: 1px !important;
+          height: 1px !important;
+          overflow: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          visibility: hidden !important;
+        `;
+        document.body.appendChild(container);
+      }
 
-      const script = document.createElement("script");
-      script.src =
-        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.head.appendChild(script);
+      if (!document.querySelector('script[src*="translate.google.com"]')) {
+        const script = document.createElement("script");
+        script.src =
+          "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        script.async = true;
+        script.onerror = () =>
+          console.error("Failed to load Google Translate script");
+        document.head.appendChild(script);
+      }
 
       window.googleTranslateElementInit = () => {
         try {
