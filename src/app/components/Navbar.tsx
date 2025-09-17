@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import {
-  ChevronDown,
-  Heart,
-  Menu,
-  X,
-  Zap,
-  ExternalLink,
-} from "lucide-react";
+import { ChevronDown, Heart, Menu, X, Zap, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import CustomGoogleTranslate from "./CustomGoogleTranslate";
@@ -168,21 +161,41 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       </div>
 
                       <div className="flex items-center space-x-4 mt-12">
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/instagram.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://www.instagram.com/seo_africa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/instagram.svg"} alt="Instagram" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/facebook.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://web.facebook.com/seoinafrica"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/facebook.svg"} alt="Facebook" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/twitter.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://x.com/SEOinAfrica"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/twitter.svg"} alt="Twitter" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/linkedin.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://www.linkedIn.com/company/seo-africa-org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/linkedin.svg"} alt="LinkedIn" fill />
+                        </Link>
                       </div>
                     </div>
 
@@ -286,14 +299,14 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           </div>
                         </div>
                         <Link
-                          href="/"
+                          href="/our-programmes"
                           className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
                           SEO Africa On-campus
                         </Link>
                         <Link
-                          href="/"
+                          href="/our-programmes"
                           className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
@@ -302,21 +315,41 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                       </div>
 
                       <div className="flex items-center space-x-4 mt-12">
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/instagram.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://www.instagram.com/seo_africa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/instagram.svg"} alt="Instagram" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/facebook.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://web.facebook.com/seoinafrica"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/facebook.svg"} alt="Facebook" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/twitter.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://x.com/SEOinAfrica"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/twitter.svg"} alt="Twitter" fill />
+                        </Link>
 
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image src={"/linkedin.svg"} alt="" fill />
-                        </div>
+                        <Link
+                          href="https://www.linkedIn.com/company/seo-africa-org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative h-8 w-8 flex-shrink-0"
+                        >
+                          <Image src={"/linkedin.svg"} alt="LinkedIn" fill />
+                        </Link>
                       </div>
                     </div>
 

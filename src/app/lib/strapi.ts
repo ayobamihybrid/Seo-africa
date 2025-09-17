@@ -666,7 +666,7 @@ export async function getProgrammeBySlug(slug: string) {
     );
 
     const apiResponse = await response.json();
-    console.log("✅ Programme by slug API response received");
+    console.log("✅ Programme by slug API response received", apiResponse);
 
     if (!apiResponse.data || apiResponse.data.length === 0) {
       throw new Error("No programme found with the provided slug");

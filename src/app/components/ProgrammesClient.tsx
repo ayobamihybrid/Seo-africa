@@ -109,7 +109,7 @@ const TextReveal: React.FC<{ text: string; className?: string }> = ({
         <span
           key={index}
           className={`inline-block mr-2 transition-all duration-700 ease-out ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "text-gray-900" : "text-gray-300"
           }`}
           style={{
             transitionDelay: `${index * 50}ms`,
@@ -283,14 +283,14 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
           </div>
         </div>
 
-        <div className="pt-48 md:pt-56 lg:pt-80">
+        <div className="pt-48 md:pt-80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div className="rounded-lg p-8 lg:p-12">
               <div className="mb-8">
                 <div className="flex-1">
                   <TextReveal
                     text={contentData}
-                    className="text-gray-900 font-medium text-2xl md:text-3xl lg:text-4xl leading-tight mb-6"
+                    className="text-gray-900 font-medium text-2xl md:text-4xl lg:text-[52px] leading-tight mb-6"
                   />
                 </div>
               </div>
@@ -299,7 +299,7 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
         </div>
       </section>
 
-      <section className="bg-white py-16 lg:py-40">
+      <section className="bg-white py-16 lg:pb-80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="space-y-16 lg:space-y-20">
             {displayProgrammes.map((programme, index) => {
