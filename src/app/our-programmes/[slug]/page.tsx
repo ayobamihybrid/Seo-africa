@@ -260,10 +260,15 @@ export default function ProgrammeDetails() {
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </a>
               ) : (
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+                <Link
+                  href={"https://seoafrica.corner.education"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-fit bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center"
+                >
                   Apply now
                   <ExternalLink className="w-4 h-4 ml-2" />
-                </button>
+                </Link>
               )}
             </div>
           </div>
@@ -336,10 +341,15 @@ export default function ProgrammeDetails() {
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
                 ) : (
-                  <button className="bg-white text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center">
+                  <Link
+                    href={"https://seoafrica.corner.education"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-fit bg-white text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center"
+                  >
                     Apply now
                     <ExternalLink className="w-4 h-4 ml-2" />
-                  </button>
+                  </Link>
                 )}
               </div>
 
