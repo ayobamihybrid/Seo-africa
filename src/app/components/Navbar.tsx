@@ -515,7 +515,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </p>
                         <div className="space-y-3">
                           <Link
-                            href="/our-team"
+                            href="/our-team#partners"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >

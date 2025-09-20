@@ -229,7 +229,7 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
                   <div className="relative mb-6 overflow-hidden rounded-lg aspect-[4/5]">
                     <Image
                       src={getTeamMemberImageUrl(member)}
-                      alt={member.name}
+                      alt={''}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       placeholder="blur"
@@ -313,6 +313,7 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
       <div
         ref={partnersAnimation.ref}
         className={`px-4 sm:px-6 lg:px-12 bg-white ${partnersAnimation.animationClass}`}
+        id="partners"
       >
         <Partners
           variant="ourTeam"
