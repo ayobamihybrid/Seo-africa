@@ -1,5 +1,9 @@
 import React, { Suspense } from "react";
-import { getImpactPageData, getHomePageRawData, getCountriesOfOperations } from "../lib/strapi";
+import {
+  getImpactPageData,
+  getHomePageRawData,
+  getCountriesOfOperations,
+} from "../lib/strapi";
 import ImpactClient from "../components/ImpactClient";
 
 interface ImpactPageData {
@@ -35,7 +39,7 @@ interface ImpactPageData {
     video_links: Array<{
       id: number;
       url: string;
-    }>;
+    } | null>;
   };
   talent_cta_section: {
     id: number;
@@ -52,24 +56,56 @@ interface ImpactPageData {
   };
 }
 
+function processVideoLinks(
+  videoLinks: Array<{ id: number; url: string } | null> | undefined
+) {
+  if (!videoLinks || !Array.isArray(videoLinks)) {
+    return [];
+  }
+
+  return videoLinks.filter(
+    (link): link is { id: number; url: string } =>
+      link !== null &&
+      typeof link === "object" &&
+      "url" in link &&
+      typeof link.url === "string" &&
+      link.url.trim() !== ""
+  );
+}
+
 async function ServerContent() {
   try {
-    const [impactPageResponse, homePageRawResponse, countriesResponse] = await Promise.all([
-      getImpactPageData(),
-      getHomePageRawData(),
-      getCountriesOfOperations().catch((error) => {
-        console.warn("⚠️ Failed to fetch countries of operations, using fallback:", error);
-        return { data: [] };
-      })
-    ]);
+    const [impactPageResponse, homePageRawResponse, countriesResponse] =
+      await Promise.allSettled([
+        getImpactPageData(),
+        getHomePageRawData(),
+        getCountriesOfOperations(),
+      ]);
 
-    const impactData = impactPageResponse.data;
-    const statisticsData = homePageRawResponse.statistics_section;
-    const countriesData = countriesResponse.data || [];
+    const impactData =
+      impactPageResponse.status === "fulfilled"
+        ? impactPageResponse.value?.data
+        : null;
+
+    const statisticsData =
+      homePageRawResponse.status === "fulfilled"
+        ? homePageRawResponse.value?.statistics_section
+        : null;
+
+    const countriesData =
+      countriesResponse.status === "fulfilled"
+        ? countriesResponse.value?.data || []
+        : [];
+
+    if (impactData?.testimonial_section?.video_links) {
+      impactData.testimonial_section.video_links = processVideoLinks(
+        impactData.testimonial_section.video_links
+      );
+    }
 
     return (
-      <ImpactClient 
-        impactData={impactData} 
+      <ImpactClient
+        impactData={impactData}
         statisticsData={statisticsData}
         countriesData={countriesData}
       />
