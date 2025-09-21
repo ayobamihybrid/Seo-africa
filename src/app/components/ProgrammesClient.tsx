@@ -94,6 +94,8 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
   programmesData: strapiData,
   programmesList,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
   const headerBadgeAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
@@ -110,6 +112,18 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
     animationType: "zoom-in",
     threshold: 0.2,
   });
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   // Fallback data
   const fallbackData = {
@@ -194,6 +208,19 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
 
     console.log(`Programme "${title}" -> ID: "${slug}"`);
     return slug;
+  };
+
+  const handleProgrammeClick = (slug: string, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (isMobile) {
+      window.location.href = `/our-programmes/${slug}`;
+    } else {
+      window.open(`/our-programmes/${slug}`, "_self");
+    }
   };
 
   useEffect(() => {
@@ -423,11 +450,25 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
                       </div>
 
                       <div>
-                        <Link href={`/our-programmes/${slug}`}>
-                          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                        {isMobile ? (
+                          <button
+                            onClick={(e) => handleProgrammeClick(slug, e)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 w-full sm:w-auto touch-manipulation active:bg-blue-800"
+                            style={{
+                              WebkitTapHighlightColor: "transparent",
+                              cursor: "pointer",
+                              userSelect: "none",
+                            }}
+                          >
                             {programme.cta_text}
                           </button>
-                        </Link>
+                        ) : (
+                          <Link href={`/our-programmes/${slug}`}>
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                              {programme.cta_text}
+                            </button>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>

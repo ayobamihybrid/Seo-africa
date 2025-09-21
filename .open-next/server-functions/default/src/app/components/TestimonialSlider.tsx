@@ -48,7 +48,9 @@ const TestimonialsSlider = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <Link
-              href={"/career-opportunities"}
+              href="https://forms.gle/gEtqD5A7X3UmVxz66"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white w-fit text-[#5E68FF] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               Join our talent network
