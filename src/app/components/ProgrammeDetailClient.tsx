@@ -231,7 +231,7 @@ const ProgrammeDetailClient: React.FC<Props> = ({ programme }) => {
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
-              This is right for you if
+              what the program offers
             </h2>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -254,23 +254,23 @@ const ProgrammeDetailClient: React.FC<Props> = ({ programme }) => {
 
       <section className="bg-white py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
+          {/* <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
             Do i qualify to apply?
-          </h2>
+          </h2> */}
 
-          <div className="max-w-lg mx-auto bg-white p-1 rounded-full relative z-10">
+          {/* <div className="max-w-lg mx-auto bg-white p-1 rounded-full relative z-10">
             <div className="w-full bg-gradient-to-r from-orange-400 to-pink-400 rounded-full p-2 text-center">
               <span className=" text-white font-bold">
                 You qualify to apply if you meet the following criteria:
               </span>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-4 md:-mt-6 bg-gradient-to-b md:bg-gradient-to-r from-[#1E24CEED] via-[#1E24CEED] to-[#A533C4BA] rounded-4xl p-8 md:p-12 z-1">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-8">
-                  This isn't just theory, it's realworld learning. no fluff
+                  Kickstart your journey now!
                 </h3>
                 {programme.apply_link ? (
                   <a

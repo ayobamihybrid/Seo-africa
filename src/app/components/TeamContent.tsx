@@ -272,7 +272,9 @@ const TeamContent: React.FC<TeamContentProps> = ({
                   >
                     <div className="mb-8 lg:mb-12">
                       <h3 className="text-black text-xl md:text-2xl font-semibold mb-2">
-                        {sectionName}
+                        {sectionName.toUpperCase() === "MANAGEMENT TEAM"
+                          ? "Team members"
+                          : sectionName}
                       </h3>
                       <div className="w-20 h-1 bg-gradient-to-r from-[#E8913A] to-[#ED60A4] rounded-full"></div>
                     </div>
