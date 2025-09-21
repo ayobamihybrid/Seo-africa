@@ -59,16 +59,33 @@ export default function ProgrammeDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // In your ProgrammeDetails component
   useEffect(() => {
     async function fetchProgramme() {
       try {
         setLoading(true);
         setError(null);
 
-        const programmeData = await getProgrammeBySlug(slug);
+        // Decode the slug to handle mobile URL encoding
+        const decodedSlug = decodeURIComponent(slug);
+        console.log("Original slug:", slug);
+        console.log("Decoded slug:", decodedSlug);
+
+        const programmeData = await getProgrammeBySlug(decodedSlug);
         setProgramme(programmeData);
       } catch (err) {
         console.error("Failed to fetch programme:", err);
+
+        if (slug !== decodeURIComponent(slug)) {
+          try {
+            const programmeData = await getProgrammeBySlug(slug);
+            setProgramme(programmeData);
+            return;
+          } catch (secondErr) {
+            console.error("Both slug attempts failed:", secondErr);
+          }
+        }
+
         setError("Failed to load programme data");
       } finally {
         setLoading(false);
