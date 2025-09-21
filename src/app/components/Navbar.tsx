@@ -46,8 +46,8 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
     e.preventDefault();
     setActiveDropdown(null);
 
-    if (window.location.pathname === "/" || window.location.pathname === "") {
-      const element = document.getElementById("alumni-testimonials");
+    if (window.location.pathname === "/impact") {
+      const element = document.getElementById("testimonials");
       if (element) {
         element.scrollIntoView({
           behavior: "smooth",
@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
         });
       }
     } else {
-      window.location.href = "/#alumni-testimonials";
+      window.location.href = "/impact#testimonials";
     }
   };
 
@@ -502,7 +502,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </p>
                         <div className="space-y-3">
                           <Link
-                            href="/#alumni-testimonials"
+                            href="/impact#testimonials"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={handleAlumniTestimonialsClick}
                           >

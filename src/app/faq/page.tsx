@@ -218,13 +218,13 @@ const FAQPageContent = ({
       <section>
         <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="mb-16">
+            {/* <div className="mb-16">
               <h2 className="text-gray-900 text-3xl lg:text-4xl xl:text-5xl font-light">
                 {pressData?.title || "They talk about us"}
               </h2>
-            </div>
+            </div> */}
 
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* <div className="grid md:grid-cols-3 gap-8 mb-16">
               {displayPressItems.slice(0, 3).map((item) => (
                 <div key={item.id} className="bg-gray-50 p-8 rounded-lg">
                   <div className="mb-6">
@@ -261,7 +261,7 @@ const FAQPageContent = ({
                   </a>
                 </div>
               ))}
-            </div>
+            </div> */}
 
             <div className="bg-[#8499FF14] py-16 px-8 lg:px-12 rounded-lg">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-2 items-center">

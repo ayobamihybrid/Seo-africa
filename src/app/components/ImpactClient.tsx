@@ -272,7 +272,9 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
             </div>
 
             <Link
-              href={"/career-opportunities"}
+              href="https://forms.gle/gEtqD5A7X3UmVxz66"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-7 bg-white w-fit p-3 rounded-lg text-black font-bold flex items-center gap-2"
             >
               <p>Join our talent network</p>
@@ -464,7 +466,7 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
         </div>
       </section>
 
-      <section>
+      <section id="testimonials">
         <TestimonialsSlider />
       </section>
 

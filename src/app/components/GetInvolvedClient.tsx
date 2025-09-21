@@ -715,9 +715,9 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-16 lg:mb-20">
             {talentData.features.map((feature, index) => (
               <div key={feature.id} className="space-y-6">
-                <div className="text-gray-500 text-lg font-mono">
+                {/* <div className="text-gray-500 text-lg font-mono">
                   /{String(index + 1).padStart(3, "0")}
-                </div>
+                </div> */}
                 <h3 className="text-xl lg:text-2xl font-semibold text-[#1F2937]">
                   {feature.title}
                 </h3>
@@ -757,8 +757,11 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
       {/* Thank You Section */}
       <section className="bg-[#131B3E] py-48 lg:py-72 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-          <div className="text-center">
-            <h2 className="max-w-4xl mx-auto text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4">
+          <div className="text-center bg-[#131B3E] py-5 lg:py-10">
+            <h2
+              className="max-w-4xl mx-auto text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4"
+              style={{ fontFamily: "PP Editorial New, serif" }}
+            >
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent font-medium italic">
                 13+ years
               </span>{" "}

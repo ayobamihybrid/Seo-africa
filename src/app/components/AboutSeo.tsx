@@ -131,9 +131,9 @@ const AboutSeo: React.FC<AboutSeoProps> = ({ aboutData }) => {
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
                 <div>
-                  <span className="text-gray-400 text-sm font-mono">
+                  {/* <span className="text-gray-400 text-sm font-mono">
                     /{String(index + 1).padStart(3, "0")}
-                  </span>
+                  </span> */}
                   <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-4">
                     {card.title}
                   </h3>

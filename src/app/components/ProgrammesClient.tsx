@@ -184,6 +184,43 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
     }
   };
 
+  const generateProgrammeSlug = (title: string): string => {
+    const slug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .trim();
+
+    console.log(`Programme "${title}" -> ID: "${slug}"`);
+    return slug;
+  };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 100);
+      }
+    };
+
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   return (
     <div className="bg-[#131B3E]">
       <Navbar />
@@ -266,10 +303,32 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
               const slug = programme.slug;
               const bgColor = getBgColor(index);
               const badgeColor = getBadgeColor(programme.title);
+              const programmeId = generateProgrammeSlug(programme.title);
 
               return (
-                <div key={programme.id} className="mb-16 lg:mb-20">
-                  <div className="grid lg:grid-cols-2 ">
+                <div
+                  key={programme.id}
+                  className="mb-16 lg:mb-20"
+                  id={programmeId}
+                >
+                  <div className="grid lg:grid-cols-2">
+                    <div
+                      className={`relative ${
+                        index % 2 === 1 ? "lg:order-1" : ""
+                      }`}
+                    >
+                      <div className="relative h-full min-h-[400px] overflow-hidden shadow-lg">
+                        <Image
+                          src={getProgrammeImageUrl(programme)}
+                          alt={`${programme.title} - SEO Africa training session`}
+                          fill
+                          className="object-cover"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        />
+                      </div>
+                    </div>
+
                     <div
                       className={`${bgColor} p-8 flex flex-col justify-between ${
                         index % 2 === 1 ? "lg:order-2" : ""
@@ -369,23 +428,6 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
                             {programme.cta_text}
                           </button>
                         </Link>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`relative ${
-                        index % 2 === 1 ? "lg:order-1" : ""
-                      }`}
-                    >
-                      <div className="relative h-full min-h-[400px] overflow-hidden shadow-lg">
-                        <Image
-                          src={getProgrammeImageUrl(programme)}
-                          alt={`${programme.title} - SEO Africa training session`}
-                          fill
-                          className="object-cover"
-                          placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        />
                       </div>
                     </div>
                   </div>

@@ -292,9 +292,9 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
                 style={{ transitionDelay: `${(index + 1) * 100}ms` }}
               >
                 <div className="mb-20">
-                  <span className="text-[#131B3E] text-lg font-bold">
+                  {/* <span className="text-[#131B3E] text-lg font-bold">
                     /{String(index + 1).padStart(3, "0")}
-                  </span>
+                  </span> */}
                 </div>
                 <h3 className="text-[#131B3E] text-base md:text-xl font-medium mb-4 leading-tight">
                   {card.content}

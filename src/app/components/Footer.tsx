@@ -9,6 +9,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface FooterLink {
   label: string;
@@ -40,19 +41,46 @@ interface FooterProps {
   legalLinks?: FooterLink[];
 }
 
+const generateProgrammeSlug = (title: string): string => {
+  const slug = title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+
+  console.log(`Programme(Footer) "${title}" -> ID: "${slug}"`);
+  return slug;
+};
+
 const defaultSections: FooterSection[] = [
   {
     title: "Programmes",
     links: [
       {
         label: "Graduate Trainee Programme",
-        href: "/our-programmes",
+        href: "/our-programmes#graduate-trainee-programme-nigeria-in-country",
       },
-      { label: "Global Pathways", href: "/our-programmes" },
-      { label: "SEO Africa On-campus", href: "/our-programmes" },
-      { label: "Achievers Incubator", href: "/our-programmes" },
-      { label: "InnovatHer Programme", href: "/our-programmes" },
-      { label: "MBA Launchpad", href: "/our-programmes" },
+      {
+        label: "Global Pathways",
+        href: "/our-programmes#global-pathways-programme",
+      },
+      {
+        label: "SEO Africa On-campus",
+        href: "/our-programmes#seo-africa-on-campus-programme",
+      },
+      {
+        label: "Achievers Incubator",
+        href: "/our-programmes#seo-africa-achievers-incubator-programme",
+      },
+      {
+        label: "InnovatHer Programme",
+        href: "/our-programmes#seo-africa-innovather-programme",
+      },
+      {
+        label: "MBA Launchpad",
+        href: "/our-programmes#seo-africa-mba-launchpad",
+      },
     ],
   },
   {
@@ -71,7 +99,7 @@ const defaultSections: FooterSection[] = [
       { label: "FAQs", href: "/faq" },
       { label: "News and updates", href: "/blog" },
       { label: "SEO Cares projects", href: "/seo-cares" },
-      { label: "Alumni testimonials", href: "/#alumni-testimonials" },
+      { label: "Alumni testimonials", href: "/impact#testimonials" },
       { label: "Donate", href: "/donate", external: true },
     ],
   },
@@ -113,6 +141,29 @@ const Footer: React.FC<FooterProps> = ({
   socialLinks = defaultSocialLinks,
   legalLinks = defaultLegalLinks,
 }) => {
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (!href.includes("#")) return;
+
+    const [pathname, hash] = href.split("#");
+    const currentPath = window.location.pathname;
+
+    if (currentPath === pathname) {
+      e.preventDefault();
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <footer className={`bg-slate-900 text-white ${className}`}>
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -189,15 +240,16 @@ const Footer: React.FC<FooterProps> = ({
               <ul className="space-y-4">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a
+                    <Link
                       href={link.href}
                       className="text-white hover:text-gray-300 transition-colors duration-300 flex items-center gap-1 group"
+                      onClick={(e) => handleAnchorClick(e, link.href)}
                     >
                       <span>{link.label}</span>
                       {link.external && (
                         <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       )}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -214,12 +266,12 @@ const Footer: React.FC<FooterProps> = ({
             <div className="flex items-center gap-6">
               {legalLinks.map((link, index) => (
                 <React.Fragment key={link.label}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                   {index < legalLinks.length - 1 && (
                     <div className="w-px h-4 bg-slate-700"></div>
                   )}

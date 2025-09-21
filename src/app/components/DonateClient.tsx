@@ -699,8 +699,9 @@ const DonateClient: React.FC<DonateClientProps> = ({
                 </h3>
               </div>
               <p className="text-gray-600">
-                SEO Africa was established to select, train, mentor, and provide
-                corporate access to the youths of Africa
+                We equip young Africans with the technical skills, professional
+                training, and mentorship they need to compete and excel in
+                today&apos;s job market.
               </p>
             </div>
 
@@ -711,8 +712,9 @@ const DonateClient: React.FC<DonateClientProps> = ({
                 </h3>
               </div>
               <p className="text-gray-600">
-                SEO Africa was established to select, train, mentor, and provide
-                corporate access to the youths of Africa, and ultimately
+                Through SEO Cares, we drive initiatives that give back to local
+                communities, foster leadership, and create opportunities beyond
+                the workplace.
               </p>
             </div>
 
@@ -724,8 +726,9 @@ const DonateClient: React.FC<DonateClientProps> = ({
                 </h3>
               </div>
               <p className="text-gray-600">
-                To empower African youths by providing them with the skills,
-                mentorship, and global access needed to succeed in today's
+                We open doors to internships and career opportunities at leading
+                global firms, giving African youths the exposure and experience
+                to thrive.
               </p>
             </div>
           </div>
