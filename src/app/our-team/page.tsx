@@ -80,6 +80,7 @@ export interface TeamPageData {
 }
 
 export interface TeamMember {
+  section: string;
   id: number;
   documentId: string;
   twitter_link: string;

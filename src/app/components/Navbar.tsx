@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown, Heart, Menu, X, Zap, ExternalLink } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Heart,
+  Menu,
+  X,
+  Zap,
+  ExternalLink,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import CustomGoogleTranslate from "./CustomGoogleTranslate";
@@ -13,6 +21,9 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeMobileDropdown, setActiveMobileDropdown] = useState<
+    string | null
+  >(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const textColor = details ? "text-black" : "text-white";
@@ -24,6 +35,12 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
   const handleDropdownClick = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
+
+  const handleMobileDropdownClick = (dropdown: string) => {
+    setActiveMobileDropdown(
+      activeMobileDropdown === dropdown ? null : dropdown
+    );
   };
 
   useEffect(() => {
@@ -45,6 +62,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
   const handleAlumniTestimonialsClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setActiveDropdown(null);
+    setMobileMenuOpen(false);
 
     if (window.location.pathname === "/impact") {
       const element = document.getElementById("testimonials");
@@ -62,6 +80,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
   const handleVolunteerClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setActiveDropdown(null);
+    setMobileMenuOpen(false);
 
     if (window.location.pathname === "/get-involved") {
       const element = document.getElementById("volunteer-section");
@@ -79,6 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
   const handlePartnerClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setActiveDropdown(null);
+    setMobileMenuOpen(false);
 
     if (window.location.pathname === "/get-involved") {
       const element = document.getElementById("become-partner");
@@ -108,6 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
           />
         </Link>
 
+        {/* Desktop Navigation */}
         <div
           className={`hidden xl:flex items-center space-x-6 xl:space-x-8 ${textColor}`}
         >
@@ -276,6 +297,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             )}
           </div>
 
+          {/* Other desktop dropdowns remain the same... */}
           <div className="relative">
             <button
               onClick={() => handleDropdownClick("programmes")}
@@ -416,6 +438,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             )}
           </div>
 
+          {/* Resources and Get Involved dropdowns - keeping original structure for brevity */}
           <div className="relative">
             <button
               onClick={() => handleDropdownClick("resources")}
@@ -455,13 +478,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             FAQs
                           </Link>
-                          {/* <Link
-                            href="/about-us"
-                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            About us
-                          </Link> */}
 
                           <Link
                             href="/our-team"
@@ -516,20 +532,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             SEOCares projects
                           </Link>
-                          {/* <Link
-                            href="/media-and-events"
-                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            Events & updates
-                          </Link> */}
-                          {/* <Link
-                            href="#"
-                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            SEO Africa guides & tips
-                          </Link> */}
                           <Link
                             href="/career-opportunities"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
@@ -552,14 +554,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           mutual growth with SEO Africa.
                         </p>
                         <div className="space-y-3">
-                          {/* <Link
-                            href="/get-involved"
-                            className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            Become a partner
-                          </Link> */}
-
                           <Link
                             href="https://forms.gle/gEtqD5A7X3UmVxz66"
                             target="_blank"
@@ -799,193 +793,398 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
         </button>
       </nav>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden absolute top-20 md:top-28 left-0 right-0 bg-black/70 backdrop-blur-sm z-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="block md:hidden">
-              <div className="flex flex-col space-y-6 text-white">
-                <Link
-                  href="/about-us"
-                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About us
-                </Link>
+        <div className="xl:hidden fixed inset-0 top-20 md:top-28 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="px-4 py-6">
+            <div className="border-b border-gray-200 pb-4 mb-4">
+              <button
+                onClick={() => handleMobileDropdownClick("about")}
+                className="flex items-center justify-between w-full text-left py-3 text-lg font-medium text-white"
+              >
+                <span>About us</span>
+                <ChevronRight
+                  className={`w-5 h-5 transition-transform ${
+                    activeMobileDropdown === "about" ? "rotate-90" : ""
+                  }`}
+                />
+              </button>
 
-                <Link
-                  href="/our-programmes"
-                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Our Programmes
-                </Link>
-
-                <Link
-                  href="/blog"
-                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Resources
-                </Link>
-
-                <Link
-                  href="/get-involved"
-                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Get involved
-                </Link>
-
-                <Link
-                  href="/contact-us"
-                  className="text-white hover:text-gray-300 transition-colors text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact us
-                </Link>
-
-                <div className="flex flex-col space-y-4 pt-6 border-t border-white/20">
-                  <CustomGoogleTranslate />
-
-                  <div className="flex flex-col space-y-3">
+              {activeMobileDropdown === "about" && (
+                <div className="pl-4 space-y-3 mt-3 text-white">
+                  <Link
+                    href="/about-us"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About SEO Africa
+                  </Link>
+                  <div className="flex items-center space-x-2">
                     <Link
-                      href="/donate"
+                      href="/our-team"
+                      className="text-white hover:text-blue-600 py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <button className="w-full bg-transparent border border-white text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors text-sm font-medium">
-                        Donate
-                      </button>
+                      Our team & partners
                     </Link>
-
-                    <Link
-                      href="/career-opportunities"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <button className="w-full bg-white text-black px-6 py-3 rounded-full hover:bg-gray-100 transition-colors text-sm font-medium">
-                        Join us
-                      </button>
-                    </Link>
+                    <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white text-xs px-2 py-1 rounded-full font-medium">
+                      New
+                    </span>
                   </div>
+                  <Link
+                    href="/impact"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Our impact & coverage
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    FAQs
+                  </Link>
+                  <Link
+                    href="/donate"
+                    className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>Donate</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </Link>
                 </div>
-              </div>
+              )}
             </div>
 
-            <div className="hidden md:block">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-6">
-                        Navigation
-                      </h3>
-                      <div className="space-y-4">
-                        <Link
-                          href="/about-us"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          About us
-                        </Link>
-                        <Link
-                          href="/our-programmes"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Our Programmes
-                        </Link>
-                        <Link
-                          href="/blog"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Resources
-                        </Link>
-                        <Link
-                          href="/contact-us"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Contact us
-                        </Link>
-                      </div>
-                    </div>
+            <div className="border-b border-gray-200 pb-4 mb-4">
+              <button
+                onClick={() => handleMobileDropdownClick("programmes")}
+                className="flex items-center justify-between w-full text-left py-3 text-lg font-medium text-white"
+              >
+                <span>Our Programmes</span>
+                <ChevronRight
+                  className={`w-5 h-5 transition-transform ${
+                    activeMobileDropdown === "programmes" ? "rotate-90" : ""
+                  }`}
+                />
+              </button>
 
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-6">
-                        Quick Links
-                      </h3>
-                      <div className="space-y-4">
-                        <Link
-                          href="/career-opportunities"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Career opportunities
-                        </Link>
-                        <Link
-                          href="get-involved"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Become a partner
-                        </Link>
-                        <Link
-                          href="/faq"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          FAQs
-                        </Link>
-                        <Link
-                          href="/impact"
-                          className="block text-gray-300 hover:text-white transition-colors py-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Our impact
-                        </Link>
-                      </div>
-                    </div>
+              {activeMobileDropdown === "programmes" && (
+                <div className="pl-4 space-y-3 mt-3">
+                  <Link
+                    href="/our-programmes"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    All Programmes
+                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <Link
+                      href="/career-opportunities"
+                      className="text-white hover:text-blue-600 py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Career opportunities
+                    </Link>
+                    <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white text-xs px-2 py-1 rounded-full font-medium">
+                      New
+                    </span>
                   </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-6 text-white">
-                  <h3 className="text-xl font-bold mb-3">Get Started</h3>
-                  <p className="text-blue-100 text-sm mb-6">
-                    Join thousands of students and professionals building their
-                    careers with SEO Africa.
-                  </p>
-
-                  <div className="flex flex-col gap-4">
+                  <Link
+                    href="/our-programmes"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    SEO Africa On-campus
+                  </Link>
+                  <Link
+                    href="/our-programmes"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    MBA Launchpad
+                  </Link>
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Join our talent network
+                    </h4>
+                    <p className="text-sm text-black mb-3">
+                      Join over 32,000 students and graduates in our community.
+                    </p>
                     <Link
                       href="https://forms.gle/gEtqD5A7X3UmVxz66"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium text-sm">
-                        Join our talent network
-                      </button>
-                    </Link>
-
-                    <Link
-                      href="/donate"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <button className="w-full bg-transparent border border-white text-white px-4 py-3 rounded-lg hover:bg-white hover:text-blue-600 hover:underline transition-colors font-medium text-sm">
-                        Donate to SEO Africa
-                      </button>
+                      Join now
                     </Link>
                   </div>
+                </div>
+              )}
+            </div>
 
-                  <div className="flex items-center space-x-1 text-white cursor-pointer hover:text-gray-300 transition-colors">
-                    <div id="google_translate_element">
-                      <span className="text-blue-100 text-sm">Language:</span>
-                      <span className="text-white font-medium text-sm">EN</span>
+            <div className="border-b border-gray-200 pb-4 mb-4">
+              <button
+                onClick={() => handleMobileDropdownClick("resources")}
+                className="flex items-center justify-between w-full text-left py-3 text-lg font-medium text-white"
+              >
+                <span>Resources</span>
+                <ChevronRight
+                  className={`w-5 h-5 transition-transform ${
+                    activeMobileDropdown === "resources" ? "rotate-90" : ""
+                  }`}
+                />
+              </button>
+
+              {activeMobileDropdown === "resources" && (
+                <div className="pl-4 space-y-4 mt-3">
+                  <div>
+                    <h4 className="font-semibold text-white mb-2 flex items-center space-x-2">
+                      <div className="relative h-4 w-4 flex-shrink-0">
+                        <Image src={"/telescope.svg"} alt="" fill />
+                      </div>
+                      <span>Learn</span>
+                    </h4>
+                    <div className="space-y-2 ml-6">
+                      <Link
+                        href="/faq"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        FAQs
+                      </Link>
+                      <Link
+                        href="/our-team"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Our team & partners
+                      </Link>
+                      <Link
+                        href="/impact"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Our impacts/Coverage
+                      </Link>
+                      <Link
+                        href="/blog"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Our blog
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-white mb-2 flex items-center space-x-2">
+                      <Heart className="w-4 h-4 text-blue-600" />
+                      <span>Community</span>
+                    </h4>
+                    <div className="space-y-2 ml-6">
+                      <Link
+                        href="/impact#testimonials"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={handleAlumniTestimonialsClick}
+                      >
+                        Alumni testimonials
+                      </Link>
+                      <Link
+                        href="/seo-cares"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        SEOCares projects
+                      </Link>
+                      <Link
+                        href="/career-opportunities"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        SEO career opportunities
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-white mb-2 flex items-center space-x-2">
+                      <Zap className="w-4 h-4 text-blue-600" />
+                      <span>Get involved</span>
+                    </h4>
+                    <div className="space-y-2 ml-6">
+                      <Link
+                        href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Join our talent network
+                      </Link>
+                      <div className="flex items-center space-x-2">
+                        <Link
+                          href="/our-programmes"
+                          className="text-white hover:text-blue-600 py-1"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Our programmes
+                        </Link>
+                        <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white text-xs px-2 py-1 rounded-full font-medium">
+                          New
+                        </span>
+                      </div>
+                      <Link
+                        href="/donate"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Donate to SEO Africa
+                      </Link>
+                      <Link
+                        href="/contact-us"
+                        className="block text-white hover:text-blue-600 py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Contact us
+                      </Link>
                     </div>
                   </div>
                 </div>
+              )}
+            </div>
+
+            <div className="border-b border-gray-200 pb-4 mb-4">
+              <button
+                onClick={() => handleMobileDropdownClick("getinvolved")}
+                className="flex items-center justify-between w-full text-left py-3 text-lg font-medium text-white"
+              >
+                <span>Get involved</span>
+                <ChevronRight
+                  className={`w-5 h-5 transition-transform ${
+                    activeMobileDropdown === "getinvolved" ? "rotate-90" : ""
+                  }`}
+                />
+              </button>
+
+              {activeMobileDropdown === "getinvolved" && (
+                <div className="pl-4 space-y-3 mt-3">
+                  <Link
+                    href="/get-involved#become-partner"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={handlePartnerClick}
+                  >
+                    Become a partner
+                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <Link
+                      href="/get-involved#volunteer-section"
+                      className="text-white hover:text-blue-600 py-2"
+                      onClick={handleVolunteerClick}
+                    >
+                      Volunteer with us
+                    </Link>
+                    <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] text-white text-xs px-2 py-1 rounded-full font-medium">
+                      New
+                    </span>
+                  </div>
+                  <Link
+                    href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-white hover:text-blue-600 py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Join our talent network
+                  </Link>
+
+                  <div className="mt-4 p-4 bg-gradient-to-br from-orange-50 to-pink-50 rounded-lg border border-orange-200">
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Support SEO Africa
+                    </h4>
+                    <p className="text-sm text-black mb-3">
+                      Support the future of Africa's corporate leadership.
+                    </p>
+                    <Link
+                      href="/donate"
+                      className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Donate now</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="pb-4 mb-4">
+              <Link
+                href="/contact-us"
+                className="block py-3 text-lg font-medium text-white hover:text-blue-600"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact us
+              </Link>
+            </div>
+
+            <div className="space-y-4 pt-6 border-t border-gray-200">
+              <CustomGoogleTranslate />
+
+              <div className="space-y-3">
+                <Link
+                  href="/donate"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center bg-transparent border-2 border-gray-400 text-white px-6 py-3 rounded-full hover:bg-gray-900 hover:text-white transition-colors font-medium"
+                >
+                  Donate ❤️
+                </Link>
+
+                <Link
+                  href="/get-involved"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center bg-gray-600 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors font-medium"
+                >
+                  Join us
+                </Link>
               </div>
+
+              {/* <div className="flex items-center justify-center space-x-6 pt-4 text-white">
+                <Link
+                  href="https://www.instagram.com/seo_africa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative h-6 w-6 flex-shrink-0"
+                >
+                  <Image src={"/instagram.svg"} alt="Instagram" fill />
+                </Link>
+                <Link
+                  href="https://web.facebook.com/seoinafrica"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative h-6 w-6 flex-shrink-0"
+                >
+                  <Image src={"/facebook.svg"} alt="Facebook" fill />
+                </Link>
+                <Link
+                  href="https://x.com/SEOinAfrica"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative h-6 w-6 flex-shrink-0"
+                >
+                  <Image src={"/twitter.svg"} alt="Twitter" fill />
+                </Link>
+                <Link
+                  href="https://www.linkedIn.com/company/seo-africa-org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative h-6 w-6 flex-shrink-0"
+                >
+                  <Image src={"/linkedin.svg"} alt="LinkedIn" fill />
+                </Link>
+              </div> */}
             </div>
           </div>
         </div>
