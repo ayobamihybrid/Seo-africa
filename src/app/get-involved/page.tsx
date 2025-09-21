@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { getGetInvolvedPageData } from "../lib/strapi";
+import { getGetInvolvedPageData, getPartners } from "../lib/strapi";
 import GetInvolvedClient from "../components/GetInvolvedClient";
 
 interface GetInvolvedPageData {
@@ -226,7 +226,16 @@ async function ServerContent() {
     const getInvolvedResponse = await getGetInvolvedPageData();
     const getInvolvedPageData = getInvolvedResponse.data;
 
-    return <GetInvolvedClient getInvolvedData={getInvolvedPageData} />;
+    let strapiPartners = null;
+    const partnersResponse = await getPartners();
+    strapiPartners = partnersResponse.data;
+
+    return (
+      <GetInvolvedClient
+        getInvolvedData={getInvolvedPageData}
+        strapiPartners={strapiPartners}
+      />
+    );
   } catch (error) {
     console.error("Error fetching Get Involved data:", error);
     return <ServerErrorFallback error={error} />;

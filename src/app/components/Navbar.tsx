@@ -59,6 +59,40 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
     }
   };
 
+  const handleVolunteerClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setActiveDropdown(null);
+
+    if (window.location.pathname === "/get-involved") {
+      const element = document.getElementById("volunteer-section");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      window.location.href = "/get-involved#volunteer-section";
+    }
+  };
+
+  const handlePartnerClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setActiveDropdown(null);
+
+    if (window.location.pathname === "/get-involved") {
+      const element = document.getElementById("become-partner");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      window.location.href = "/get-involved#become-partner";
+    }
+  };
+
   return (
     <>
       <nav
@@ -367,7 +401,11 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                         onClick={() => setActiveDropdown(null)}
                       >
-                        <Link href="/career-opportunities">
+                        <Link
+                          href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           Join our talent network
                         </Link>
                       </button>
@@ -417,13 +455,13 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             FAQs
                           </Link>
-                          <Link
+                          {/* <Link
                             href="/about-us"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             About us
-                          </Link>
+                          </Link> */}
 
                           <Link
                             href="/our-team"
@@ -478,13 +516,13 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           >
                             SEOCares projects
                           </Link>
-                          <Link
+                          {/* <Link
                             href="/media-and-events"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Events & updates
-                          </Link>
+                          </Link> */}
                           {/* <Link
                             href="#"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
@@ -514,16 +552,18 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           mutual growth with SEO Africa.
                         </p>
                         <div className="space-y-3">
-                          <Link
-                            href="/our-team#partners"
+                          {/* <Link
+                            href="/get-involved"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
                             Become a partner
-                          </Link>
+                          </Link> */}
 
                           <Link
-                            href="/career-opportunities"
+                            href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors text-sm"
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -669,18 +709,18 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                       <div className="space-y-3">
                         <Link
-                          href="/get-involved"
+                          href="/get-involved#become-partner"
                           className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
-                          onClick={() => setActiveDropdown(null)}
+                          onClick={handlePartnerClick}
                         >
                           Become a partner
                         </Link>
 
                         <div className="flex items-center space-x-2">
                           <Link
-                            href="#"
+                            href="/get-involved#volunteer-section"
                             className="text-gray-900 hover:text-blue-600 hover:underline transition-colors"
-                            onClick={() => setActiveDropdown(null)}
+                            onClick={handleVolunteerClick}
                           >
                             Volunteer with us
                           </Link>
@@ -693,7 +733,9 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                         </div>
 
                         <Link
-                          href="/career-opportunities"
+                          href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="block text-gray-900 hover:text-blue-600 hover:underline transition-colors"
                           onClick={() => setActiveDropdown(null)}
                         >
@@ -882,7 +924,7 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                           Career opportunities
                         </Link>
                         <Link
-                          href="#"
+                          href="get-involved"
                           className="block text-gray-300 hover:text-white transition-colors py-2"
                           onClick={() => setMobileMenuOpen(false)}
                         >
@@ -916,7 +958,9 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
 
                   <div className="flex flex-col gap-4">
                     <Link
-                      href="/career-opportunities"
+                      href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium text-sm">

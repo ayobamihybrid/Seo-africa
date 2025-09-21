@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Donate from "../components/Donate";
 import Footer from "../components/Footer";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import useScrollAnimation from "../hooks/useScrollAnimation";
 import { getStrapiImageUrl } from "../lib/strapi";
 import type { CareerPageData } from "../career-opportunities/page";
 import { Calendar, Clock, MapPin } from "lucide-react";
+import Link from "next/link";
 
 interface JobCompany {
   id: number;
@@ -48,6 +49,8 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
   const [email, setEmail] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("worldwide");
 
+  const rolesRef = useRef<HTMLElement>(null);
+
   const headerBadgeAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
@@ -80,6 +83,13 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
     animationType: "fade-up",
     threshold: 0.3,
   });
+
+  const scrollToRoles = () => {
+    rolesRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   const getJobStatus = (expireDate: string) => {
     const today = new Date();
@@ -250,8 +260,11 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
               </p>
             </div>
 
-            <div className="mt-7 flex items-center gap-2 md:gap-6">
-              <button className="bg-[#3051F3] text-white p-3 rounded-lg hover:bg-[#2441e0] transition-colors">
+            <div className="w-fit mt-7 flex items-center gap-2 md:gap-6">
+              <button
+                onClick={scrollToRoles}
+                className="bg-[#3051F3] text-white p-3 rounded-lg hover:bg-[#2441e0] transition-colors cursor-pointer"
+              >
                 <p>{heroData.primary_cta_text}</p>
               </button>
             </div>
@@ -292,8 +305,11 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
         </div>
       </section>
 
-      {/* Available Roles  */}
-      <section className="bg-white px-4 sm:px-6 lg:px-12 py-16 lg:py-24">
+      {/*  Roles  */}
+      <section
+        ref={rolesRef}
+        className="bg-white px-4 sm:px-6 lg:px-12 py-16 lg:py-24"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-[#131B3E] text-2xl lg:text-5xl font-medium">

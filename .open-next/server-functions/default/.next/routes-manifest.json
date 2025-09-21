@@ -1,0 +1,154 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/blog/[slug]",
+      "regex": "^/blog/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/blog/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/our-programmes/[slug]",
+      "regex": "^/our\\-programmes/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/our\\-programmes/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/about-us",
+      "regex": "^/about\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about\\-us(?:/)?$"
+    },
+    {
+      "page": "/blog",
+      "regex": "^/blog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog(?:/)?$"
+    },
+    {
+      "page": "/career-opportunities",
+      "regex": "^/career\\-opportunities(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/career\\-opportunities(?:/)?$"
+    },
+    {
+      "page": "/contact-us",
+      "regex": "^/contact\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact\\-us(?:/)?$"
+    },
+    {
+      "page": "/donate",
+      "regex": "^/donate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/donate(?:/)?$"
+    },
+    {
+      "page": "/faq",
+      "regex": "^/faq(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/faq(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/get-involved",
+      "regex": "^/get\\-involved(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/get\\-involved(?:/)?$"
+    },
+    {
+      "page": "/impact",
+      "regex": "^/impact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/impact(?:/)?$"
+    },
+    {
+      "page": "/legal",
+      "regex": "^/legal(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/legal(?:/)?$"
+    },
+    {
+      "page": "/media-and-events",
+      "regex": "^/media\\-and\\-events(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/media\\-and\\-events(?:/)?$"
+    },
+    {
+      "page": "/our-programmes",
+      "regex": "^/our\\-programmes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/our\\-programmes(?:/)?$"
+    },
+    {
+      "page": "/our-team",
+      "regex": "^/our\\-team(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/our\\-team(?:/)?$"
+    },
+    {
+      "page": "/seo-cares",
+      "regex": "^/seo\\-cares(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/seo\\-cares(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "RSC",
+    "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch",
+    "prefetchHeader": "Next-Router-Prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "Next-Router-Segment-Prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

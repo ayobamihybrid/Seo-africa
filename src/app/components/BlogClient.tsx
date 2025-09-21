@@ -137,7 +137,7 @@ const BlogClient: React.FC<BlogClientProps> = ({
   }, [categories, blogPosts]);
 
   const NewsletterCard = () => (
-    <div className="bg-gray-900 text-white p-8 rounded-2xl">
+    <div className="bg-gray-900 lg:min-h-[29rem] text-white p-8 rounded-2xl">
       <h3 className="text-2xl font-bold mb-4">
         Stay in the know, join our newsletter.
       </h3>
@@ -406,7 +406,7 @@ const BlogClient: React.FC<BlogClientProps> = ({
                     href={`/blog/${post.slug}`}
                     className="group"
                   >
-                    <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+                    <article className="bg-white lg:min-h-[29rem] rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
                       <div className="relative aspect-[16/10] overflow-hidden">
                         <Image
                           src={

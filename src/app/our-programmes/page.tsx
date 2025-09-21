@@ -26,7 +26,7 @@ async function ServerContent() {
       getProgrammesPageData(),
       getProgrammes().catch((error) => {
         console.warn(
-          "⚠️ Failed to fetch programmes list, using fallback:",
+          "⚠️ Failed to fetch programmes list",
           error
         );
         return { data: [] }; 

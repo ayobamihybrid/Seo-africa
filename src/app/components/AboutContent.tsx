@@ -155,7 +155,7 @@ const AboutContent: React.FC<AboutContentProps> = ({
     },
     {
       id: 3,
-      leftImage: "/donate_image.png",
+      leftImage: "/seo_gallery.png",
       rightImage: "/seo_gallery1.png",
       leftAlt: "SEO Africa graduation ceremony",
       rightAlt: "SEO Africa mentorship program",
@@ -406,7 +406,9 @@ const AboutContent: React.FC<AboutContentProps> = ({
 
                 <div>
                   <Link
-                    href="/career-opportunities"
+                    href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2"
                   >
                     {aboutData.quote_section.cta_text}
@@ -440,7 +442,7 @@ const AboutContent: React.FC<AboutContentProps> = ({
                   className="flex transition-transform duration-500 ease-in-out"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
-                  {slides.map((slide, index) => (
+                  {slides.map((slide) => (
                     <div key={slide.id} className="w-full flex-shrink-0">
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden group">
@@ -504,22 +506,22 @@ const AboutContent: React.FC<AboutContentProps> = ({
 
         <div className="bg-white py-16 lg:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div
+            {/* <div
               ref={mediaHeaderAnimation.ref}
               className={`mb-16 ${mediaHeaderAnimation.animationClass}`}
             >
               <h2 className="text-gray-900 text-3xl lg:text-4xl xl:text-5xl font-light">
                 {aboutData.press_section.title}
               </h2>
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               ref={mediaGridAnimation.ref}
               className={`mb-16 ${mediaGridAnimation.animationClass}`}
               style={{ transitionDelay: "200ms" }}
             >
               <Press pressItems={pressItems} maxItems={3} />
-            </div>
+            </div> */}
 
             <div
               ref={insightsAnimation.ref}

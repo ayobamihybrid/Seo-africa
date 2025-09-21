@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface StatCard {
   id: number;
@@ -32,10 +33,17 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
   backgroundColor,
 }) => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const router = useRouter();
 
   const bgColor = backgroundColor || (impact ? "bg-white" : "bg-gray-50");
   const displayHeader = impact ? false : showHeader;
   const finalHeaderText = statisticsData.title;
+
+  const handleCardClick = (cardId: string) => {
+    if (cardId === "students") {
+      router.push("/our-programmes");
+    }
+  };
 
   const cardMapping = [
     {
@@ -43,8 +51,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.top_cards[0],
       defaultImage: "/defaul2.png",
       hoverImage: "/default-hover2.png",
-      mobileDefaultImage: "/defaul2.png", 
-      mobileHoverImage: "/default-hover2.png", 
+      mobileDefaultImage: "/defaul2.png",
+      mobileHoverImage: "/default-hover2.png",
       className: "",
       height: "h-[420px]",
     },
@@ -53,8 +61,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: null,
       defaultImage: "/default1.png",
       hoverImage: "/default-hover1.png",
-      mobileDefaultImage: "/default1.png", 
-      mobileHoverImage: "/default-hover1.png", 
+      mobileDefaultImage: "/default1.png",
+      mobileHoverImage: "/default-hover1.png",
       className: "",
       height: "h-[500px]",
     },
@@ -63,8 +71,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.top_cards[1],
       defaultImage: "/default5.png",
       hoverImage: "/default-hover5.png",
-      mobileDefaultImage: "/default5.png", 
-      mobileHoverImage: "/default-hover5.png", 
+      mobileDefaultImage: "/default5.png",
+      mobileHoverImage: "/default-hover5.png",
       className: "",
       height: "h-[330px]",
     },
@@ -73,8 +81,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[0],
       defaultImage: "/default3.png",
       hoverImage: "/default-hover3.png",
-      mobileDefaultImage: "/default3.png", 
-      mobileHoverImage: "/default-hover3.png", 
+      mobileDefaultImage: "/default3.png",
+      mobileHoverImage: "/default-hover3.png",
       className: "-mt-18",
       height: "h-[425px]",
     },
@@ -83,8 +91,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[1],
       defaultImage: "/default4.png",
       hoverImage: "/default-hover4.png",
-      mobileDefaultImage: "/default4.png", 
-      mobileHoverImage: "/default-hover4.png", 
+      mobileDefaultImage: "/default4.png",
+      mobileHoverImage: "/default-hover4.png",
       className: "",
       height: "h-[355px]",
     },
@@ -93,8 +101,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.middle_cards[2],
       defaultImage: "/default6.png",
       hoverImage: "/default-hover6.png",
-      mobileDefaultImage: "/default6.png", 
-      mobileHoverImage: "/default-hover6.png", 
+      mobileDefaultImage: "/default6.png",
+      mobileHoverImage: "/default-hover6.png",
       className: "-mt-40",
       height: "h-[515px]",
     },
@@ -103,8 +111,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.bottom_cards[0],
       defaultImage: "/default7.png",
       hoverImage: "/default-hover7.png",
-      mobileDefaultImage: "/39k.png", 
-      mobileHoverImage: "/39k.png", 
+      mobileDefaultImage: "/39k.png",
+      mobileHoverImage: "/39k.png",
       className: "",
       height: "h-[260px]",
     },
@@ -113,8 +121,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
       data: statisticsData.bottom_cards[1],
       defaultImage: "/default8.png",
       hoverImage: "/default-hover8.png",
-      mobileDefaultImage: "/12.png", 
-      mobileHoverImage: "/12.png", 
+      mobileDefaultImage: "/12.png",
+      mobileHoverImage: "/12.png",
       className: "",
       height: "h-[260px]",
     },
@@ -222,6 +230,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className={`cursor-pointer ${card.className}`}
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div
                 className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
@@ -255,6 +264,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className={`cursor-pointer ${card.className}`}
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div
                 className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
@@ -290,6 +300,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className={`cursor-pointer ${card.className}`}
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div
                 className={`relative w-full ${card.height} rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl`}
@@ -325,6 +336,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className="cursor-pointer"
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div className="relative w-full h-[550px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
                 <Image
@@ -358,6 +370,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className="cursor-pointer"
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div className="relative w-full h-[400px] rounded-2xl overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl">
                 <Image
@@ -391,6 +404,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className="cursor-pointer"
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div
                 className={`relative w-full ${getMdCardHeight(
@@ -428,6 +442,7 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
               className="cursor-pointer"
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => handleCardClick(card.id)}
             >
               <div
                 className={`relative w-full ${getMobileCardHeight(

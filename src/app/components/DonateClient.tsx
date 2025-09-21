@@ -135,73 +135,79 @@ const DonateClient: React.FC<DonateClientProps> = ({
     );
   };
 
-const handleFormSubmission = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  if (!email || !firstName || !lastName || !phoneNumber) {
-    toast.error("Please fill in all required fields");
-    return;
-  }
+  const handleFormSubmission = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const minimumAmount = selectedCurrency === "₦" ? 1000 : 1;
-  if (amount < minimumAmount) {
-    toast.error(`Minimum donation amount is ${selectedCurrency}${selectedCurrency === "₦" ? "1,000" : "1"}`);
-    return;
-  }
-
-  setIsSubmitting(true);
-  
-  try {
-    const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-    
-    const response = await fetch(`${STRAPI_URL}/donation-requests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          email_address: email,
-          phone_number: phoneNumber,
-          amount: amount.toString(),
-          currency: selectedCurrency,
-          message: message || null,
-        }
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
+    if (!email || !firstName || !lastName || !phoneNumber) {
+      toast.error("Please fill in all required fields");
+      return;
     }
 
-    const result = await response.json();
-    
-    toast.success(
-      `Thank you ${firstName}! We have received your donation request of ${selectedCurrency}${amount.toLocaleString()}. Our team will contact you shortly to complete the donation process.`,
-      {
-        duration: 8000,
-        icon: "🎉",
-      }
-    );
+    const minimumAmount = selectedCurrency === "₦" ? 1000 : 1;
+    if (amount < minimumAmount) {
+      toast.error(
+        `Minimum donation amount is ${selectedCurrency}${
+          selectedCurrency === "₦" ? "1,000" : "1"
+        }`
+      );
+      return;
+    }
 
-    // Reset form
-    setAmount(selectedCurrency === "₦" ? 1000 : 1);
-    setEmail("");
-    setFirstName("");
-    setLastName("");
-    setPhoneNumber("");
-    setMessage("");
-    
-  } catch (error) {
-    console.error('Error submitting donation request:', error);
-    toast.error("Something went wrong. Please try again or contact us directly.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    setIsSubmitting(true);
+
+    try {
+      const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+
+      const response = await fetch(`${STRAPI_URL}/donation-requests`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+            email_address: email,
+            phone_number: phoneNumber,
+            amount: amount.toString(),
+            currency: selectedCurrency,
+            message: message || null,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error?.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const result = await response.json();
+
+      toast.success(
+        `Thank you ${firstName}! We have received your donation request of ${selectedCurrency}${amount.toLocaleString()}. Our team will contact you shortly to complete the donation process.`,
+        {
+          duration: 8000,
+          icon: "🎉",
+        }
+      );
+
+      setAmount(selectedCurrency === "₦" ? 1000 : 1);
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setPhoneNumber("");
+      setMessage("");
+    } catch (error) {
+      console.error("Error submitting donation request:", error);
+      toast.error(
+        "Something went wrong. Please try again or contact us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const fallbackData = {
     hero: {
@@ -606,7 +612,7 @@ const handleFormSubmission = async (e: React.FormEvent) => {
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
+                    {/* <div className="flex flex-wrap gap-2">
                       <span className="text-sm text-gray-600">
                         Quick amounts:
                       </span>
@@ -625,7 +631,7 @@ const handleFormSubmission = async (e: React.FormEvent) => {
                           {quickAmount.toLocaleString()}
                         </button>
                       ))}
-                    </div>
+                    </div> */}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">

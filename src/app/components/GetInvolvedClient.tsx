@@ -45,10 +45,12 @@ const useTextReveal = (threshold = 0.1) => {
 
 interface GetInvolvedClientProps {
   getInvolvedData: GetInvolvedPageData | null;
+  strapiPartners: any;
 }
 
 const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
   getInvolvedData: strapiData,
+  strapiPartners,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -381,7 +383,7 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
       </section>
 
       {/* Become Partner  */}
-      <section className="bg-gray-50 py-16 lg:py-24">
+      <section id="become-partner" className="bg-gray-50 py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="mb-16 lg:mb-20">
             <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent text-sm font-bold uppercase tracking-wider">
@@ -393,10 +395,10 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
             </h2>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-[#3051F3] hover:bg-[#3051f3eb] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2">
+              {/* <button className="bg-[#3051F3] hover:bg-[#3051f3eb] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2">
                 <Phone className="w-5 h-5" />
                 {partnerData.primary_cta_text}
-              </button>
+              </button> */}
 
               <Link
                 href={"/contact-us"}
@@ -459,10 +461,11 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
           title:
             "We've partnered with the best organizations and brands. Be a part of an elite movement.",
         }}
+        strapiPartners={strapiPartners}
       />
 
       {/* Volunteer Section */}
-      <section className="bg-white py-16 lg:py-24">
+      <section className="bg-white py-16 lg:py-24 " id="volunteer-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start mb-16 lg:mb-20">
             <div
@@ -482,12 +485,17 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
                   {volunteerData.title}
                 </h2>
 
-                <Link
-                  href={"mailto:info@seo-africa.org"}
-                  className="bg-[#3051F3] hover:bg-[#3051f3ef] text-white px-8 py-3 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://docs.google.com/forms/d/e/1FAIpQLSdEKc0pbDcwkoGVVjSc6Y4Y60Hwx96223snIdRtq4kSxE6JnA/viewform?usp=dialog",
+                      "_blank"
+                    )
+                  }
+                  className="bg-[#3051F3] hover:bg-[#3051f3ef] text-white px-8 py-3 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   {volunteerData.cta_text}
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -695,7 +703,9 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
             </h2>
 
             <Link
-              href={"/career-opportunities"}
+              href="https://forms.gle/gEtqD5A7X3UmVxz66"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#3051F3] hover:bg-[#3051f3e7] text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200"
             >
               {talentData.cta_text}
@@ -746,7 +756,7 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
 
       {/* Thank You Section */}
       <section className="bg-[#131B3E] py-48 lg:py-72 relative overflow-hidden">
-        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
           <div className="text-center">
             <h2 className="max-w-4xl mx-auto text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4">
               <span className="bg-gradient-to-r from-[#E8913A] to-[#ED60A4] bg-clip-text text-transparent font-medium italic">
@@ -761,15 +771,15 @@ const GetInvolvedClient: React.FC<GetInvolvedClientProps> = ({
               </span>
             </h2>
           </div>
-        </div> */}
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
           <div className="text-center">
             <h2 className="max-w-4xl mx-auto text-white text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-4">
               {thankYouData.heading}
             </h2>
           </div>
-        </div>
+        </div> */}
 
         <div
           className="absolute inset-0 opacity-30"

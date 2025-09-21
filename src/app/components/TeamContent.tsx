@@ -14,9 +14,14 @@ import Link from "next/link";
 interface TeamContentProps {
   teamData: TeamPageData;
   teamMembers: TeamMember[];
+  strapiPartners: any;
 }
 
-const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
+const TeamContent: React.FC<TeamContentProps> = ({
+  teamData,
+  teamMembers,
+  strapiPartners,
+}) => {
   const headerBadgeAnimation = useScrollAnimation({
     animationType: "fade-up",
     threshold: 0.3,
@@ -151,7 +156,9 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
             </div>
 
             <Link
-              href={"/career-opportunities"}
+              href="https://forms.gle/gEtqD5A7X3UmVxz66"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-7 bg-white w-fit p-3 rounded-lg text-black font-bold flex items-center gap-2"
             >
               <p>Join our talent network</p>
@@ -229,7 +236,7 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
                   <div className="relative mb-6 overflow-hidden rounded-lg aspect-[4/5]">
                     <Image
                       src={getTeamMemberImageUrl(member)}
-                      alt={''}
+                      alt={""}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       placeholder="blur"
@@ -322,10 +329,11 @@ const TeamContent: React.FC<TeamContentProps> = ({ teamData, teamMembers }) => {
             pill_text: "Our Partners",
             title: teamData.partner_section.title,
           }}
+          strapiPartners={strapiPartners}
           description={teamData.partner_section.content.replace(/<[^>]*>/g, "")}
           showButton={true}
           buttonText={teamData.partner_section.cta_text}
-          buttonLink="#"
+          buttonLink="/get-involved#become-partner"
         />
       </div>
 

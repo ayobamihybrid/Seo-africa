@@ -173,19 +173,16 @@ export const bottomRowImages = [
   },
   {
     id: 10,
-    src: "/blog_image1.png",
-    alt: "SEO Africa conference",
+    src: "/seo_gallery.png",
+    alt: "SEO Africa leadership meeting",
   },
+
   {
     id: 11,
     src: "/joinTalentNetwork.png",
     alt: "SEO Africa team workshop",
   },
-  {
-    id: 12,
-    src: "/blog_image2.png",
-    alt: "SEO Africa networking mixer",
-  },
+
 ];
 
 export const statsCards = [
@@ -247,7 +244,7 @@ export const statsCards = [
   },
 ];
 
-export  const testimonials = [
+export const testimonials = [
   {
     id: 1,
     name: "Chinenye Akunna",
@@ -300,71 +297,76 @@ export const programmesData = [
     bgColor: "bg-[#77C7AF14]",
     badgeColor: "bg-[#067A57]",
     image: "/our_programmes.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
-    slug: "graduate-trainee-ghana", 
+    slug: "graduate-trainee-ghana",
     title: "Graduate Trainee Programme: Ghana In-Country",
     country: "Ghana",
     countryCode: "GH",
-    flagSrc: "/ghana.svg", 
+    flagSrc: "/ghana.svg",
     bgColor: "bg-[#F3EAD233]",
     badgeColor: "bg-[#E0BE70]",
     image: "/donate_image2.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
     slug: "global-pathways",
-    title: "Global Pathways Programme", 
+    title: "Global Pathways Programme",
     country: "Global",
     countryCode: "GL",
     flagSrc: "/global-flag.svg",
     bgColor: "bg-[#8499FF14]",
     badgeColor: "bg-[#8499FF]",
     image: "/our_programmes.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
     slug: "on-campus",
     title: "SEO Africa On-Campus Programme",
-    country: "Multi-Country", 
+    country: "Multi-Country",
     countryCode: "MC",
     flagSrc: "/africa-flag.svg",
     bgColor: "bg-[#D2B2FF0D]",
     badgeColor: "bg-[#D2B2FF]",
     image: "/donate_image2.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
     slug: "achievers-incubator",
     title: "SEO Africa Achievers Incubator Programme",
     country: "Pan-African",
-    countryCode: "PA", 
+    countryCode: "PA",
     flagSrc: "/pan-africa-flag.svg",
     bgColor: "bg-[#8499FF14]",
     badgeColor: "bg-[#8499FF]",
     image: "/our_programmes.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
     slug: "innovather",
@@ -373,29 +375,31 @@ export const programmesData = [
     countryCode: "AW",
     flagSrc: "/africa-flag.svg",
     bgColor: "bg-[#D2B2FF0D]",
-    badgeColor: "bg-[#D2B2FF]", 
+    badgeColor: "bg-[#D2B2FF]",
     image: "/donate_image2.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
+      "Starting August 2025",
+    ],
   },
   {
     slug: "mba-launchpad",
     title: "SEO Africa MBA Launchpad",
     country: "International",
     countryCode: "IN",
-    flagSrc: "/international-flag.svg", 
+    flagSrc: "/international-flag.svg",
     bgColor: "bg-[#3051F30D]",
     badgeColor: "bg-[#3051F3]",
     image: "/our_programmes.png",
-    description: "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
+    description:
+      "This program addresses Africa's unemployment by bridging skill gaps for undergraduates, offering career guidance, and improving job market information.",
     features: [
       "Live coaching, Expert guidance, Real and updated curriculum.",
-      "Starting August 2025"
-    ]
-  }
+      "Starting August 2025",
+    ],
+  },
 ];
 
 export const mockProjects = [

@@ -836,7 +836,7 @@ export async function getSeoCaresPageData() {
     );
 
     const apiResponse = await response.json();
-    console.log("✅ SEO Cares page API response received");
+    console.log("SEO Cares page API response received");
 
     if (!apiResponse.data) {
       throw new Error("No SEO Cares page data received from Strapi");

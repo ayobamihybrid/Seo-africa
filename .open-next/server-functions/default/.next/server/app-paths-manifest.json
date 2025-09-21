@@ -1,0 +1,20 @@
+{
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/contact-us/page": "app/contact-us/page.js",
+  "/career-opportunities/page": "app/career-opportunities/page.js",
+  "/donate/page": "app/donate/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/faq/page": "app/faq/page.js",
+  "/get-involved/page": "app/get-involved/page.js",
+  "/legal/page": "app/legal/page.js",
+  "/impact/page": "app/impact/page.js",
+  "/media-and-events/page": "app/media-and-events/page.js",
+  "/our-team/page": "app/our-team/page.js",
+  "/our-programmes/[slug]/page": "app/our-programmes/[slug]/page.js",
+  "/our-programmes/page": "app/our-programmes/page.js",
+  "/seo-cares/page": "app/seo-cares/page.js",
+  "/page": "app/page.js"
+}

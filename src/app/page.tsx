@@ -119,7 +119,7 @@ async function ServerContent() {
     let blogPosts: any[] = [];
 
     try {
-      const postsResponse = await getBlogPosts(1, 6);
+      const postsResponse = await getBlogPosts(1, 4);
       const strapiBlogPosts = postsResponse.data;
 
       if (strapiBlogPosts && strapiBlogPosts.length > 0) {

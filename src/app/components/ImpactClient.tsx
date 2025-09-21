@@ -75,7 +75,7 @@ interface CountryOfOperation {
   id: number;
   documentId: string;
   name: string;
-  flag: {
+  flag?: {
     id: number;
     name: string;
     alternativeText?: string;
@@ -213,6 +213,10 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
     : "/ourteam1.png";
 
   const getFlagImageUrl = (country: CountryOfOperation) => {
+    if (!country.flag || !country.flag.url) {
+      return "/default-flag.svg";
+    }
+
     if (country.flag.url.startsWith("http")) {
       return country.flag.url;
     }
@@ -403,34 +407,40 @@ const ImpactClient: React.FC<ImpactClientProps> = ({
           <div className="relative overflow-hidden mb-16">
             <div className="flex animate-scroll-right mb-4 sm:mb-8">
               <div className="flex space-x-3 sm:space-x-6 whitespace-nowrap">
-                {scrollingCountries.map((country, index) => (
-                  <div
-                    key={`${country.documentId}-${index}`}
-                    className={`flex items-center space-x-2 sm:space-x-3 px-3 sm:px-6 py-2 sm:py-3 rounded-full border ${
-                      index % 3 === 0
-                        ? "bg-gray-100"
-                        : index % 3 === 1
-                        ? "bg-white border-gray-200 shadow-sm"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    <div className="w-4 h-4 sm:w-6 sm:h-6 rounded-full relative overflow-hidden">
-                      <Image
-                        src={getFlagImageUrl(country)}
-                        alt={`${country.name} flag`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <span
-                      className={`font-medium text-sm sm:text-base ${
-                        index % 3 === 2 ? "text-gray-500" : "text-[#131B3E]"
+                {scrollingCountries.map((country, index) => {
+                  if (!country || !country.flag || !country.flag.url) {
+                    return null;
+                  }
+
+                  return (
+                    <div
+                      key={`${country.documentId}-${index}`}
+                      className={`flex items-center space-x-2 sm:space-x-3 px-3 sm:px-6 py-2 sm:py-3 rounded-full border ${
+                        index % 3 === 0
+                          ? "bg-gray-100"
+                          : index % 3 === 1
+                          ? "bg-white border-gray-200 shadow-sm"
+                          : "bg-gray-100"
                       }`}
                     >
-                      {country.name}
-                    </span>
-                  </div>
-                ))}
+                      <div className="w-4 h-4 sm:w-6 sm:h-6 rounded-full relative overflow-hidden">
+                        <Image
+                          src={getFlagImageUrl(country)}
+                          alt={`${country.name} flag`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <span
+                        className={`font-medium text-sm sm:text-base ${
+                          index % 3 === 2 ? "text-gray-500" : "text-[#131B3E]"
+                        }`}
+                      >
+                        {country.name}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

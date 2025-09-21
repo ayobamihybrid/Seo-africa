@@ -100,7 +100,9 @@ const FindOpportunities: React.FC<FindOpportunitiesProps> = ({
               <p className="text-white/90 text-lg mb-8">{description}</p>
 
               <Link
-                href="/career-opportunities"
+                href="https://forms.gle/gEtqD5A7X3UmVxz66"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-white text-black hover:bg-gray-50 px-5 md:px-8 py-2 md:py-4 rounded-lg text-lg font-medium transition-colors duration-200 inline-flex items-center gap-2"
               >
                 {ctaText}

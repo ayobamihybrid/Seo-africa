@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import Navbar from "../components/Navbar";
 import Donate from "../components/Donate";
 import Footer from "../components/Footer";
-import { getTeamPageData, getTeamMembers } from "../lib/strapi";
+import { getTeamPageData, getTeamMembers, getPartners } from "../lib/strapi";
 import TeamContent from "../components/TeamContent";
 
 export interface TeamPageHero {
@@ -178,6 +178,10 @@ async function TeamPageContent() {
     const teamPageData = teamPageResponse.data;
     const teamMembers = teamMembersResponse.data || [];
 
+     let strapiPartners = null;
+        const partnersResponse = await getPartners();
+        strapiPartners = partnersResponse.data;
+
     console.log("Team page data fetched successfully");
     console.log(
       "Team page data structure:",
@@ -192,7 +196,7 @@ async function TeamPageContent() {
       <div className="bg-[#131B3E]">
         <Navbar />
 
-        <TeamContent teamData={teamPageData} teamMembers={teamMembers} />
+        <TeamContent teamData={teamPageData} teamMembers={teamMembers} strapiPartners={strapiPartners}/>
 
         <Donate
           donateData={

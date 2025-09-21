@@ -63,15 +63,13 @@ const defaultSections: FooterSection[] = [
       { label: "Our partners", href: "/our-team#partners" },
       { label: "Meet the team", href: "/our-team" },
       { label: "Careers", href: "/career-opportunities" },
-      { label: "Contact us", href: "/contact-us" },
     ],
   },
   {
     title: "Resources",
     links: [
       { label: "FAQs", href: "/faq" },
-      { label: "Events & updates", href: "/media-and-events" },
-      { label: "Our blog", href: "/blog" },
+      { label: "News and updates", href: "/blog" },
       { label: "SEO Cares projects", href: "/seo-cares" },
       { label: "Alumni testimonials", href: "/#alumni-testimonials" },
       { label: "Donate", href: "/donate", external: true },

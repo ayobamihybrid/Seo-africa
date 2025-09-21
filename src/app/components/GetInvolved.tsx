@@ -196,7 +196,7 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                   </p>
 
                   <button className="w-full md:w-fit bg-transparent bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
-                    <Link href={"/career-opportunities"}>
+                    <Link href={"/our-programmes"}>
                       {cardBlockData.blue_card.cta_text}
                     </Link>
                   </button>
@@ -231,9 +231,9 @@ const GetInvolved: React.FC<GetInvolvedProps> = ({
                   {cardBlockData.green_card.description}
                 </p>
 
-                <button className="w-full md:w-fit bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
+                <Link href={'/get-involved'} className="w-full md:w-fit bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 backdrop-blur-sm border border-white border-opacity-20 cursor-pointer hover:opacity-80">
                   {cardBlockData.green_card.cta_text}
-                </button>
+                </Link>
               </div>
             </div>
           </div>

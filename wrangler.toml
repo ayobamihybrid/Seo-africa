@@ -1,0 +1,12 @@
+main = ".open-next/worker.js"
+name = "seo-africa"
+compatibility_date = "2025-03-25"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+[vars]
+NEXT_PUBLIC_STRAPI_URL = "https://seo-cms.hyphen.digital/api"
+NEXT_PUBLIC_NODE_ENV = "production"

@@ -10,8 +10,9 @@ import Link from "next/link";
 import Donate from "@/app/components/Donate";
 import { getProgrammeBySlug, getStrapiImageUrl } from "@/app/lib/strapi";
 
-interface Programme {
+export interface Programme {
   id: number;
+  slug: string;
   documentId: string;
   title: string;
   excerpt: string;
@@ -287,28 +288,30 @@ export default function ProgrammeDetails() {
         </div>
       </section>
 
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
-            This is right for you if
-          </h2>
+      {programme.features.length > 0 && (
+        <section className="bg-gray-50 py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
+              This is right for you if
+            </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {programme.features.map((feature, index) => (
-              <div key={feature.id} className="text-center">
-                <Image
-                  src={`/right_for${(index % 6) + 1}.svg`}
-                  alt="Feature icon"
-                  width={30}
-                  height={30}
-                  className="mx-auto mb-4"
-                />
-                <p className="text-gray-600">{feature.text}</p>
-              </div>
-            ))}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {programme.features.map((feature, index) => (
+                <div key={feature.id} className="text-center">
+                  <Image
+                    src={`/right_for${(index % 6) + 1}.svg`}
+                    alt="Feature icon"
+                    width={30}
+                    height={30}
+                    className="mx-auto mb-4"
+                  />
+                  <p className="text-gray-600">{feature.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="bg-white py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

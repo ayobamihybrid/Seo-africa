@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import Link from "next/link";
 import { getStrapiImageUrl } from "../lib/strapi";
+import { Programme } from "../our-programmes/[slug]/page";
 
 interface ProgrammesPageData {
   id: number;
@@ -25,39 +26,6 @@ interface ProgrammesPageData {
     description: string;
     cta_text: string;
   };
-}
-
-interface Programme {
-  id: number;
-  documentId: string;
-  title: string;
-  excerpt: string;
-  cta_text: string;
-  badge_info: string;
-  start_date: string;
-  apply_link?: string;
-  content: string;
-  cover_image: {
-    id: number;
-    url: string;
-    alternativeText?: string;
-    width: number;
-    height: number;
-    formats?: {
-      large?: { url: string };
-      medium?: { url: string };
-      small?: { url: string };
-      thumbnail?: { url: string };
-    };
-  };
-  features: Array<{
-    id: number;
-    text: string;
-  }>;
-  requirements: Array<{
-    id: number;
-    point: string;
-  }>;
 }
 
 interface ProgrammesClientProps {
@@ -184,14 +152,6 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
     return "/our_programmes.png";
   };
 
-  const createSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-");
-  };
-
   const getBgColor = (index: number) => {
     const colors = [
       "bg-blue-50",
@@ -299,17 +259,17 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
         </div>
       </section>
 
-      <section className="bg-white py-16 lg:pb-80">
+      <section className="bg-white pb-16 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="space-y-16 lg:space-y-20">
             {displayProgrammes.map((programme, index) => {
-              const slug = createSlug(programme.title);
+              const slug = programme.slug;
               const bgColor = getBgColor(index);
               const badgeColor = getBadgeColor(programme.title);
 
               return (
                 <div key={programme.id} className="mb-16 lg:mb-20">
-                  <div className="grid lg:grid-cols-2 lg:h-[560px]">
+                  <div className="grid lg:grid-cols-2 ">
                     <div
                       className={`${bgColor} p-8 flex flex-col justify-between ${
                         index % 2 === 1 ? "lg:order-2" : ""
@@ -321,7 +281,7 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
                             {programme.title}
                           </h2>
 
-                          {/*  badge for specific programmes */}
+                          {/* badge for specific programmes */}
                           {(programme.title.toLowerCase().includes("nigeria") ||
                             programme.title
                               .toLowerCase()
