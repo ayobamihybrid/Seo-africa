@@ -752,7 +752,7 @@ export async function getCountriesOfOperations() {
 
 export async function getTeamMembers(page = 1, pageSize = 25) {
   try {
-    const url = `${STRAPI_URL}/team-members?pLevel=4&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    const url = `${STRAPI_URL}/team-members?pLevel=4&sort=sortOrder&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     console.log("Fetching team members from:", url);
 
     const response = await fetchWithRetry(
