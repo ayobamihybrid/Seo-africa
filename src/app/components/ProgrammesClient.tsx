@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import Link from "next/link";
 import { getStrapiImageUrl } from "../lib/strapi";
-import { Programme } from "../our-programmes/[slug]/page";
+import { Programme } from "./ProgrammeDetailClient";
 
 interface ProgrammesPageData {
   id: number;
@@ -423,10 +423,7 @@ const ProgrammesClient: React.FC<ProgrammesClientProps> = ({
                       </div>
 
                       <div>
-                        {/* <Link href={`/our-programmes/${programme.slug}`}> */}
-                        <Link
-                          href={`/our-programmes/graduate-trainee-programme-ghana-in-country`}
-                        >
+                        <Link href={`/our-programmes/${programme.slug}`}>
                           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
                             {programme.cta_text}
                           </button>
