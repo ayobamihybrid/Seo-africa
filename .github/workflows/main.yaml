@@ -55,6 +55,7 @@ jobs:
           echo "NEXT_PUBLIC_SITE_URL=https://${{ env.DOMAIN }}" >> .env
           echo "APP_ENV=${{ env.ENVIRONMENT }}" >> .env
           echo "NEXT_PUBLIC_BASE_URL=${{ env.BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_STRAPI_URL=${{ env.BASE_URL }}" >> .env
           echo "PROD_NEXT_PORT=${{ env.PROD_NEXT_PORT }}" >> .env
 
       - run: pnpm build
