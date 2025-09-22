@@ -176,11 +176,12 @@ const TestimonialsSlider = () => {
           <div className="relative">
             <div className="bg-black rounded-xl overflow-hidden shadow-xl">
               <iframe
-                src="https://www.youtube.com/embed/5pTOXqoqvi0?si=vArLLYKNmnPck_Bx"
-                title="Bridging the leadership gap - What it means to us at SEOAfrica"
+                src="https://www.youtube.com/embed/ZCMan-UW5Ns?si=GwKg9LTeI5W_iyrG"
+                title="YouTube video player"
                 className="w-full h-64 lg:h-80"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               ></iframe>
             </div>
@@ -190,7 +191,7 @@ const TestimonialsSlider = () => {
             <div className="bg-black rounded-xl overflow-hidden shadow-xl">
               <iframe
                 src="https://www.youtube.com/embed/5pTOXqoqvi0?si=vArLLYKNmnPck_Bx"
-                title="SEO Africa - our continuing growth"
+                title="Bridging the leadership gap - What it means to us at SEOAfrica"
                 className="w-full h-64 lg:h-80"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

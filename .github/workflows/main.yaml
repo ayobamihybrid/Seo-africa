@@ -1,0 +1,102 @@
+name: NextJS PROD to VPS
+
+on:
+  push:
+    branches: [main]
+
+env:
+  DOMAIN: seo-africa.org
+  BASE_URL: https://seo-cms.hyphen.digital/api
+  ENVIRONMENT: Production
+  NAME: NextJS - Frontend
+  PROJECT_DIR: /var/www/html/frontend
+  PROD_NEXT_PORT: 3000
+  NODE_VERSION: 22
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.commit-details.outputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        id: commit-details
+        run: |
+          short_sha=$(git rev-parse --short HEAD)
+          date_time=$(date '+%d-%m-%y-%H-%M')
+          echo "version=$short_sha-$date_time" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+
+      - run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - run: pnpm install --no-frozen-lockfile --force --config.platform=linux --config.architecture=x64
+
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_SITE_URL=https://${{ env.DOMAIN }}" >> .env
+          echo "APP_ENV=${{ env.ENVIRONMENT }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ env.BASE_URL }}" >> .env
+          echo "PROD_NEXT_PORT=${{ env.PROD_NEXT_PORT }}" >> .env
+
+      - run: pnpm build
+
+      - run: rm -rf .git
+
+      - name: Deploy to VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          key: ${{ secrets.PROD_DEPLOY_KEY }}
+          rm: true
+          source: .
+          target: ${{ env.PROJECT_DIR }}/${{ env.DOMAIN }}
+          strip_components: 1
+
+      - name: Restart NextJS app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          key: ${{ secrets.PROD_DEPLOY_KEY }}
+          script: |
+            cd ${{ env.PROJECT_DIR }}/${{ env.DOMAIN }}
+            source ~/.zshrc
+
+            av_port=$(shuf -i 7800-7899 -n 1)
+            while [[ "$(lsof -i :$av_port)" ]]; do
+              av_port=$(shuf -i 7800-7899 -n 1)
+            done
+            sed -i "s/PROD_NEXT_PORT=[0-9]*/PROD_NEXT_PORT=${av_port}/" .env
+            sed -i "s/proxy_pass http:\/\/localhost:[0-9]*/proxy_pass http:\/\/localhost:${av_port}/" "/etc/nginx/sites-enabled/${{ env.DOMAIN }}.conf"
+
+            nvm install ${{ env.NODE_VERSION }}
+            nvm use ${{ env.NODE_VERSION }}
+            npm install -g pm2
+
+            pm2 flush ${{ env.DOMAIN }}
+            pm2 delete ${{ env.DOMAIN }}
+
+            pm2 start pnpm --name "${{ env.DOMAIN }}" -- start -p $av_port
+            pm2 save
+
+            echo '${{ secrets.PASSWORD }}' | sudo -S service nginx restart
