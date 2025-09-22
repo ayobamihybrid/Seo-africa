@@ -5,19 +5,35 @@ import Navbar from "../components/Navbar";
 import Donate from "../components/Donate";
 import Footer from "../components/Footer";
 import Image from "next/image";
-import { mockProjects } from "../utils";
 import type { SeoCaresPageData } from "../seo-cares/page";
 import { ExternalLink } from "lucide-react";
 
-type FilterType = "All projects" | "Kids" | "STEM Education" | "Environment";
+type FilterType = "All projects" | string; 
 type SortType = "Most recent" | "Oldest first" | "A-Z";
+
+interface Project {
+  id: number;
+  title: string;
+  date: string;
+  organization: string;
+  location: string;
+  image: string;
+  categories: string[];
+  featured: boolean;
+  description?: string;
+  slug?: string;
+}
 
 interface SeoCaresClientProps {
   seoCaresData: SeoCaresPageData | null;
+  projectsData?: Project[];
+  categoriesData?: string[];
 }
 
 const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
   seoCaresData: strapiData,
+  projectsData = [],
+  categoriesData = [],
 }) => {
   const [activeFilter, setActiveFilter] = useState<FilterType>("All projects");
   const [sortBy, setSortBy] = useState<SortType>("Most recent");
@@ -36,11 +52,15 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
 
   const heroData = strapiData?.hero_section || fallbackData.hero_section;
 
+  const projects = projectsData.length > 0 ? projectsData : [];
+
+  const filterOptions = ["All projects", ...categoriesData];
+
   const filteredAndSortedProjects = useMemo(() => {
-    let filtered = mockProjects;
+    let filtered = projects;
 
     if (activeFilter !== "All projects") {
-      filtered = mockProjects.filter((project) =>
+      filtered = projects.filter((project) =>
         project.categories.includes(activeFilter)
       );
     }
@@ -59,7 +79,7 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
     });
 
     return sorted;
-  }, [activeFilter, sortBy]);
+  }, [projects, activeFilter, sortBy]);
 
   const totalPages = Math.ceil(
     filteredAndSortedProjects.length / projectsPerPage
@@ -133,10 +153,12 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      "Climate change": "bg-blue-100 text-blue-700 border-blue-200",
+      "Climate Change": "bg-blue-100 text-blue-700 border-blue-200",
       Environment: "bg-green-100 text-green-700 border-green-200",
-      "STEM Education": "bg-blue-100 text-blue-700 border-blue-200",
+      "Stem Education": "bg-blue-100 text-blue-700 border-blue-200",
       Kids: "bg-pink-100 text-pink-700 border-pink-200",
+      "General Education": "bg-purple-100 text-purple-700 border-purple-200",
+      Adolescense: "bg-orange-100 text-orange-700 border-orange-200",
     };
     return (
       colors[category as keyof typeof colors] ||
@@ -144,7 +166,7 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
     );
   };
 
-  const featuredProject = mockProjects.find((p) => p.featured);
+  const featuredProject = projects.find((p) => p.featured);
 
   const donateDataForComponent = {
     id: 1,
@@ -180,7 +202,6 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
         </div>
       </section>
 
-      {/* Featured Project  */}
       {featuredProject && (
         <section className="bg-white px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto">
@@ -236,7 +257,11 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
 
                 <div className="pt-2 sm:pt-4">
                   <a
-                    href="#"
+                    href={
+                      featuredProject.slug
+                        ? `/seo-cares/${featuredProject.slug}`
+                        : "#"
+                    }
                     className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 text-sm sm:text-base"
                   >
                     Read more
@@ -249,7 +274,6 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
         </section>
       )}
 
-      {/* Projects Grid Section */}
       <section className="bg-gray-50 px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6 sm:mb-8 lg:mb-12">
@@ -257,14 +281,7 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
               <div className="w-full">
                 <div className="lg:hidden">
                   <div className="flex overflow-x-auto gap-1 pb-2 scrollbar-hide ">
-                    {(
-                      [
-                        "All projects",
-                        "Kids",
-                        "STEM Education",
-                        "Environment",
-                      ] as FilterType[]
-                    ).map((filter) => (
+                    {filterOptions.map((filter) => (
                       <button
                         key={filter}
                         onClick={() => handleFilterChange(filter)}
@@ -281,14 +298,7 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
                 </div>
 
                 <div className="hidden lg:flex flex-wrap gap-1 border-b border-gray-200">
-                  {(
-                    [
-                      "All projects",
-                      "Kids",
-                      "STEM Education",
-                      "Environment",
-                    ] as FilterType[]
-                  ).map((filter) => (
+                  {filterOptions.map((filter) => (
                     <button
                       key={filter}
                       onClick={() => handleFilterChange(filter)}
@@ -357,7 +367,7 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
                   </div>
 
                   <a
-                    href="#"
+                    href={project.slug ? `/seo-cares/${project.slug}` : "#"}
                     className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors text-sm"
                   >
                     Read more
@@ -368,7 +378,6 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
             ))}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
               <button
@@ -418,7 +427,6 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
                 )}
               </div>
 
-              {/* Mobile pagination */}
               <div className="flex sm:hidden items-center gap-1">
                 {getMobilePageNumbers().map((page, index) =>
                   page === "..." ? (
@@ -470,7 +478,6 @@ const SeoCaresClient: React.FC<SeoCaresClientProps> = ({
             </div>
           )}
 
-          {/* No Results */}
           {filteredAndSortedProjects.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-500 text-lg mb-4">

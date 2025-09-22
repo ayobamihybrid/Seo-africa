@@ -852,6 +852,72 @@ export async function getSeoCaresPageData() {
   }
 }
 
+export async function getProjects(page = 1, pageSize = 25) {
+  try {
+    const url = `${STRAPI_URL}/projects?pLevel=4&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=date:desc`;
+    console.log("Fetching projects from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("Projects API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No projects data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch projects:", errorMessage);
+    throw new Error(`Unable to fetch projects from Strapi: ${errorMessage}`);
+  }
+}
+
+export async function getProjectCategories() {
+  try {
+    const url = `${STRAPI_URL}/project-categories?pLevel=4`;
+    console.log("Fetching project categories from:", url);
+
+    const response = await fetchWithRetry(
+      url,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "NextJS-Server",
+        },
+      },
+      3,
+      1000
+    );
+
+    const apiResponse = await response.json();
+    console.log("Project categories API response received");
+
+    if (!apiResponse.data) {
+      throw new Error("No project categories data received from Strapi");
+    }
+
+    return apiResponse;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Failed to fetch project categories:", errorMessage);
+    throw new Error(
+      `Unable to fetch project categories from Strapi: ${errorMessage}`
+    );
+  }
+}
+
 export async function getMediaPageData() {
   try {
     const url = `${STRAPI_URL}/media-page?pLevel=4`;

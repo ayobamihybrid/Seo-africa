@@ -1,5 +1,9 @@
 import React, { Suspense } from "react";
-import { getSeoCaresPageData } from "../lib/strapi";
+import {
+  getSeoCaresPageData,
+  getProjects,
+  getProjectCategories,
+} from "../lib/strapi";
 import SeoCaresClient from "../components/SeoCaresClient";
 
 interface SeoCaresPageData {
@@ -16,12 +20,68 @@ interface SeoCaresPageData {
   };
 }
 
+function transformProjectData(strapiProject: any) {
+  const coverImageUrl = strapiProject.cover_image?.url
+    ? strapiProject.cover_image.url.startsWith("http")
+      ? strapiProject.cover_image.url
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}${strapiProject.cover_image.url}`
+    : "/placeholder-project.jpg"; 
+
+  const categories =
+    strapiProject.categories?.map((cat: any) => cat.name) || [];
+
+  const formattedDate = new Date(
+    strapiProject.date || strapiProject.createdAt
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return {
+    id: strapiProject.id,
+    title: strapiProject.title,
+    date: formattedDate,
+    organization: "SEO Africa", 
+    location: strapiProject.location || "Ghana",
+    image: coverImageUrl,
+    categories: categories,
+    featured: strapiProject.featured || false,
+    description: strapiProject.content
+      ? stripHtmlTags(strapiProject.content)
+      : "",
+    slug: strapiProject.slug || `project-${strapiProject.id}`,
+  };
+}
+
+function stripHtmlTags(html: string): string {
+  return html.replace(/<[^>]*>/g, "").substring(0, 200) + "...";
+}
+
 async function ServerContent() {
   try {
-    const seoCaresResponse = await getSeoCaresPageData();
-    const seoCaresPageData = seoCaresResponse.data;
+    const [seoCaresResponse, projectsResponse, categoriesResponse] =
+      await Promise.all([
+        getSeoCaresPageData(),
+        getProjects(1, 50), 
+        getProjectCategories(),
+      ]);
 
-    return <SeoCaresClient seoCaresData={seoCaresPageData} />;
+    const seoCaresPageData = seoCaresResponse.data;
+    const strapiProjects = projectsResponse.data;
+    const strapiCategories = categoriesResponse.data;
+
+    const transformedProjects = strapiProjects.map(transformProjectData);
+
+    const transformedCategories = strapiCategories.map((cat: any) => cat.name);
+
+    return (
+      <SeoCaresClient
+        seoCaresData={seoCaresPageData}
+        projectsData={transformedProjects}
+        categoriesData={transformedCategories}
+      />
+    );
   } catch (error) {
     console.error("Error fetching SEO Cares data:", error);
     return <ServerErrorFallback error={error} />;

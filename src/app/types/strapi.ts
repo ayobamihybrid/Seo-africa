@@ -413,7 +413,7 @@ export interface FAQItem {
   id: number;
   documentId: string;
   question: string;
-  answer: string; 
+  answer: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -449,17 +449,17 @@ export interface ContactUsDonateCTASection {
 }
 
 export interface PressItem {
-    id: number;
-    documentId: string;
-    post_date: string;
-    content: string;
-    cta_link: string;
-    cta_text: string;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    news_logo: StrapiImage;
-  }
+  id: number;
+  documentId: string;
+  post_date: string;
+  content: string;
+  cta_link: string;
+  cta_text: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  news_logo: StrapiImage;
+}
 
 export interface ContactUsPageData {
   id: number;
@@ -470,4 +470,131 @@ export interface ContactUsPageData {
   hero_section: ContactUsHero;
   faq_section: ContactUsFAQSection;
   dontate_cta_section: ContactUsDonateCTASection;
+}
+
+// Project-related interfaces for SEO Cares page
+export interface StrapiImageFormat {
+  ext: string;
+  url: string;
+  hash: string;
+  mime: string;
+  name: string;
+  path: string | null;
+  size: number;
+  width: number;
+  height: number;
+  sizeInBytes: number;
+}
+
+export interface StrapiCategory {
+  id: number;
+  documentId: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface StrapiGalleryImage {
+  id: number;
+  documentId: string;
+  name: string;
+  alternativeText: string | null;
+  caption: string | null;
+  width: number | null;
+  height: number | null;
+  formats: any;
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl: string | null;
+  provider: string;
+  provider_metadata: any;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface StrapiProject {
+  id: number;
+  documentId: string;
+  title: string;
+  date: string;
+  slug: string | null;
+  content: string;
+  conclusion: string | null;
+  location: string;
+  year_tagline: string | null;
+  image_source: string | null;
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  cover_image: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    formats: {
+      large?: StrapiImageFormat;
+      medium?: StrapiImageFormat;
+      small?: StrapiImageFormat;
+      thumbnail?: StrapiImageFormat;
+    };
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: string | null;
+    provider: string;
+    provider_metadata: any;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  } | null;
+  categories: StrapiCategory[];
+  gallery: StrapiGalleryImage[];
+}
+
+export interface TransformedProject {
+  id: number;
+  title: string;
+  date: string;
+  organization: string;
+  location: string;
+  image: string;
+  categories: string[];
+  featured: boolean;
+  description?: string;
+  slug?: string;
+}
+
+export interface ProjectsResponse {
+  data: StrapiProject[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+export interface CategoriesResponse {
+  data: StrapiCategory[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
 }
