@@ -99,8 +99,8 @@ const ProofOfCommitment: React.FC<ProofOfCommitmentProps> = ({
     {
       id: "alumni",
       data: statisticsData.middle_cards[2],
-      defaultImage: "/default1200.jpg",
-      hoverImage: "/hover1200.jpg",
+      defaultImage: "/default1200.png",
+      hoverImage: "/hover1200.png",
       mobileDefaultImage: "/default1200.jpg",
       mobileHoverImage: "/hover1200.jpg",
       className: "-mt-40",
