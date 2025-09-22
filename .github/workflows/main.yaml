@@ -79,7 +79,7 @@ jobs:
           username: ${{ secrets.PROD_USERNAME }}
           key: ${{ secrets.PROD_DEPLOY_KEY }}
           script: |
-            cd ${{ env.PROJECT_DIR }}/${{ env.DOMAIN }}/src/app
+            cd ${{ env.PROJECT_DIR }}/${{ env.DOMAIN }}
             source ~/.zshrc
 
             av_port=$(shuf -i 7800-7899 -n 1)
