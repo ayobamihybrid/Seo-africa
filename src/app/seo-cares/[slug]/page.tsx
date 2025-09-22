@@ -1,4 +1,3 @@
-
 import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -8,9 +7,9 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
 interface ProjectDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 function transformProjectData(strapiProject: StrapiProject) {
@@ -239,10 +238,14 @@ function ProjectLoading() {
   );
 }
 
-export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({
+  params,
+}: ProjectDetailPageProps) {
+  const resolvedParams = await params;
+
   return (
     <Suspense fallback={<ProjectLoading />}>
-      <ProjectDetailContent slug={params.slug} />
+      <ProjectDetailContent slug={resolvedParams.slug} />
     </Suspense>
   );
 }
