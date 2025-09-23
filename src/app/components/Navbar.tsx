@@ -13,9 +13,20 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import CustomGoogleTranslate from "./CustomGoogleTranslate";
+import { getBlogPosts } from "../lib/strapi";
 
 interface NavbarProps {
   details?: boolean;
+}
+
+interface BlogPost {
+  title: string;
+  slug: string;
+  time_to_read: number;
+  cover_image?: {
+    url: string;
+    alternativeText?: string;
+  };
 }
 
 const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
@@ -24,6 +35,8 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<
     string | null
   >(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [isLoadingBlogs, setIsLoadingBlogs] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const textColor = details ? "text-black" : "text-white";
@@ -32,6 +45,24 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
     ? "flex items-center space-x-2 bg-transparent border border-black text-black px-4 lg:px-6 py-2 rounded-full hover:bg-black hover:text-white transition-colors text-sm"
     : "flex items-center space-x-2 bg-transparent border border-white text-white px-4 lg:px-6 py-2 rounded-full hover:bg-white hover:text-black transition-colors text-sm";
   const mobileMenuButtonColor = details ? "text-black" : "text-white";
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      setIsLoadingBlogs(true);
+      try {
+        const response = await getBlogPosts(1, 2); 
+        if (response.data && response.data.length > 0) {
+          setBlogPosts(response.data);
+        }
+      } catch (error) {
+        console.warn("Failed to fetch blog posts for navbar:", error);
+      } finally {
+        setIsLoadingBlogs(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
 
   const handleDropdownClick = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
@@ -112,6 +143,29 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
       window.location.href = "/get-involved#become-partner";
     }
   };
+
+  const fallbackBlogPosts = [
+    {
+      title: "Why should I join SEO Africa?",
+      slug: "why-join-seo-africa",
+      time_to_read: 1,
+      cover_image: {
+        url: "/blog_image1.png",
+        alternativeText: "Why should I join SEO Africa?",
+      },
+    },
+    {
+      title: "SEO Africa Application tips",
+      slug: "seo-africa-application-tips",
+      time_to_read: 1,
+      cover_image: {
+        url: "/blog_image2.png",
+        alternativeText: "SEO Africa Application tips",
+      },
+    },
+  ];
+
+  const displayBlogPosts = blogPosts.length > 0 ? blogPosts : fallbackBlogPosts;
 
   return (
     <>
@@ -297,7 +351,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             )}
           </div>
 
-          {/* Other desktop dropdowns remain the same... */}
           <div className="relative">
             <button
               onClick={() => handleDropdownClick("programmes")}
@@ -438,7 +491,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             )}
           </div>
 
-          {/* Resources and Get Involved dropdowns - keeping original structure for brevity */}
           <div className="relative">
             <button
               onClick={() => handleDropdownClick("resources")}
@@ -453,7 +505,10 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
             </button>
 
             {activeDropdown === "resources" && (
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[75rem] z-50">
+              <div
+                className="absolute top-full w-[90vw] max-w-[75rem] z-50"
+                style={{ left: "-450px" }}
+              >
                 <div className="bg-white rounded-lg shadow-xl border border-gray-100 p-8 mt-2">
                   <div className="grid grid-cols-2 gap-12 lg:gap-16">
                     <div className="grid grid-cols-3 gap-8">
@@ -598,69 +653,65 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                      <div className="flex flex-col">
-                        <div className="w-full h-48 overflow-hidden mb-4">
-                          <Image
-                            src="/blog_image1.png"
-                            alt="Article thumbnail"
-                            width={200}
-                            height={128}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="flex items-center space-x-2 mb-2">
-                            <span className="text-orange-600 text-xs px-2 py-1 rounded-full">
-                              Featured
-                            </span>
-                            <span className="text-blue-600 text-sm">
-                              1 min read
-                            </span>
+                      {isLoadingBlogs ? (
+                        <>
+                          <div className="flex flex-col animate-pulse">
+                            <div className="w-full h-48 bg-gray-200 rounded mb-4"></div>
+                            <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                           </div>
-                          <h4 className="text-gray-900 font-medium text-sm mb-2">
-                            Why should I join SEO Africa?
-                          </h4>
-                          <Link
-                            href="/blog"
-                            className="text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold underline"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            READ MORE
-                          </Link>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col">
-                        <div className="w-full h-48 overflow-hidden mb-4">
-                          <Image
-                            src="/blog_image1.png"
-                            alt="Article thumbnail"
-                            width={200}
-                            height={128}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="flex items-center space-x-2 mb-2">
-                            <span className=" text-orange-600 text-xs px-2 py-1 rounded-full">
-                              Featured
-                            </span>
-                            <span className="text-blue-600 text-sm">
-                              1 min read
-                            </span>
+                          <div className="flex flex-col animate-pulse">
+                            <div className="w-full h-48 bg-gray-200 rounded mb-4"></div>
+                            <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                           </div>
-                          <h4 className="text-gray-900 font-medium text-sm mb-2">
-                            SEO Africa Application tips
-                          </h4>
-                          <Link
-                            href="/blog"
-                            className="text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold underline"
-                            onClick={() => setActiveDropdown(null)}
+                        </>
+                      ) : (
+                        displayBlogPosts.slice(0, 2).map((post, index) => (
+                          <div
+                            key={post.slug || index}
+                            className="flex flex-col"
                           >
-                            READ MORE
-                          </Link>
-                        </div>
-                      </div>
+                            <div className="w-full h-48 overflow-hidden mb-4">
+                              <Image
+                                src={
+                                  post.cover_image?.url ||
+                                  `/blog_image${index + 1}.png`
+                                }
+                                alt={
+                                  post.cover_image?.alternativeText ||
+                                  post.title
+                                }
+                                width={200}
+                                height={128}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div>
+                              <div className="flex items-center space-x-2 mb-2">
+                                <span className="text-orange-600 text-xs px-2 py-1 rounded-full">
+                                  Featured
+                                </span>
+                                <span className="text-blue-600 text-sm">
+                                  {post.time_to_read} min read
+                                </span>
+                              </div>
+                              <h4 className="text-gray-900 font-medium text-sm mb-2">
+                                {post.title}
+                              </h4>
+                              <Link
+                                href={
+                                  post.slug ? `/blog/${post.slug}` : "/blog"
+                                }
+                                className="text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold underline"
+                                onClick={() => setActiveDropdown(null)}
+                              >
+                                READ MORE
+                              </Link>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1150,41 +1201,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                   Join us
                 </Link>
               </div>
-
-              {/* <div className="flex items-center justify-center space-x-6 pt-4 text-white">
-                <Link
-                  href="https://www.instagram.com/seo_africa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-6 w-6 flex-shrink-0"
-                >
-                  <Image src={"/instagram.svg"} alt="Instagram" fill />
-                </Link>
-                <Link
-                  href="https://web.facebook.com/seoinafrica"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-6 w-6 flex-shrink-0"
-                >
-                  <Image src={"/facebook.svg"} alt="Facebook" fill />
-                </Link>
-                <Link
-                  href="https://x.com/SEOinAfrica"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-6 w-6 flex-shrink-0"
-                >
-                  <Image src={"/twitter.svg"} alt="Twitter" fill />
-                </Link>
-                <Link
-                  href="https://www.linkedIn.com/company/seo-africa-org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-6 w-6 flex-shrink-0"
-                >
-                  <Image src={"/linkedin.svg"} alt="LinkedIn" fill />
-                </Link>
-              </div> */}
             </div>
           </div>
         </div>

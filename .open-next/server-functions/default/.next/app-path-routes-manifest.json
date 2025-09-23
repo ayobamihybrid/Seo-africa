@@ -1,0 +1,23 @@
+{
+  "/favicon.ico/route": "/favicon.ico",
+  "/_not-found/page": "/_not-found",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/about-us/page": "/about-us",
+  "/blog/page": "/blog",
+  "/career-opportunities/page": "/career-opportunities",
+  "/contact-us/page": "/contact-us",
+  "/donate/page": "/donate",
+  "/faq/page": "/faq",
+  "/get-involved/page": "/get-involved",
+  "/impact/page": "/impact",
+  "/legal/cookies/page": "/legal/cookies",
+  "/legal/privacy/page": "/legal/privacy",
+  "/media-and-events/page": "/media-and-events",
+  "/our-team/page": "/our-team",
+  "/our-programmes/[slug]/page": "/our-programmes/[slug]",
+  "/page": "/",
+  "/seo-cares/page": "/seo-cares",
+  "/legal/terms/page": "/legal/terms",
+  "/our-programmes/page": "/our-programmes",
+  "/seo-cares/[slug]/page": "/seo-cares/[slug]"
+}

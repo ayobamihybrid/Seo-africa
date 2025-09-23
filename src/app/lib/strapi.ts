@@ -140,8 +140,8 @@ export async function fetchSingleFromStrapi<T>(
   const url = `${STRAPI_URL}${endpoint}?${params.toString()}`;
 
   try {
-    console.log(`🔍 Fetching single from Strapi: ${url}`);
-    console.log(`📍 Environment: ${isServer() ? "Server" : "Client"}`);
+    console.log(` Fetching single from Strapi: ${url}`);
+    console.log(` Environment: ${isServer() ? "Server" : "Client"}`);
 
     const timeout = isServer() ? 15000 : 10000;
 

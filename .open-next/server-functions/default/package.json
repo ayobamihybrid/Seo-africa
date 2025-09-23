@@ -1,0 +1,38 @@
+{
+  "name": "seo-africa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  },
+  "dependencies": {
+    "@icons-pack/react-simple-icons": "^13.7.0",
+    "@opennextjs/cloudflare": "^1.8.3",
+    "@paystack/inline-js": "^2.22.7",
+    "i18next": "^25.5.2",
+    "lucide-react": "^0.526.0",
+    "next": "15.4.4",
+    "next-i18next": "^15.4.2",
+    "next-intl": "^4.3.9",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hot-toast": "^2.6.0",
+    "react-i18next": "^15.7.3",
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.9",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.38.0"
+  }
+}
