@@ -44,16 +44,16 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
   const heroDescription = homePageData?.heroDescription || "";
   const sliderItems = homePageData?.heroSliderItems || [
     {
-      name: "David Serlorm Atsu",
-      title: "From SEO Africa to Goldman Sachs",
+      name: "David Akindolire",
+      title: "From SEO Africa to LinkLaters",
     },
     {
-      name: "Kwame Asante",
-      title: "From SEO Africa to Google Africa",
+      name: "Shitakha Osborn",
+      title: " From SEO Africa to Goldman Sachs",
     },
     {
-      name: "Fatima Al-Rashid",
-      title: "From SEO Africa to World Bank",
+      name: "Kingsley Amoaning",
+      title: "Yankson -From SEO Africa to Bank of America",
     },
   ];
   const primaryButtonText = homePageData?.heroButtonText || "";
