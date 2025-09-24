@@ -182,7 +182,6 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
           />
         </Link>
 
-        {/* Desktop Navigation */}
         <div
           className={`hidden xl:flex items-center space-x-6 xl:space-x-8 ${textColor}`}
         >
@@ -309,41 +308,70 @@ const Navbar: React.FC<NavbarProps> = ({ details = false }) => {
                     </div>
 
                     <div className="col-span-7 p-9 flex flex-col rounded-lg overflow-hidden">
-                      <div className="relative flex-1 min-h-[350px]">
-                        <Image
-                          src={"/blog_image1.png"}
-                          alt=""
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-
-                      <div className="bg-white p-6">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <span className="bg-orange-100 text-orange-600 text-xs px-3 py-1 rounded-full font-medium">
-                            Featured
-                          </span>
-                          <div className="flex items-center space-x-1">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span className="text-blue-600 text-sm font-medium">
-                              1 min read
-                            </span>
+                      {isLoadingBlogs ? (
+                        <>
+                          <div className="relative flex-1 min-h-[350px] bg-gray-200 animate-pulse"></div>
+                          <div className="bg-white p-6">
+                            <div className="flex items-center space-x-3 mb-3">
+                              <div className="h-6 bg-gray-200 rounded-full w-16 animate-pulse"></div>
+                              <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+                            </div>
+                            <div className="h-6 bg-gray-200 rounded mb-3 animate-pulse"></div>
+                            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
                           </div>
-                        </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="relative flex-1 min-h-[350px]">
+                            <Image
+                              src={
+                                displayBlogPosts[0]?.cover_image?.url ||
+                                "/blog_image1.png"
+                              }
+                              alt={
+                                displayBlogPosts[0]?.cover_image
+                                  ?.alternativeText ||
+                                displayBlogPosts[0]?.title ||
+                                ""
+                              }
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
 
-                        <h4 className="text-gray-900 font-semibold text-lg mb-3 leading-tight">
-                          Alumni Stories: How SEO Africa is empowering the next
-                          wave of future leaders
-                        </h4>
+                          <div className="bg-white p-6">
+                            <div className="flex items-center space-x-3 mb-3">
+                              <span className="bg-orange-100 text-orange-600 text-xs px-3 py-1 rounded-full font-medium">
+                                Featured
+                              </span>
+                              <div className="flex items-center space-x-1">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span className="text-blue-600 text-sm font-medium">
+                                  {displayBlogPosts[0]?.time_to_read || 1} min
+                                  read
+                                </span>
+                              </div>
+                            </div>
 
-                        <Link
-                          href="/blog"
-                          className="inline-flex items-center text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold tracking-wider border-b-2 border-gray-900 hover:border-blue-600 transition-colors pb-1"
-                          onClick={() => setActiveDropdown(null)}
-                        >
-                          READ MORE
-                        </Link>
-                      </div>
+                            <h4 className="text-gray-900 font-semibold text-lg mb-3 leading-tight">
+                              {displayBlogPosts[0]?.title ||
+                                "Alumni Stories: How SEO Africa is empowering the next wave of future leaders"}
+                            </h4>
+
+                            <Link
+                              href={
+                                displayBlogPosts[0]?.slug
+                                  ? `/blog/${displayBlogPosts[0].slug}`
+                                  : "/blog"
+                              }
+                              className="inline-flex items-center text-gray-900 hover:text-blue-600 hover:underline text-sm font-bold tracking-wider border-b-2 border-gray-900 hover:border-blue-600 transition-colors pb-1"
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              READ MORE
+                            </Link>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
