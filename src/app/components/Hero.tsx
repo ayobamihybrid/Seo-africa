@@ -45,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
   const sliderItems = homePageData?.heroSliderItems || [
     {
       name: "David Akindolire",
-      title: "From SEO Africa to LinkLaters.",
+      title: "From SEO Africa to LinkLaters",
     },
     {
       name: "Shitakha Osborn",
