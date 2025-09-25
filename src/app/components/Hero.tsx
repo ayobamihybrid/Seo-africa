@@ -49,7 +49,7 @@ const Hero: React.FC<HeroProps> = ({ homePageData }) => {
     },
     {
       name: "Shitakha Osborn",
-      title: " From SEO Africa to Goldman Sachs",
+      title: "From SEO Africa to Goldman Sachs",
     },
     {
       name: "Kingsley Amoaning",
