@@ -230,7 +230,7 @@ const LegalClient: React.FC<LegalClientProps> = ({
                   <>
                     We care about your data in our{" "}
                     <a
-                      href="#"
+                      href="/legal/privacy"
                       className="text-white/80 hover:text-white underline underline-offset-2 transition-colors duration-200"
                     >
                       privacy policy

@@ -116,7 +116,7 @@ const MediaAndEventsClient: React.FC<MediaAndEventsClientProps> = ({
                   <>
                     We care about your data in our{" "}
                     <a
-                      href="/privacy-policy"
+                       href="/legal/privacy"
                       className="text-white/80 hover:text-white underline underline-offset-2 transition-colors duration-200"
                     >
                       privacy policy

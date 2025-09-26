@@ -504,7 +504,7 @@ const CareerOpportunitiesClient: React.FC<CareerOpportunitiesClientProps> = ({
               <>
                 We care about your data in our{" "}
                 <a
-                  href="/privacy-policy"
+                  href="/legal/privacy"
                   className="text-gray-600 underline hover:text-gray-800"
                 >
                   privacy policy

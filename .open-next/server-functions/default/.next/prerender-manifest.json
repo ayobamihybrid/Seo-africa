@@ -30,54 +30,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/blog": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/blog",
-      "dataRoute": "/blog.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/impact": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/impact",
-      "dataRoute": "/impact.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/faq": {
       "experimentalBypassFor": [
         {
@@ -93,6 +45,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/faq",
       "dataRoute": "/faq.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/get-involved": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/get-involved",
+      "dataRoute": "/get-involved.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -126,6 +102,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/blog": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/blog",
+      "dataRoute": "/blog.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/legal/terms": {
       "experimentalBypassFor": [
         {
@@ -150,7 +150,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/about-us": {
+    "/contact-us": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -163,8 +163,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/about-us",
-      "dataRoute": "/about-us.rsc",
+      "srcRoute": "/contact-us",
+      "dataRoute": "/contact-us.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -174,7 +174,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/career-opportunities": {
+    "/impact": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -187,32 +187,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/career-opportunities",
-      "dataRoute": "/career-opportunities.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/donate": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/donate",
-      "dataRoute": "/donate.rsc",
+      "srcRoute": "/impact",
+      "dataRoute": "/impact.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -270,7 +246,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/seo-cares": {
+    "/donate": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -283,8 +259,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/seo-cares",
-      "dataRoute": "/seo-cares.rsc",
+      "srcRoute": "/donate",
+      "dataRoute": "/donate.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -318,7 +294,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/contact-us": {
+    "/about-us": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -331,8 +307,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/contact-us",
-      "dataRoute": "/contact-us.rsc",
+      "srcRoute": "/about-us",
+      "dataRoute": "/about-us.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -342,7 +318,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/": {
+    "/seo-cares": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -355,8 +331,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/",
-      "dataRoute": "/index.rsc",
+      "srcRoute": "/seo-cares",
+      "dataRoute": "/seo-cares.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -390,7 +366,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/get-involved": {
+    "/": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -403,8 +379,32 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/get-involved",
-      "dataRoute": "/get-involved.rsc",
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/career-opportunities": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/career-opportunities",
+      "dataRoute": "/career-opportunities.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
