@@ -202,7 +202,32 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
     try {
       const toastId = toast.loading("Sending your message...");
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const submissionData = {
+        data: {
+          full_name: formData.fullName,
+          email_address: formData.email,
+          location: formData.location,
+          purpose: formData.reason, 
+          body: formData.description, 
+        },
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/contact-messages`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(submissionData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
 
       toast.dismiss(toastId);
       toast.success("Thank you for your message! We'll get back to you soon.", {
@@ -210,31 +235,30 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
         icon: "✉️",
       });
 
-      console.log("Form submitted:", formData);
-
       setFormData({
         fullName: "",
         email: "",
-        location: "United States",
-        reason: "Partnership inquiry",
+        location: "",
+        reason: "",
         description: "",
       });
     } catch (error) {
+      console.error("Contact form submission error:", error);
+
       toast.error("Something went wrong. Please try again.", {
         duration: 4000,
       });
-      console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const locationOptions = [
+    "Nigeria",
+    "Ghana",
     "United States",
     "Canada",
     "United Kingdom",
-    "Ghana",
-    "Nigeria",
     "South Africa",
     "Kenya",
     "Other",
@@ -249,7 +273,7 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
     "Other",
   ];
 
-  // Fallback data 
+  // Fallback data
   const fallbackHeroData = {
     accent_text: "Get in touch",
     title: "We'd be delighted to hear from you.",
@@ -391,7 +415,7 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
                     value={formData.fullName}
                     onChange={handleInputChange}
                     placeholder="Enter name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition duration-200 placeholder:text-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition duration-200 text-black placeholder:text-gray-500"
                     required
                   />
                 </div>
@@ -410,7 +434,7 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="herrgroot@gmail.com"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition duration-200 placeholder:text-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition duration-200 placeholder:text-black"
                     required
                   />
                 </div>
@@ -448,7 +472,7 @@ const ContactUsClient: React.FC<ContactUsClientProps> = ({
                   onChange={handleInputChange}
                   placeholder="Enter a description..."
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg transition duration-200 resize-vertical focus:outline-none placeholder:text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg transition text-black duration-200 resize-vertical focus:outline-none placeholder:text-black"
                   required
                 />
               </div>
